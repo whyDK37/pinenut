@@ -1,3 +1,5 @@
+package jdk.gc;
+
 /**
  * Created by wanghuanyu on 2015/7/3.
  */

@@ -10,8 +10,7 @@ import org.apache.commons.logging.LogFactory;
 public class LoggingApp {
 
     public static void main(String[] args) {
-        LogFactory logFactory = LogFactory.getFactory();
-        Log logger = logFactory.getInstance("#LoggingApp");
+        Log logger = LogFactory.getFactory().getInstance("#LoggingApp");
 
         logger.info("init..................");
     }
