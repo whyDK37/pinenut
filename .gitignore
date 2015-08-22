@@ -1,4 +1,11 @@
+/compress/compress.iml
+/h2/h2.iml
+/logging/logging.iml
 /.gradle
 /logging/build
 /h2/build
+/.idea
+/pinenut.iws
+/pinenut.ipr
+/pinenut.iml
 /compress/build

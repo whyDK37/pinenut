@@ -43,6 +43,10 @@ project(':h2') {
 }
 
 project(':compress') {
+    description = 'compress'
+    dependencies {
+        compile 'org.apache.commons:commons-compress:1.9'
+    }
     task forProject1 << {
         println 'for project 1'
     }
