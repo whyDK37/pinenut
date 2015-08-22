@@ -6,10 +6,7 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.compress.utils.IOUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * acc-apache commons compress
@@ -42,8 +39,7 @@ public class AccZipCompress implements CompressFile{
                     }
                 }
             }
-            zipOutput.finish();
-            zipOutput.close();
+
         }catch(Exception e){
             if(zipOutput != null){
                 try {
@@ -51,6 +47,15 @@ public class AccZipCompress implements CompressFile{
                 } catch (Exception e1) { }
             }
             throw new CompressFileException(e);
+        }finally {
+            try {
+                if(zipOutput != null){
+                    zipOutput.finish();
+                    zipOutput.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
