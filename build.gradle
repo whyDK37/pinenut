@@ -1,0 +1,22 @@
+
+
+allprojects  {
+  apply plugin: 'maven'
+  apply plugin: 'idea'
+  
+  group = 'me.pinenut'
+  version = '0.0.1-SNAPSHOT'
+  
+}
+
+subprojects {
+  apply plugin: 'java'
+  sourceCompatibility = 1.7
+  targetCompatibility = 1.7
+  [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'  	
+  repositories {
+    mavenLocal()
+    jcenter()
+    maven { url "http://repo.maven.apache.org/maven2" }
+  }
+}

@@ -1,0 +1,6 @@
+rootProject.name = 'pinenut'
+include ':logging'
+include ':h2'
+
+project(':logging').projectDir = "$rootDir/logging" as File
+project(':h2').projectDir = "$rootDir/h2" as File
