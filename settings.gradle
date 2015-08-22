@@ -1,6 +1,8 @@
 rootProject.name = 'pinenut'
 include ':logging'
 include ':h2'
+include ':compress'
 
 project(':logging').projectDir = "$rootDir/logging" as File
 project(':h2').projectDir = "$rootDir/h2" as File
+project(':compress').projectDir = "$rootDir/compress" as File

@@ -1,6 +1,0 @@
-
-description = 'h2'
-dependencies {
-    compile group: 'com.h2database', name: 'h2', version:'1.4.187'
-    testCompile 'junit:junit:4.12'
-}
