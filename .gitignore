@@ -1,3 +1,5 @@
+/web/build
+/web/web.iml
 /compress/compress.iml
 /h2/h2.iml
 /logging/logging.iml
@@ -8,4 +10,5 @@
 /pinenut.iws
 /pinenut.ipr
 /pinenut.iml
+/out
 /compress/build
