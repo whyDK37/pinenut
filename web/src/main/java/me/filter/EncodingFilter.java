@@ -14,19 +14,19 @@ public class EncodingFilter implements Filter {
     }
 
     /**
-     * ¹ıÂËÆ÷ÕæÕıÖ´ĞĞµÄ´¦Àí¹¦ÄÜ.
+     * è¿‡æ»¤å™¨çœŸæ­£æ‰§è¡Œçš„å¤„ç†åŠŸèƒ½.
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
 
         //System.out.println("CharacterEncodingFilter--begin");
-        //ÉèÖÃ×Ö·û¼¯.
+        //è®¾ç½®å­—ç¬¦é›†.
         request.setCharacterEncoding(encoding);
 
-        //ÄÃµ½Á´Ìõ¼ÌĞøÏòÏÂµ÷ÓÃ.
+        //æ‹¿åˆ°é“¾æ¡ç»§ç»­å‘ä¸‹è°ƒç”¨.
         chain.doFilter(request, response);
-        //·µ»ØÁË.
+        //è¿”å›äº†.
         //System.out.println("CharacterEncodingFilter--end");
 
     }

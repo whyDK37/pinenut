@@ -27,10 +27,10 @@ subprojects {
 project(':logging') {
 	description = ''
 	dependencies {
-		compile group: 'commons-logging', name: 'commons-logging', version:'1.2'
-		compile group: 'log4j', name: 'log4j', version:'1.2.17'
-		compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.7'
-		compile group: 'org.testng', name: 'testng', version:'6.9.4'
+        compile 'commons-logging:commons-logging:1.2'
+        compile 'log4j:log4j:1.2.17'
+        compile 'org.slf4j:slf4j-api:1.7.7'
+        compile 'org.testng:testng:6.9.4'
 	}
 	test.useTestNG()
 }
@@ -38,7 +38,7 @@ project(':logging') {
 project(':h2') {
 	description = 'h2'
 	dependencies {
-		compile group: 'com.h2database', name: 'h2', version:'1.4.187'
+		compile 'com.h2database:h2:1.4.187'
 	}
 }
 

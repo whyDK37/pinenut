@@ -22,13 +22,13 @@ public class FiledownloadServlet extends HttpServlet {
         if(filename == null){
             filename = new String("index.html");
         }
-        //ÏÂÔØÎÄ¼þ
+        //ä¸‹è½½æ–‡ä»¶
         resp.setHeader("Content-Disposition", "attachment;filename=" + filename);
 
-        //1»ñÈ¡ÒªÏÂÔØÎÄ¼þµÄÈ«Â·¾¶
+        //1èŽ·å–è¦ä¸‹è½½æ–‡ä»¶çš„å…¨è·¯å¾„
         String path = this.getServletContext().getRealPath("/");
         File file = new File(path, filename);
-        //2´´½¨ÎÄ¼þ´«ÊäÁ÷
+        //2åˆ›å»ºæ–‡ä»¶ä¼ è¾“æµ
 
         try {
             OutputStream os = null;
@@ -36,14 +36,14 @@ public class FiledownloadServlet extends HttpServlet {
             try {
                 os = resp.getOutputStream();
                 fis = new FileInputStream(file);
-                //×öÒ»¸ö»º³å×Ö½ÚÊý×é
+                //åšä¸€ä¸ªç¼“å†²å­—èŠ‚æ•°ç»„
                 byte buff[] = new byte[1024 * 2014 * 4];
-                int len = 0; //Êµ¼ÊÃ¿´Î¶ÁÈ¡µÄ×Ö½ÚÊý
+                int len = 0; //å®žé™…æ¯æ¬¡è¯»å–çš„å­—èŠ‚æ•°
                 while ((len = fis.read(buff)) > 0) {
                     os.write(buff, 0, len);
                 }
             } finally {
-                //¹Ø±Õ
+                //å…³é—­
                 if(os!=null)os.close();
                 if(fis!=null)fis.close();
             }

@@ -14,18 +14,18 @@ import java.util.List;
 /**
  *
  * @author Administrator
- * ÎÄ¼şÉÏ´«
- * ¾ßÌå²½Öè£º
- * 1£©»ñµÃ´ÅÅÌÎÄ¼şÌõÄ¿¹¤³§ DiskFileItemFactory Òªµ¼°ü
- * 2£© ÀûÓÃ request »ñÈ¡ ÕæÊµÂ·¾¶ £¬¹©ÁÙÊ±ÎÄ¼ş´æ´¢£¬ºÍ ×îÖÕÎÄ¼ş´æ´¢ £¬ÕâÁ½¸ö´æ´¢Î»ÖÃ¿É²»Í¬£¬Ò²¿ÉÏàÍ¬
- * 3£©¶Ô DiskFileItemFactory ¶ÔÏóÉèÖÃÒ»Ğ© ÊôĞÔ
- * 4£©¸ßË®Æ½µÄAPIÎÄ¼şÉÏ´«´¦Àí  ServletFileUpload upload = new ServletFileUpload(factory);
- * Ä¿µÄÊÇµ÷ÓÃ parseRequest£¨request£©·½·¨  »ñµÃ FileItem ¼¯ºÏlist £¬
+ * æ–‡ä»¶ä¸Šä¼ 
+ * å…·ä½“æ­¥éª¤ï¼š
+ * 1ï¼‰è·å¾—ç£ç›˜æ–‡ä»¶æ¡ç›®å·¥å‚ DiskFileItemFactory è¦å¯¼åŒ…
+ * 2ï¼‰ åˆ©ç”¨ request è·å– çœŸå®è·¯å¾„ ï¼Œä¾›ä¸´æ—¶æ–‡ä»¶å­˜å‚¨ï¼Œå’Œ æœ€ç»ˆæ–‡ä»¶å­˜å‚¨ ï¼Œè¿™ä¸¤ä¸ªå­˜å‚¨ä½ç½®å¯ä¸åŒï¼Œä¹Ÿå¯ç›¸åŒ
+ * 3ï¼‰å¯¹ DiskFileItemFactory å¯¹è±¡è®¾ç½®ä¸€äº› å±æ€§
+ * 4ï¼‰é«˜æ°´å¹³çš„APIæ–‡ä»¶ä¸Šä¼ å¤„ç†  ServletFileUpload upload = new ServletFileUpload(factory);
+ * ç›®çš„æ˜¯è°ƒç”¨ parseRequestï¼ˆrequestï¼‰æ–¹æ³•  è·å¾— FileItem é›†åˆlist ï¼Œ
  *
- * 5£©ÔÚ FileItem ¶ÔÏóÖĞ »ñÈ¡ĞÅÏ¢£¬   ±éÀú£¬ ÅĞ¶Ï ±íµ¥Ìá½»¹ıÀ´µÄĞÅÏ¢ ÊÇ·ñÊÇ ÆÕÍ¨ÎÄ±¾ĞÅÏ¢  Áí×ö´¦Àí
- * 6£©
- *    µÚÒ»ÖÖ. ÓÃµÚÈı·½ Ìá¹©µÄ  item.write( new File(path,filename) );  Ö±½ÓĞ´µ½´ÅÅÌÉÏ
- *    µÚ¶şÖÖ. ÊÖ¶¯´¦Àí
+ * 5ï¼‰åœ¨ FileItem å¯¹è±¡ä¸­ è·å–ä¿¡æ¯ï¼Œ   éå†ï¼Œ åˆ¤æ–­ è¡¨å•æäº¤è¿‡æ¥çš„ä¿¡æ¯ æ˜¯å¦æ˜¯ æ™®é€šæ–‡æœ¬ä¿¡æ¯  å¦åšå¤„ç†
+ * 6ï¼‰
+ *    ç¬¬ä¸€ç§. ç”¨ç¬¬ä¸‰æ–¹ æä¾›çš„  item.write( new File(path,filename) );  ç›´æ¥å†™åˆ°ç£ç›˜ä¸Š
+ *    ç¬¬äºŒç§. æ‰‹åŠ¨å¤„ç†
  *
  */
 public class FileuploadServlet extends HttpServlet{
@@ -33,62 +33,62 @@ public class FileuploadServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //»ñµÃ´ÅÅÌÎÄ¼şÌõÄ¿¹¤³§
+        //è·å¾—ç£ç›˜æ–‡ä»¶æ¡ç›®å·¥å‚
         DiskFileItemFactory factory = new DiskFileItemFactory();
-        //»ñÈ¡ÎÄ¼şĞèÒªÉÏ´«µ½µÄÂ·¾¶
-        String path = req.getRealPath("/");
+        //è·å–æ–‡ä»¶éœ€è¦ä¸Šä¼ åˆ°çš„è·¯å¾„
+        String path = this.getServletContext().getRealPath("/");
 
-        //Èç¹ûÃ»ÒÔÏÂÁ½ĞĞÉèÖÃµÄ»°£¬ÉÏ´«´óµÄ ÎÄ¼ş »áÕ¼ÓÃ ºÜ¶àÄÚ´æ£¬
-        //ÉèÖÃÔİÊ±´æ·ÅµÄ ´æ´¢ÊÒ , Õâ¸ö´æ´¢ÊÒ£¬¿ÉÒÔºÍ ×îÖÕ´æ´¢ÎÄ¼ş µÄÄ¿Â¼²»Í¬
+        //å¦‚æœæ²¡ä»¥ä¸‹ä¸¤è¡Œè®¾ç½®çš„è¯ï¼Œä¸Šä¼ å¤§çš„ æ–‡ä»¶ ä¼šå ç”¨ å¾ˆå¤šå†…å­˜ï¼Œ
+        //è®¾ç½®æš‚æ—¶å­˜æ”¾çš„ å­˜å‚¨å®¤ , è¿™ä¸ªå­˜å‚¨å®¤ï¼Œå¯ä»¥å’Œ æœ€ç»ˆå­˜å‚¨æ–‡ä»¶ çš„ç›®å½•ä¸åŒ
         /**
-         * Ô­Àí ËüÊÇÏÈ´æµ½ ÔİÊ±´æ´¢ÊÒ£¬È»ºóÔÚÕæÕıĞ´µ½ ¶ÔÓ¦Ä¿Â¼µÄÓ²ÅÌÉÏ£¬
-         * °´ÀíÀ´Ëµ µ±ÉÏ´«Ò»¸öÎÄ¼şÊ±£¬ÆäÊµÊÇÉÏ´«ÁËÁ½·İ£¬µÚÒ»¸öÊÇÒÔ .tem ¸ñÊ½µÄ
-         * È»ºóÔÙ½«ÆäÕæÕıĞ´µ½ ¶ÔÓ¦Ä¿Â¼µÄÓ²ÅÌÉÏ
+         * åŸç† å®ƒæ˜¯å…ˆå­˜åˆ° æš‚æ—¶å­˜å‚¨å®¤ï¼Œç„¶ååœ¨çœŸæ­£å†™åˆ° å¯¹åº”ç›®å½•çš„ç¡¬ç›˜ä¸Šï¼Œ
+         * æŒ‰ç†æ¥è¯´ å½“ä¸Šä¼ ä¸€ä¸ªæ–‡ä»¶æ—¶ï¼Œå…¶å®æ˜¯ä¸Šä¼ äº†ä¸¤ä»½ï¼Œç¬¬ä¸€ä¸ªæ˜¯ä»¥ .tem æ ¼å¼çš„
+         * ç„¶åå†å°†å…¶çœŸæ­£å†™åˆ° å¯¹åº”ç›®å½•çš„ç¡¬ç›˜ä¸Š
          */
         factory.setRepository(new File(path));
-        //ÉèÖÃ »º´æµÄ´óĞ¡£¬µ±ÉÏ´«ÎÄ¼şµÄÈİÁ¿³¬¹ı¸Ã»º´æÊ±£¬Ö±½Ó·Åµ½ ÔİÊ±´æ´¢ÊÒ
+        //è®¾ç½® ç¼“å­˜çš„å¤§å°ï¼Œå½“ä¸Šä¼ æ–‡ä»¶çš„å®¹é‡è¶…è¿‡è¯¥ç¼“å­˜æ—¶ï¼Œç›´æ¥æ”¾åˆ° æš‚æ—¶å­˜å‚¨å®¤
         factory.setSizeThreshold(1024*1024*4) ;
 
-        //¸ßË®Æ½µÄAPIÎÄ¼şÉÏ´«´¦Àí
+        //é«˜æ°´å¹³çš„APIæ–‡ä»¶ä¸Šä¼ å¤„ç†
         ServletFileUpload upload = new ServletFileUpload(factory);
 
         try {
-            //¿ÉÒÔÉÏ´«¶à¸öÎÄ¼ş
+            //å¯ä»¥ä¸Šä¼ å¤šä¸ªæ–‡ä»¶
             List<FileItem> list = (List<FileItem>)upload.parseRequest(req);
 
             for(FileItem item : list)
             {
-                //»ñÈ¡±íµ¥µÄÊôĞÔÃû×Ö
+                //è·å–è¡¨å•çš„å±æ€§åå­—
                 String name = item.getFieldName();
 
-                //Èç¹û»ñÈ¡µÄ ±íµ¥ĞÅÏ¢ÊÇÆÕÍ¨µÄ ÎÄ±¾ ĞÅÏ¢
+                //å¦‚æœè·å–çš„ è¡¨å•ä¿¡æ¯æ˜¯æ™®é€šçš„ æ–‡æœ¬ ä¿¡æ¯
                 if(item.isFormField())
                 {
-                    //»ñÈ¡ÓÃ»§¾ßÌåÊäÈëµÄ×Ö·û´® £¬Ãû×ÖÆğµÃÍ¦ºÃ£¬ÒòÎª±íµ¥Ìá½»¹ıÀ´µÄÊÇ ×Ö·û´®ÀàĞÍµÄ
+                    //è·å–ç”¨æˆ·å…·ä½“è¾“å…¥çš„å­—ç¬¦ä¸² ï¼Œåå­—èµ·å¾—æŒºå¥½ï¼Œå› ä¸ºè¡¨å•æäº¤è¿‡æ¥çš„æ˜¯ å­—ç¬¦ä¸²ç±»å‹çš„
                     String value = item.getString() ;
 
                     req.setAttribute(name, value);
                 }
-                //¶Ô´«ÈëµÄ·Ç ¼òµ¥µÄ×Ö·û´®½øĞĞ´¦Àí £¬±ÈÈçËµ¶ş½øÖÆµÄ Í¼Æ¬£¬µçÓ°ÕâĞ©
+                //å¯¹ä¼ å…¥çš„é ç®€å•çš„å­—ç¬¦ä¸²è¿›è¡Œå¤„ç† ï¼Œæ¯”å¦‚è¯´äºŒè¿›åˆ¶çš„ å›¾ç‰‡ï¼Œç”µå½±è¿™äº›
                 else
                 {
                     /**
-                     * ÒÔÏÂÈı²½£¬Ö÷Òª»ñÈ¡ ÉÏ´«ÎÄ¼şµÄÃû×Ö
+                     * ä»¥ä¸‹ä¸‰æ­¥ï¼Œä¸»è¦è·å– ä¸Šä¼ æ–‡ä»¶çš„åå­—
                      */
-                    //»ñÈ¡Â·¾¶Ãû
+                    //è·å–è·¯å¾„å
                     String value = item.getName() ;
-                    //Ë÷Òıµ½×îºóÒ»¸ö·´Ğ±¸Ü
+                    //ç´¢å¼•åˆ°æœ€åä¸€ä¸ªåæ–œæ 
                     int start = value.lastIndexOf("\\");
                     String filename = value;
 //                    filename = new String(filename.getBytes(), "utf-8");
                     req.setAttribute(name, filename);
 
-                    //ÕæÕıĞ´µ½´ÅÅÌÉÏ
-                    //ËüÅ×³öµÄÒì³£ ÓÃexception ²¶×½
+                    //çœŸæ­£å†™åˆ°ç£ç›˜ä¸Š
+                    //å®ƒæŠ›å‡ºçš„å¼‚å¸¸ ç”¨exception æ•æ‰
 
-                    //item.write( new File(path,filename) );//µÚÈı·½Ìá¹©µÄ
+                    //item.write( new File(path,filename) );//ç¬¬ä¸‰æ–¹æä¾›çš„
 
-                    //ÊÖ¶¯Ğ´µÄ
+                    //æ‰‹åŠ¨å†™çš„
                     OutputStream out = new FileOutputStream(new File(path,filename));
 
                     InputStream in = item.getInputStream() ;
@@ -96,12 +96,12 @@ public class FileuploadServlet extends HttpServlet{
                     int length = 0 ;
                     byte [] buf = new byte[1024] ;
 
-                    System.out.println("»ñÈ¡ÉÏ´«ÎÄ¼şµÄ×Ü¹²µÄÈİÁ¿£º"+item.getSize());
+                    System.out.println("è·å–ä¸Šä¼ æ–‡ä»¶çš„æ€»å…±çš„å®¹é‡ï¼š"+item.getSize());
 
-                    // in.read(buf) Ã¿´Î¶Áµ½µÄÊı¾İ´æ·ÅÔÚ   buf Êı×éÖĞ
+                    // in.read(buf) æ¯æ¬¡è¯»åˆ°çš„æ•°æ®å­˜æ”¾åœ¨   buf æ•°ç»„ä¸­
                     while( (length = in.read(buf) ) != -1)
                     {
-                        //ÔÚ   buf Êı×éÖĞ È¡³öÊı¾İ Ğ´µ½ £¨Êä³öÁ÷£©´ÅÅÌÉÏ
+                        //åœ¨   buf æ•°ç»„ä¸­ å–å‡ºæ•°æ® å†™åˆ° ï¼ˆè¾“å‡ºæµï¼‰ç£ç›˜ä¸Š
                         out.write(buf, 0, length);
 
                     }
