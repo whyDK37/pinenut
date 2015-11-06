@@ -1,3 +1,4 @@
+/spring/spring.iml
 /web/build
 /web/web.iml
 /compress/compress.iml
@@ -7,6 +8,7 @@
 /logging/build
 /h2/build
 /.idea
+/mybatis/mybatis.iml
 /pinenut.iws
 /pinenut.ipr
 /pinenut.iml

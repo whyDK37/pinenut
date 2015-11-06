@@ -61,4 +61,21 @@ project(':web') {
     }
 }
 
+project(':mybatis') {
+    description = 'mybatis'
+    dependencies {
+        compile "org.mybatis:mybatis:3.3.0"
+        compile "mysql:mysql-connector-java:5.1.34"
+    }
+}
+project(':spring') {
+    description = 'spring'
+    dependencies {
+        compile "org.me:me:3.3.0"
+        compile "mysql:mysql-connector-java:5.1.34"
+    }
+}
+
+
+
 

@@ -4,29 +4,27 @@
 <head>
     <title>多文件上传</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript" src="../js/jquery-1.11.2.min.js" ></script>
     <script type="text/javascript">
         var index = 0;
-
 
         /**
          * 增加上传文件
          */
         function addFile() {
             index++;
-            var uploadfile = document.getElementById("uploadfile");
-            var tr = document.createElement("tr");
-            tr.id = index;
-            tr.innerHTML = '<td><input type="file" style="width: 431px;border: 1px"/><input type="button" value="删除" onclick="removeNode('+index+')" /></td>';
-            uploadfile.appendChild(tr);
+            var uploadfile = $("#uploadfile");
+            var id = "tr"+index;
+            var appendHTML = '<tr id="'+id+'"><td><input type="file" style="width: 431px;border: 1px"/><input type="button" value="删除" onclick="removeNodeByid(\''+id+'\')" /></td></tr>';
+            uploadfile.append(appendHTML);
         }
 
         /**
          * 通过节点ID移除节点
          * @param nodeid 节点ID
          */
-        function removeNode(nodeid){
-            var node = document.getElementById(nodeid);
-            node.parentNode.removeChild(node);
+        function removeNodeByid(nodeid){
+            $("#"+nodeid).remove();
         }
     </script>
 </head>
@@ -36,11 +34,15 @@
     <h2>多文件上传</h2>
 </div>
 <div>
+    <form action="fileupload"  method="post">
+        <input type="hidden" name="path" value="abc" />
+        <input value="上传" type="submit"/>
+    </form>
+
+</div>
+<div>
     <form action="fileupload" enctype="multipart/form-data" method="post">
-        <!--用户名：<input type="text" name="username"> <br/>-->
-        <!--上传文件：<input type="file" name="file1"><br/>-->
-        <!--上传文件： <input type="file" name="file2"><br/>-->
-        <!--<input type="submit" value="提交"/>-->
+        <input type="hidden" name="path" value="abc" />
         <table border="1px">
             <thead>
             <tr>
@@ -51,6 +53,7 @@
             <!--<tr>-->
                 <!--<td>-->
                     <!--<input type="file" name="file1" style="width: 431px;border: 1px"/>-->
+                    <!--<input type="button" value="dele" onclick="removeNodeByid('uploadfile')" />-->
                 <!--</td>-->
             <!--</tr>-->
             </tbody>
