@@ -5,6 +5,7 @@ include ':compress'
 include ':web'
 include ':mybatis'
 include ':spring'
+include ':FreeMarker'
 
 project(':logging').projectDir = "$rootDir/logging" as File
 project(':h2').projectDir = "$rootDir/h2" as File

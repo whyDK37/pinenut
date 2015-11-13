@@ -75,6 +75,12 @@ project(':spring') {
         compile "mysql:mysql-connector-java:5.1.34"
     }
 }
+project(':FreeMarker') {
+    description = 'FreeMarker'
+    dependencies {
+        compile 'org.freemarker:freemarker:2.3.23'
+    }
+}
 
 
 
