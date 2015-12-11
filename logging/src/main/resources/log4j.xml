@@ -10,16 +10,16 @@
 	</appender>
 
 	<appender name="file" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/log4j/log.log" />
-		<param name="MaxFileSize" value="1KB" />
+		<param name="File" value="build/log4j.log" />
+		<param name="MaxFileSize" value="1MB" />
 		<param name="MaxBackupIndex" value="10" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="|%d|%p-[%m]-[%C{4}.%M,%L]-[t=%t]%n" />
+		<layout class="org.apache.log4j.xml.XMLLayout">
+			<!--<param name="ConversionPattern" value="|%d|%p-[%m]-[%C{4}.%M,%L]-[t=%t]%n" />-->
 		</layout>
 	</appender>
 
 	<appender name="splitfile" class="org.apache.log4j.SplitRollingFileAppender">
-		<param name="File" value="/log4j/log.log" />
+		<param name="File" value="log4j/log.log" />
 		<param name="splitString" value="log4j:log4j;" />
 		<param name="MaxFileSize" value="1KB" />
 		<param name="MaxBackupIndex" value="10" />
@@ -28,11 +28,9 @@
 		</layout>
 	</appender>
 
-
-
 	<root>
 		<level value="DEBUG" />
 		<!--<appender-ref ref="stdout" />-->
-		<appender-ref ref="splitfile" />
+		<appender-ref ref="file" />
 	</root>
 </log4j:configuration>

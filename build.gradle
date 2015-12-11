@@ -31,6 +31,8 @@ project(':logging') {
         compile 'log4j:log4j:1.2.17'
         compile 'org.slf4j:slf4j-api:1.7.7'
         compile 'org.testng:testng:6.9.4'
+        compile "org.apache.logging.log4j:log4j-api:2.4.1"
+        compile "org.apache.logging.log4j:log4j-core:2.4.1"
 	}
 	test.useTestNG()
 }

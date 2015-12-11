@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- With status you can configure the log level for log4j internal logs -->
+<configuration status="warn" packages="org.graylog2.log4j2" monitorInterval="30">
+    <appenders>
+        <GELF name="gelfAppender" server="192.168.56.101" port="12201" hostName="NLWGM1793" protocol="UDP"
+              additionalFields="environment=DEV,application=log4j2-demo-app" />
+        <File name="fileAppender" fileName="app.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" >
+            <PatternLayout pattern="c %d %p %c{1.} [%t] %m%n"/>
+        </Console>
+    </appenders>
+    <loggers>
+        <logger name="de.fred4jupiter.log4j2.demo" level="DEBUG"/>
+
+        <root level="debug">
+            <appender-ref ref="gelfAppender"/>
+            <appender-ref ref="fileAppender"/>
+            <appender-ref ref="ConsoleAppender"/>
+        </root>
+    </loggers>
+</configuration>
