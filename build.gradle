@@ -70,10 +70,11 @@ project(':mybatis') {
         compile "mysql:mysql-connector-java:5.1.34"
     }
 }
-project(':spring') {
-    description = 'spring'
+project(':spring3') {
+    description = 'spring3 源码学习'
     dependencies {
         //compile "org.me:me:3.3.0"
+        compile "org.springframework:spring-context:3.2.15.RELEASE"
         compile "mysql:mysql-connector-java:5.1.34"
     }
 }

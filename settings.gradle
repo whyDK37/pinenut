@@ -4,7 +4,7 @@ include ':h2'
 include ':compress'
 include ':web'
 include ':mybatis'
-include ':spring'
+include ':spring3'
 include ':FreeMarker'
 
 project(':logging').projectDir = "$rootDir/logging" as File

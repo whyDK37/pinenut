@@ -1,7 +1,8 @@
 /jdk/jdk.iml
 /app.log
 /FreeMarker/FreeMarker.iml
-/spring/spring.iml
+/spring3/spring.iml
+/spring3/spring3.iml
 /web/build
 /web/web.iml
 /compress/compress.iml
