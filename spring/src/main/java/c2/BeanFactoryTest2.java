@@ -13,7 +13,7 @@ public class BeanFactoryTest2 {
         //
         DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
-        reader.loadBeanDefinitions(new ClassPathResource("c2/BeanFactoryTest.xml"));
+        reader.loadBeanDefinitions(new ClassPathResource("c2/beanFactory.xml"));
 
         MyTestBean myTestBean = bf.getBean("myTestBean", MyTestBean.class);
         System.out.println(myTestBean.getTeststr());

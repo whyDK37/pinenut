@@ -10,7 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 public class BeanFactoryTest {
     public static void main(String[] args) {
         @SuppressWarnings("")
-        BeanFactory bf = new XmlBeanFactory(new ClassPathResource("c2/BeanFactoryTest.xml"));
+        BeanFactory bf = new XmlBeanFactory(new ClassPathResource("c2/beanFactory.xml"));
 
         MyTestBean myTestBean = bf.getBean("myTestBean", MyTestBean.class);
         System.out.println(myTestBean.getTeststr());
