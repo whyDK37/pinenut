@@ -71,9 +71,10 @@ project(':mybatis') {
     }
 }
 project(':spring') {
-    description = 'spring'
+    description = 'spring 3.2'
     dependencies {
         //compile "org.me:me:3.3.0"
+        compile "org.springframework:spring-context:3.2.15.RELEASE"
         compile "mysql:mysql-connector-java:5.1.34"
     }
 }
