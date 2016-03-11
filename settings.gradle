@@ -1,15 +1,16 @@
 rootProject.name = 'pinenut'
-include ':logging'
-include ':h2'
-include ':compress'
-include ':web'
-include ':mybatis'
-include ':spring'
-include ':FreeMarker'
+include 'logging'
+include 'h2'
+include 'compress'
+include 'web'
+include 'mybatis'
+include 'spring3'
+include 'FreeMarker'
+include 'commons'
+include 'jdk'
 
 project(':logging').projectDir = "$rootDir/logging" as File
 project(':h2').projectDir = "$rootDir/h2" as File
 project(':compress').projectDir = "$rootDir/compress" as File
 project(':web').projectDir = "$rootDir/web" as File
-include 'jdk'
 
