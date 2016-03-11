@@ -7,6 +7,7 @@
 /web/web.iml
 /compress/compress.iml
 /h2/h2.iml
+/commons/commons.iml
 /logging/logging.iml
 /.gradle
 /logging/build

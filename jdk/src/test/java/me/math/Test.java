@@ -15,6 +15,7 @@ public class Test {
         hashMap.put(null,null);
         hashMap.put(null,null);
         System.out.println(hashMap.size());
+        System.out.println(3<<1);
 //        System.out.println(Integer.toBinaryString(-12));
 //        System.out.println(Integer.toBinaryString(-12>>>1));
 //
