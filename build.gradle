@@ -85,6 +85,13 @@ project(':FreeMarker') {
     }
 }
 
+project(':zk') {
+    description = 'zk test'
+    dependencies {
+        compile "com.101tec:zkclient:0.3"
+    }
+}
+
 
 
 

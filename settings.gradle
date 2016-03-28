@@ -8,6 +8,7 @@ include 'spring3'
 include 'FreeMarker'
 include 'commons'
 include 'jdk'
+include 'zk'
 
 project(':logging').projectDir = "$rootDir/logging" as File
 project(':h2').projectDir = "$rootDir/h2" as File
