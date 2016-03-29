@@ -12,7 +12,6 @@ public class BufferTest {
         String filename = "C:\\Windows\\System32\\drivers\\etc\\hosts";
         RandomAccessFile aFile = new RandomAccessFile(filename, "r");
         FileChannel inChannel = aFile.getChannel();
-
         // create buffer with capacity of 48 bytes
         ByteBuffer buf = ByteBuffer.allocate(48);
         ByteBuffer.allocateDirect(48);
