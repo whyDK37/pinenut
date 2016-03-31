@@ -5,7 +5,8 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.System.out;
 
 /**
- * Object 的 wait和notify方法只能在同步方法块中调用，使用Lock对象锁是无效的。
+ * Object 的 wait和notify方法调用时，相关联的对象必须已经被加锁
+ * （必须使用使用synchronized，Lock对象锁是无效的）。
  * 而且wait,notify方法被声明为final，不可重载并且被所有java对象继承。
  *
  * Created by drug on 2016/3/31.
