@@ -16,7 +16,7 @@ public class WaitAndNotify {
             public void run() {
                 out.println(Thread.currentThread().toString());
                 try {
-                    TimeUnit.SECONDS.sleep(40);
+                    TimeUnit.SECONDS.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -42,6 +42,8 @@ public class WaitAndNotify {
             }
         }, "waitThread");
         waitThread.start();
+
+        out.println("main done.");
     }
 
 
