@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,44 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.*;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class is the panel that contains the 5 checkboxes and the text area that sits
+* at the bottom of the HeapOfFish applet panel.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class HeapOfFishControlPanel extends Panel {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    HeapOfFishModeCheckboxPanel modeCheckboxPanel = new HeapOfFishModeCheckboxPanel();
+    HeapOfFishTextArea ta = new HeapOfFishTextArea();
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
+    HeapOfFishControlPanel() {
+
+        setBackground(Color.lightGray);
+
+        setLayout(new BorderLayout());
+        add("West", modeCheckboxPanel);
+        add("Center", ta);
     }
 
-    String getString() {
-        return theString;
+    public CheckboxGroup getModeCheckboxGroup() {
+        return modeCheckboxPanel.getModeCheckboxGroup();
     }
 
-    int getByteCount() {
-        return byteCount;
+    public HeapOfFishTextArea getTextArea() {
+        return ta;
+    }
+    public Insets insets() {
+        return new Insets(5, 5, 5, 5);
     }
 
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
+    public Dimension minimumSize() {
+        return new Dimension(500, 90);
     }
 
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+    public Dimension preferredSize() {
+        return new Dimension(500, 90);
     }
 }

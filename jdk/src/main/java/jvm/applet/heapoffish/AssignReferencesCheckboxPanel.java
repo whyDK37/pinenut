@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,35 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.*;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class holds the three checkboxes, for move fish,
+* link fish, and unlink fish, that sit at the
+* bottom of the assign references mode's user interface.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class AssignReferencesCheckboxPanel extends Panel {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    private CheckboxGroup cbg = new CheckboxGroup();
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
-    }
+    AssignReferencesCheckboxPanel() {
 
-    String getString() {
-        return theString;
-    }
+        setBackground(Color.lightGray);
 
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+        setLayout(new GridLayout(1, 3));
+        Panel p = new Panel();
+        p.setLayout(new FlowLayout());
+        p.add(new Checkbox(HeapOfFishStrings.moveFish, cbg, false));
+        add(p);
+        p = new Panel();
+        p.setLayout(new FlowLayout());
+        p.add(new Checkbox(HeapOfFishStrings.linkFish, cbg, true));
+        add(p);
+        p = new Panel();
+        p.setLayout(new FlowLayout());
+        p.add(new Checkbox(HeapOfFishStrings.unlinkFish, cbg, false));
+        add(p);
     }
 }

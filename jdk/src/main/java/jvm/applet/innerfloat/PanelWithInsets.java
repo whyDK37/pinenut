@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.innerfloat;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -46,60 +46,35 @@ package jvm.applet.gl;/*
 * DERIVATIVES.
 */
 
+import java.awt.*;
+
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class simply allows you to easily set a panel's insets.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class PanelWithInsets extends Panel {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    private int top;
+    private int left;
+    private int bottom;
+    private int right;
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
+    PanelWithInsets(int t, int l, int b, int r) {
+        top = t;
+        left = l;
+        bottom = b;
+        right = r;
     }
 
-    String getString() {
-        return theString;
+    PanelWithInsets() {
+        top = 5;
+        left = 5;
+        bottom = 5;
+        right = 5;
     }
 
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+    public Insets insets() {
+        return new Insets(top, left, bottom, right);
     }
 }

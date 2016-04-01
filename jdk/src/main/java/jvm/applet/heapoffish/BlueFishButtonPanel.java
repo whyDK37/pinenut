@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,25 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.*;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class is the panel on which resides both the "new BlueFish()"
+* button and the painting of a blue fish that sits just
+* above the button in the allocate fish mode.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class BlueFishButtonPanel extends Panel {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
-
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
-    }
-
-    String getString() {
-        return theString;
-    }
-
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+    BlueFishButtonPanel() {
+        setLayout(new BorderLayout());
+        Button b = new Button(HeapOfFishStrings.newBlueFish);
+        b.setBackground(Color.lightGray);
+        Panel p = new Panel();
+        p.setLayout(new FlowLayout());
+        p.add(b);
+        add("South", p);
+        add("Center", new BlueFishButtonCanvas());
     }
 }

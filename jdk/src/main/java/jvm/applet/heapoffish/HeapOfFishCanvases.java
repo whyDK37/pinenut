@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,56 +45,60 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.*;
 
 /**
-* This class conerts an int to a string with its hex representation
-* and leading zeros innerfloat needed to achieve a certain field width.
+* This class is the panel that contains the five main components that make up the
+* bulk of the user interface of the HeapOfFish applet, the swimming fish canvas,
+* and the allocate fish, assign references, garbage collect, and compact heap
+* panels, all of which are placed via a CardLayout.
 *
 * @author  Bill Venners
 */
-class HexString {
+class HeapOfFishCanvases extends Panel {
 
-    private final String hexChar = "0123456789ABCDEF";
-    private StringBuffer buf = new StringBuffer();
+    private CardLayout cl = new CardLayout();
+    private SwimmingFishCanvas swimmers = new SwimmingFishCanvas();
+    private String currentMode = HeapOfFishStrings.swim;
+    private AssignReferencesPanel assignRefsPanel;
+    private GarbageCollectPanel garbageCollectPanel;
 
-    void Convert(int val, int maxNibblesToConvert) {
+    HeapOfFishCanvases(GCHeap gcHeap, LocalVariables localVars, HeapOfFishTextArea ta) {
 
-        buf.setLength(0);
-
-        int v = val;
-        for (int i = 0; i < maxNibblesToConvert; ++i) {
-
-            if (v == 0) {
-
-                if (i == 0) {
-                    buf.insert(0, '0');
-                }
-                break;
-            }
-
-            // Get lowest nibble
-            int remainder = v & 0xf;
-
-            // Convert nibble to a character and insert it into the beginning of the string
-            buf.insert(0, hexChar.charAt(remainder));
-
-            // Shift the int to the right four bits
-            v >>>= 4;
-        }
+        assignRefsPanel = new AssignReferencesPanel(gcHeap, localVars, ta);
+        garbageCollectPanel = new GarbageCollectPanel(gcHeap, localVars, ta);
+        setLayout(cl);
+        add(HeapOfFishStrings.allocateFish, new AllocateFishPanel(gcHeap, ta));
+        add(HeapOfFishStrings.assignReferences, assignRefsPanel);
+        add(HeapOfFishStrings.garbageCollect, garbageCollectPanel);
+        add(HeapOfFishStrings.compactHeap, new CompactHeapPanel(gcHeap, ta));
+        add(HeapOfFishStrings.swim, swimmers);
+        swimmers.start();
+        cl.show(this, HeapOfFishStrings.swim);
     }
 
-    HexString(int val, int minWidth) {
-
-        Convert(val, minWidth);
-
-        int charsNeeded = minWidth - buf.length();
-        for (int i = 0; i < charsNeeded; ++i) {
-            buf.insert(0, '0');
+    public void setMode(String mode) {
+        if (mode.equals(HeapOfFishStrings.garbageCollect) && !currentMode.equals(HeapOfFishStrings.garbageCollect)) {
+            garbageCollectPanel.resetGCState();
         }
+        cl.show(this, mode);
+        if (mode.equals(HeapOfFishStrings.swim) && !currentMode.equals(HeapOfFishStrings.swim)) {
+            swimmers.start();
+        }
+        if (!mode.equals(HeapOfFishStrings.swim) && currentMode.equals(HeapOfFishStrings.swim)) {
+            swimmers.stop();
+        }
+        if (mode.equals(HeapOfFishStrings.assignReferences) && !currentMode.equals(HeapOfFishStrings.assignReferences)) {
+            assignRefsPanel.refreshInstructions();
+        }
+        currentMode = mode;
     }
 
-    public String getString() {
+    public void start() {
+        swimmers.start();
+    }
 
-        return buf.toString();
+    public void stop() {
+        swimmers.stop();
     }
 }

@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.innerfloat;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -46,60 +46,19 @@ package jvm.applet.gl;/*
 * DERIVATIVES.
 */
 
+import java.awt.Button;
+import java.awt.Color;
+
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class simply gives you a button colored gray.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class GrayButton extends Button {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    GrayButton(String label) {
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
-    }
-
-    String getString() {
-        return theString;
-    }
-
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+        super(label);
+        setBackground(Color.lightGray);
     }
 }

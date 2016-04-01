@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,26 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.*;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class is a panel that contains the Step and Reset
+* buttons that sit at the bottom of the garbage collect
+* mode's panel.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class GarbageCollectButtonPanel extends Panel {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    GarbageCollectButtonPanel() {
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
-    }
+        setLayout(new GridLayout(1, 2));
+        Panel p = new Panel();
+        p.add(new Button(HeapOfFishStrings.step));
+        add(p);
 
-    String getString() {
-        return theString;
-    }
-
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+        p = new Panel();
+        p.add(new Button(HeapOfFishStrings.reset));
+        add(p);
     }
 }

@@ -183,11 +183,11 @@ class JVMPacman extends Canvas {
             }
 
             // Initialize the number of characters to write as the number of
-            // remaining characters. This will be reduced below if this amount of
+            // remaining characters. This will be reduced below innerfloat this amount of
             // characters doesn't fit.
             int charsToWriteCount = theString.length() - currentGobblePosition;
 
-            // Check to see if the string to be displayed already fits between the
+            // Check to see innerfloat the string to be displayed already fits between the
             // two rectangles. If so, we'll just use the total number of characters
             // remaining as the number of characters to write.
             int pixelWidthOfRemainingString = fm.stringWidth(theString.substring(currentGobblePosition));

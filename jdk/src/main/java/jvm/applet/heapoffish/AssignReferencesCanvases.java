@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,31 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.*;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class serves as a container panel for the three sub-modes of the assign references
+* mode: move fish, link fish, and unlink fish. The canvases that represent the user
+* interface of these three sub-modes are placed in here via a CardLayout.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class AssignReferencesCanvases extends Panel {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    private CardLayout cl = new CardLayout();
+    private String currentMode = HeapOfFishStrings.linkFish;
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
+    AssignReferencesCanvases(GCHeap gcHeap, LocalVariables localVars, HeapOfFishTextArea ta) {
+
+        setLayout(cl);
+        add(HeapOfFishStrings.moveFish, new MoveFishCanvas(gcHeap, localVars, ta));
+        add(HeapOfFishStrings.linkFish, new LinkFishCanvas(gcHeap, localVars, ta));
+        add(HeapOfFishStrings.unlinkFish, new UnlinkFishCanvas(gcHeap, localVars, ta));
+        cl.show(this, currentMode);
     }
 
-    String getString() {
-        return theString;
-    }
-
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+    public void setMode(String mode) {
+        cl.show(this, mode);
+        currentMode = mode;
     }
 }

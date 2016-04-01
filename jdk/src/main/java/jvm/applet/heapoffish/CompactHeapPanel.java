@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,50 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.*;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class is the outermost panel containing everything
+* in the user interface shown during the compact heap mode.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class CompactHeapPanel extends Panel {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    GCHeap gcHeap;
+    HeapOfFishTextArea controlPanelTextArea;
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
+    CompactHeapCanvas compactHeapCanvas;
+
+    CompactHeapPanel(GCHeap heap, HeapOfFishTextArea ta) {
+
+        gcHeap = heap;
+        controlPanelTextArea = ta;
+
+        setBackground(Color.blue);
+
+        setLayout(new BorderLayout());
+
+        compactHeapCanvas = new CompactHeapCanvas(gcHeap);
+
+        add("South", new CompactHeapButtonPanel());
+        add("Center", compactHeapCanvas);
     }
 
-    String getString() {
-        return theString;
-    }
-
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+    public boolean action(Event evt, Object arg) {
+        if (evt.target instanceof Button) {
+            String bname = (String) arg;
+            if (bname.equals(HeapOfFishStrings.slide)) {
+                boolean objectWasSlid = gcHeap.slideNextNonContiguousObjectDown();
+                if (objectWasSlid) {
+                    controlPanelTextArea.setText(HeapOfFishStrings.slidSuccessfully);
+                }
+                else {
+                    controlPanelTextArea.setText(HeapOfFishStrings.cantSlideAnymore);
+                }
+                compactHeapCanvas.repaint();
+            }
+        }
+        return true;
     }
 }

@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,46 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.*;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class is the panel that contains the entire user
+* interface that is shown during the garbage collect mode.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class GarbageCollectPanel extends Panel {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    private GarbageCollectCanvas gcCanvas;
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
+    GarbageCollectPanel(GCHeap heap, LocalVariables locVars, HeapOfFishTextArea ta) {
+
+        setBackground(Color.blue);
+
+        setLayout(new BorderLayout());
+
+        gcCanvas = new GarbageCollectCanvas(heap, locVars, ta);
+
+        add("South", new GarbageCollectButtonPanel());
+        add("Center", gcCanvas);
     }
 
-    String getString() {
-        return theString;
+    public void resetGCState() {
+        gcCanvas.resetGCState();
     }
 
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+    public boolean action(Event evt, Object arg) {
+        if (evt.target instanceof Button) {
+            String bname = (String) arg;
+            if (bname.equals(HeapOfFishStrings.step)) {
+                gcCanvas.nextGCStep();
+                gcCanvas.repaint();
+            }
+            else if (bname.equals(HeapOfFishStrings.reset)) {
+                gcCanvas.resetGCState();
+                gcCanvas.repaint();
+            }
+        }
+        return true;
     }
 }

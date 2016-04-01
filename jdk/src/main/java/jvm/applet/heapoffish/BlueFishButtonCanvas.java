@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,54 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.*;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class is the canvas upon which a blue fish is drawn
+* that sits just above the "new BlueFish()" button on the
+* allocate fish panel.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class BlueFishButtonCanvas extends Canvas {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    private final int fishButtonInset = 5;
+    private MediumBlueFishIcon mediumBlueFishIcon = new MediumBlueFishIcon(false);
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
+    BlueFishButtonCanvas() {
+        //setBackground(Color.white);
     }
 
-    String getString() {
-        return theString;
+    public Dimension minimumSize() {
+        Dimension fishButtonDim = new Dimension(0, 0);
+        fishButtonDim.width = mediumBlueFishIcon.getFishWidth() + (2 * fishButtonInset);
+        fishButtonDim.height = mediumBlueFishIcon.getFishHeight() + (2 * fishButtonInset);
+        return fishButtonDim;
     }
 
-    int getByteCount() {
-        return byteCount;
+    public Dimension preferredSize() {
+        return minimumSize();
     }
 
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
+    public void paint(Graphics g) {
+
+        // First calculate the positions of the goodies on the canvas based on the width
+        // and height of the canvas.
+        Dimension dim = size();
+
+        int xFishStart = (dim.width - mediumBlueFishIcon.getFishWidth()) / 2;
+        if (xFishStart < 0) {
+            xFishStart = 0;
+        }
+
+        int yFishStart = (dim.height - mediumBlueFishIcon.getFishHeight()) / 2;
+        if (yFishStart < 0) {
+            yFishStart = 0;
+        }
+
+        mediumBlueFishIcon.moveFish(xFishStart, yFishStart);
+
+        mediumBlueFishIcon.paint(g);
     }
 
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
-    }
 }

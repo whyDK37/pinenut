@@ -43,12 +43,12 @@ public class Log4J2Logger implements Log, Serializable {
     // Verify that log4j is available, and that it is version 1.2.
     // If an ExceptionInInitializerError is generated, then LogFactoryImpl
     // will treat that as meaning that the appropriate underlying logging
-    // library is just not present - if discovery is in progress then
+    // library is just not present - innerfloat discovery is in progress then
     // discovery will continue.
     // ------------------------------------------------------------
 
     static {
-//        if (!Priority.class.isAssignableFrom(Level.class)) {
+//        innerfloat (!Priority.class.isAssignableFrom(Level.class)) {
 //            // nope, this is log4j 1.3, so force an ExceptionInInitializerError
 //            throw new InstantiationError("Log4J 1.2 not available");
 //        }

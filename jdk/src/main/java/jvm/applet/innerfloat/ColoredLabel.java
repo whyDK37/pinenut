@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.innerfloat;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -46,60 +46,35 @@ package jvm.applet.gl;/*
 * DERIVATIVES.
 */
 
+import java.awt.*;
+
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class provides a Label that allows its background color
+* to be set.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class ColoredLabel extends Panel {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    private Label theLabel;
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
+    ColoredLabel(String label, int alignment, Color color) {
+
+        setLayout(new GridLayout(1,1));
+
+        setBackground(color);
+
+        theLabel = new Label(label, alignment);
+
+        add(theLabel);
     }
 
-    String getString() {
-        return theString;
+    public void setLabelText(String s) {
+
+        theLabel.setText(s);
     }
 
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+    public Insets insets() {
+        return new Insets(0, 0, 0, 0);
     }
 }

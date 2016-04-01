@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,53 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.Point;
+import java.awt.Color;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* The object pool of the garbage-collected heap simulated
+* by the HeapOfFish applet is made up of references to
+* instances of this class.
 *
+* ObjectHandle contains:
+*
+*      free -- indicates whether this handle is currently being used.
+*      objectPos -- the index into the objectPool array of bytes at which the object
+*          data is located
+*      fish -- an object which contains information about this object. Normally this
+*          object would hold constant pool info, methods, etc....
 * @author  Bill Venners
 */
-class StepNode {
+public class ObjectHandle {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    public boolean free;
+    public int objectPos;
+    public FishIcon fish;
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
-    }
+    //public boolean currentGCMarkNode;
 
-    String getString() {
-        return theString;
-    }
+    // The previous node in GC traversal was either a fish or a local variable root node
+    public boolean previousNodeInGCTraversalIsAFish;
+    public int previousFishInGCTraversal;
 
-    int getByteCount() {
-        return byteCount;
-    }
+    // If a node has not yet been traversed its color is white. A node that has been
+    // traversed in an upward direction (where the root is at the bottom) is gray. When
+    // the node is again traversed back in a downward direction, its color is changed
+    // to black.
+    public Color myColor;
+    public Color myFriendLineColor;
+    public Color myLunchLineColor;
+    public Color mySnackLineColor;
 
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
+    public boolean gotFriend;
+    public Point myFriendLineStart;
+    public Point myFriendLineEnd;
 
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
+    public boolean gotLunch;
+    public Point myLunchLineStart;
+    public Point myLunchLineEnd;
 
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
-    }
+    public boolean gotSnack;
+    public Point mySnackLineStart;
+    public Point mySnackLineEnd;
 }

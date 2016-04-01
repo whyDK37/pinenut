@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,33 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.*;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class is the panel that contains the 5 checkboxes that sit
+* at the lower left corner of the HeapOfFish applet. These checkboxes
+* allow the user to select one of 5 modes: swim, allocate fish,
+* assign refs, garbage collect, or compact heap.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class HeapOfFishModeCheckboxPanel extends Panel {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    private CheckboxGroup cbg = new CheckboxGroup();
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
+    HeapOfFishModeCheckboxPanel() {
+
+        setBackground(Color.lightGray);
+
+        setLayout(new GridLayout(5, 1));
+        add(new Checkbox(HeapOfFishStrings.allocateFish, cbg, false));
+        add(new Checkbox(HeapOfFishStrings.assignReferences, cbg, false));
+        add(new Checkbox(HeapOfFishStrings.garbageCollect, cbg, false));
+        add(new Checkbox(HeapOfFishStrings.compactHeap, cbg, false));
+        add(new Checkbox(HeapOfFishStrings.swim, cbg, true));
     }
 
-    String getString() {
-        return theString;
-    }
-
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
+    public CheckboxGroup getModeCheckboxGroup() {
+        return cbg;
     }
 }

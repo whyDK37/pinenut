@@ -1,4 +1,4 @@
-package jvm.applet.gl;/*
+package jvm.applet.heapoffish;/*
 * Copyright (c) 1996-1999 Bill Venners. All Rights Reserved.
 *
 * This Java source file is part of the Interactive Illustrations Web
@@ -45,61 +45,27 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+import java.awt.Point;
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
+* This class represents the roots of garbage collection in the
+* HeapOfFish simulation, one local variable that can
+* point to each type of fish: red, yellow, blue.
 *
 * @author  Bill Venners
 */
-class StepNode {
+class LocalVariables {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+    public int yellowFish; // YellowFish yf;
+    public int blueFish;   // BlueFish bf;
+    public int redFish;    // RedFish rf;
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
-    }
+    public Point yellowLineStart;
+    public Point yellowLineEnd;
 
-    String getString() {
-        return theString;
-    }
+    public Point blueLineStart;
+    public Point blueLineEnd;
 
-    int getByteCount() {
-        return byteCount;
-    }
-
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
-
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
-
-    boolean last() {
-        return !nextValid;
-    }
-
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
-
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
-
-    boolean first() {
-        return !prevValid;
-    }
+    public Point redLineStart;
+    public Point redLineEnd;
 }

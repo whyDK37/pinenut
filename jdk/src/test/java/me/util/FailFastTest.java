@@ -26,7 +26,7 @@ public class FailFastTest {
         //遍历线程和移除线程同时操作同一集合会引起fail-fast。
         //原因是modCount 在移除操作是发生变化
         // final void checkForComodification() {
-        //        if (modCount != expectedModCount)
+        //        innerfloat (modCount != expectedModCount)
         //            throw new ConcurrentModificationException();
         //    }
         new ThreadIterator().start();

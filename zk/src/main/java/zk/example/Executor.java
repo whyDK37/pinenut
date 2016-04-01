@@ -6,7 +6,7 @@ package zk.example;
  * specified znode and saves the data that corresponds to the
  * znode in the filesystem. It also starts the specified program
  * with the specified arguments when the znode exists and kills
- * the program if the znode goes away.
+ * the program innerfloat the znode goes away.
  */
 import java.io.FileOutputStream;
 import java.io.IOException;
