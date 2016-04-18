@@ -10,53 +10,53 @@ import java.util.concurrent.Callable;
  */
 public class Test {
     public static void main(String[] args) {
-        FileFilter java = (File f) -> f.getName().endsWith("*.java");
-
-        File dir = new File("/");
-        FileFilter directoryFilter = new FileFilter() {
-            public boolean accept(File file) {
-                return file.isDirectory();
-            }
-        };
-
-        dir = new File("/");
-        directoryFilter = (File f) -> f.isDirectory();
-        File[] dirs = dir.listFiles(directoryFilter);
-
-//        ½øÒ»²½¼ò»¯£º
-        dir = new File("/");
-        dirs = dir.listFiles(f -> f.isDirectory());
-
-        Callable<String> c = () -> "done";
-
-
-        List<Person> people = new ArrayList<>();
-        Collections.sort(people, Comparator.comparing((Person p) -> p.getLastName()));
-        //ÔÚÀàÐÍÍÆµ¼ºÍ¾²Ì¬µ¼ÈëµÄ°ïÖúÏÂ£¬ÎÒÃÇ¿ÉÒÔ½øÒ»²½¼ò»¯ÉÏÃæµÄ´úÂë£º
-        Collections.sort(people, Comparator.comparing(p -> p.getLastName()));
-        //ÎÒÃÇ×¢Òâµ½ÕâÀïµÄlambda±í´ïÊ½Êµ¼ÊÉÏÊÇgetLastNameµÄ´úÀí£¨forwarder£©£¬ÓÚÊÇÎÒÃÇ¿ÉÒÔÓÃ·½·¨ÒýÓÃ´úÌæËü£º
-        Collections.sort(people, Comparator.comparing(Person::getLastName));
-
-
-        people.forEach(p -> System.out.println(p));
-
-        //Before Java 8:
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("Before Java8, too much code for too little to do");
-            }
-        }).start();
-        //Java 8 way:
-        new Thread(() -> System.out.println("In Java8, Lambda expression rocks !!")).start();
-
-        //In Java 8:
-        List features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
-        features.forEach(System.out::println);
-        features.forEach(n -> {
-            System.out.println(n.getClass());
-            System.out.println(n);
-        });
+//        FileFilter java = (File f) -> f.getName().endsWith("*.java");
+//
+//        File dir = new File("/");
+//        FileFilter directoryFilter = new FileFilter() {
+//            public boolean accept(File file) {
+//                return file.isDirectory();
+//            }
+//        };
+//
+//        dir = new File("/");
+//        directoryFilter = (File f) -> f.isDirectory();
+//        File[] dirs = dir.listFiles(directoryFilter);
+//
+////        ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ò»¯£ï¿½
+//        dir = new File("/");
+//        dirs = dir.listFiles(f -> f.isDirectory());
+//
+//        Callable<String> c = () -> "done";
+//
+//
+//        List<Person> people = new ArrayList<>();
+//        Collections.sort(people, Comparator.comparing((Person p) -> p.getLastName()));
+//        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½Í¾ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½Ä°ï¿½ï¿½ï¿½ï¿½Â£ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½Ô½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ë£º
+//        Collections.sort(people, Comparator.comparing(p -> p.getLastName()));
+//        //ï¿½ï¿½ï¿½ï¿½×¢ï¿½âµ½ï¿½ï¿½ï¿½ï¿½ï¿½lambdaï¿½ï¿½ï¿½Ê½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½getLastNameï¿½Ä´ï¿½ï¿½ï¿½forwarderï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//        Collections.sort(people, Comparator.comparing(Person::getLastName));
+//
+//
+//        people.forEach(p -> System.out.println(p));
+//
+//        //Before Java 8:
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.println("Before Java8, too much code for too little to do");
+//            }
+//        }).start();
+//        //Java 8 way:
+//        new Thread(() -> System.out.println("In Java8, Lambda expression rocks !!")).start();
+//
+//        //In Java 8:
+//        List features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
+//        features.forEach(System.out::println);
+//        features.forEach(n -> {
+//            System.out.println(n.getClass());
+//            System.out.println(n);
+//        });
     }
 
     class Person {

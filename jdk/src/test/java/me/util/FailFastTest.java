@@ -16,7 +16,7 @@ public class FailFastTest {
      * @Authro:chenssy
      * @data:2014年7月26日
      */
-    private static List<Integer> list = new ArrayList<>();
+    private static List<Integer> list = new ArrayList<Integer>();
 
     public static void main(String[] args) {
         //初始化集合
