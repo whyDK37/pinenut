@@ -1,18 +1,8 @@
 package zk.le;
 
 import org.apache.zookeeper.*;
-import org.apache.zookeeper.data.Stat;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
-import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import static org.apache.zookeeper.CreateMode.PERSISTENT;
 
 /**
  * User: cyberroadie
