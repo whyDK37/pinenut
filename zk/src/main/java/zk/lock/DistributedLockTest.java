@@ -18,24 +18,20 @@ public class DistributedLockTest {
             Thread t = new Thread(new Runnable() {
                 public void run() {
                     try {
-                        DistributedLock lock = new DistributedLock(
-                                "127.0.0.1:2181", value + "");
+                        DistributedLock lock = new DistributedLock("127.0.0.1:2181", value + "");
                         lock.lock();
                         if (value == 0) {
                             System.out.println("===" + Thread.currentThread().getName());
                         } else {
-                            // value --;
                             Thread.sleep(200); // 获得锁之后可以进行相应的处理
                             System.out.println("value:" + value-- + " " + Thread.currentThread().getName());
                         }
                         lock.unlock();
-                        // System.err.println("=============================");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-            }, "thread " + i + "");
-            System.out.println(t.getName());
+            }, "thread " + i);
             t.start();
         }
     }
