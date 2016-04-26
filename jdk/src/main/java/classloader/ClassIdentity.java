@@ -9,7 +9,7 @@ public class ClassIdentity {
     public static void main(String[] args) {
         String build = System.getProperty("user.dir") + File.separator + "jdk\\build\\classes\\main";
         System.out.println(build);
-        build = "D:\\main";
+//        build = "D:\\main";
 		new ClassIdentity().testClassIdentity(build);
     }
 
