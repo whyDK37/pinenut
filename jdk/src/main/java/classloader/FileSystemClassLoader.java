@@ -9,13 +9,19 @@ import java.lang.reflect.Method;
 import java.security.PrivilegedAction;
 import java.util.HashMap;
 
+/**
+ * 子类优先类加载器。优先加载子类空间的类，如果子类空间没有该类，则交由父类加载。
+ *
+ * @author why
+ * @see java.lang.ClassLoader
+ */
 public class FileSystemClassLoader extends ClassLoader {
 
     private String rootDir;
 
-    private ClassLoader parent;
+    private final ClassLoader parent;
 
-    private ClassLoader j2seClassLoader;
+    private final ClassLoader j2seClassLoader;
 
     protected boolean delegate = false;
 
@@ -47,7 +53,7 @@ public class FileSystemClassLoader extends ClassLoader {
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         byte[] classData = getClassData(name);
         if (classData == null) {
-            throw new ClassNotFoundException();
+            return super.findClass(name);
         } else {
             return defineClass(name, classData, 0, classData.length);
         }
@@ -56,7 +62,11 @@ public class FileSystemClassLoader extends ClassLoader {
     private byte[] getClassData(String className) {
         String path = classNameToPath(className);
         try {
-            InputStream ins = new FileInputStream(path);
+
+            File classFile = new File(path);
+            if(!classFile.exists()) return null;
+
+            InputStream ins = new FileInputStream(classFile);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             int bufferSize = 4096;
             byte[] buffer = new byte[bufferSize];
