@@ -106,6 +106,15 @@ project(':redis') {
     }
 }
 
+project(':mc') {
+    description = 'memcached test'
+    dependencies {
+//        compile "com.101tec:zkclient:0.3"
+//        compile "org.apache.curator:curator-client:3.1.0"
+//        compile "org.apache.curator:curator-framework:3.1.0"
+//        compile "org.apache.curator:curator-recipes:3.1.0"
+    }
+}
 
 
 

@@ -10,6 +10,7 @@ include 'commons'
 include 'jdk'
 include 'zk'
 include 'redis'
+include 'mc'
 
 //project(':logging').projectDir = "$rootDir/logging" as File
 //project(':h2').projectDir = "$rootDir/h2" as File
