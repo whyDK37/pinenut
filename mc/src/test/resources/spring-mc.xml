@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- http://code.google.com/p/xmemcached/wiki/Spring_Integration -->
+    <context:property-placeholder location="memcached.properties"/>
+    <bean
+            id="memcachedClientBuilder"
+            class="net.rubyeye.xmemcached.XMemcachedClientBuilder"
+            p:connectionPoolSize="${memcached.connectionPoolSize}"
+            p:failureMode="${memcached.failureMode}">
+        <!-- XMemcachedClientBuilder have two arguments.First is server list,and
+            second is weights array. -->
+        <constructor-arg>
+            <list>
+                <bean class="java.net.InetSocketAddress">
+                    <constructor-arg>
+                        <value>${memcached.server1.host}</value>
+                    </constructor-arg>
+                    <constructor-arg>
+                        <value>${memcached.server1.port}</value>
+                    </constructor-arg>
+                </bean>
+                <!--<bean class="java.net.InetSocketAddress">-->
+                    <!--<constructor-arg>-->
+                        <!--<value>${memcached.server2.host}</value>-->
+                    <!--</constructor-arg>-->
+                    <!--<constructor-arg>-->
+                        <!--<value>${memcached.server2.port}</value>-->
+                    <!--</constructor-arg>-->
+                <!--</bean>-->
+                <!--<bean class="java.net.InetSocketAddress">-->
+                    <!--<constructor-arg>-->
+                        <!--<value>${memcached.server3.host}</value>-->
+                    <!--</constructor-arg>-->
+                    <!--<constructor-arg>-->
+                        <!--<value>${memcached.server3.port}</value>-->
+                    <!--</constructor-arg>-->
+                <!--</bean>-->
+                <!--<bean class="java.net.InetSocketAddress">-->
+                    <!--<constructor-arg>-->
+                        <!--<value>${memcached.server4.host}</value>-->
+                    <!--</constructor-arg>-->
+                    <!--<constructor-arg>-->
+                        <!--<value>${memcached.server4.port}</value>-->
+                    <!--</constructor-arg>-->
+                <!--</bean>-->
+            </list>
+        </constructor-arg>
+        <constructor-arg>
+            <list>
+                <value>${memcached.server1.weight}</value>
+                <value>${memcached.server2.weight}</value>
+                <value>${memcached.server3.weight}</value>
+                <value>${memcached.server4.weight}</value>
+            </list>
+        </constructor-arg>
+        <property name="commandFactory">
+            <bean class="net.rubyeye.xmemcached.command.TextCommandFactory"/>
+        </property>
+        <property name="sessionLocator">
+            <bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator"/>
+        </property>
+        <property name="transcoder">
+            <bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder"/>
+        </property>
+    </bean>
+    <!-- Use factory bean to build memcached client -->
+    <bean
+            id="memcachedClient"
+            factory-bean="memcachedClientBuilder"
+            factory-method="build"
+            destroy-method="shutdown"/>
+</beans>

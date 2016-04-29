@@ -1,4 +1,4 @@
-package me.mc;
+package xmemcached;
 
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.MemcachedClientBuilder;
