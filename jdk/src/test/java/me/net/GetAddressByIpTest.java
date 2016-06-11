@@ -37,14 +37,12 @@ public class GetAddressByIpTest extends TestCase {
     }
 
     /**
-     * Method: GetAddressByIp(String IP)
      */
     public void testGetAddressByIp() throws Exception {
         System.out.println(GetAddressByIp.getAddressByIp(ip));
     }
 
     /**
-     * Method: getJsonContent(String urlStr)
      */
     public void testGetJsonContent() throws Exception {
         System.out.println(GetAddressByIp.getJsonContent(GetAddressByIp.IP_SERVICE + ip));
@@ -52,10 +50,8 @@ public class GetAddressByIpTest extends TestCase {
 
 
     /**
-     * Method: ConvertStream2Json(InputStream inputStream)
      */
     public void testConvertStream2Json() throws Exception {
-////TODO: Test goes here...
 //        try {
 //            Method method = GetAddressByIp.getClass().getMethod("ConvertStream2Json", InputStream.class);
 //            method.setAccessible(true);
