@@ -8,8 +8,9 @@ import redis.clients.jedis.Jedis;
  */
 public class Test {
     public static void main(String[] args) {
-        String host = "192.168.1.102";
-        Jedis jedis = JedisUtil.createJedis(host);
+        String host = "127.0.0.1";
+        int port = 6379;
+        Jedis jedis = JedisUtil.createJedis(host,port);
         jedis.del("abc");
         jedis.append("abc","  abc");
         System.out.println(jedis.get("abc"));
