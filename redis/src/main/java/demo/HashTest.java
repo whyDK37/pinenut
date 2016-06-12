@@ -4,6 +4,7 @@ import foo.JedisUtil;
 import redis.clients.jedis.Jedis;
 
 /**
+ * redis hash
  * Created by drug on 2016/4/27.
  */
 public class HashTest {
@@ -13,12 +14,13 @@ public class HashTest {
 
         Jedis jedis = JedisUtil.createJedis(host,port);
 
+        System.out.println("设置hash 值并获取。");
         jedis.hset("website", "google", "www.google.com");
         jedis.hset("website", "baidu", "www.baidu.com");
         System.out.println(jedis.hget("website", "google"));
         System.out.println(jedis.hget("website", "baidu"));
 
-        System.out.println("修改 google");
+        System.out.println("修改 google，并获取所有值。");
         jedis.hset("website", "google", "g.cn");
         System.out.println(jedis.hgetAll("website"));
 
