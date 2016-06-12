@@ -15,5 +15,7 @@ public class Test {
         jedis.append("abc","  abc");
         System.out.println(jedis.get("abc"));
 
+        jedis.disconnect();
+
     }
 }
