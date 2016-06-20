@@ -17,13 +17,13 @@ public class SHA1UtilsTest {
         System.out.println("admin的SHA1的值为：" + SHA1Utils.hex_sha1(str) + ",length=" + SHA1Utils.hex_sha1(str).length());
 
 
-        String file = "D:\\OneDrive\\.m2\\repository\\ant\\ant\\1.6.5\\ant-1.6.5.jar";
+        String file = "D:\\OneDrive\\m2\\repository\\ant\\ant\\1.6.5\\ant-1.6.5.jar";
         System.out.println(SHA1Utils.getFileSha1(file));
 
         String string = new SHA1().getDigestOfFile(file);
         System.out.println(string);
         System.out.println(org.apache.commons.codec.digest.DigestUtils.sha1Hex(new FileInputStream(file)));
-        System.out.println(sha256("test string to sha256"));
+//        System.out.println(sha256("test string to sha256"));
     }
 
 
