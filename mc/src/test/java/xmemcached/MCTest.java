@@ -24,7 +24,11 @@ public class MCTest {
     private static MemcachedClient mc;
     public static void main(String[] args) {
         String hostport = "192.168.1.102:11211 192.168.1.102:11212";
-        mc = MCUtil.createJedis(hostport);
+        try {
+            mc = MCUtil.createJedis(hostport);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             mc.set("hello", 0, "Hello,xmemcached");

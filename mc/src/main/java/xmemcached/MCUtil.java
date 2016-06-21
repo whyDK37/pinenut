@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by drug on 2016/4/29.
  */
 public class MCUtil {
-    public static MemcachedClient createJedis(String hostport) {
+    public static MemcachedClient createJedis(String hostport) throws IOException {
         MemcachedClientBuilder builder = new XMemcachedClientBuilder(
                 AddrUtil.getAddresses(hostport));
 
@@ -19,7 +19,7 @@ public class MCUtil {
         try {
             memcachedClient = builder.build();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
 
         return memcachedClient;
