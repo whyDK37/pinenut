@@ -38,7 +38,6 @@ public class MCTest {
 //            value = memcachedClient.get("hello");
 //            System.out.println("hello=" + value);
 
-
             if (!mc.set("hello", 0, "world")) {
                 System.err.println("set error");
             }
