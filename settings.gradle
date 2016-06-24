@@ -12,6 +12,7 @@ include 'zk'
 include 'redis'
 include 'mc'
 
+include 'aliyun'
 //project(':logging').projectDir = "$rootDir/logging" as File
 //project(':h2').projectDir = "$rootDir/h2" as File
 //project(':compress').projectDir = "$rootDir/compress" as File

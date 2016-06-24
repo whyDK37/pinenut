@@ -18,6 +18,7 @@ subprojects {
     }
 
     dependencies {
+
         testCompile 'junit:junit:4.12'
     }
 }
@@ -121,6 +122,16 @@ project(':mc') {
 //        compile "org.apache.curator:curator-client:3.1.0"
 //        compile "org.apache.curator:curator-framework:3.1.0"
 //        compile "org.apache.curator:curator-recipes:3.1.0"
+    }
+}
+
+project(':aliyun') {
+    description = 'aliyun test'
+    dependencies {
+
+        compile 'commons-logging:commons-logging:1.2'
+        compile 'com.aliyun.openservices:aliyun-openservices:OTS-2.0.4'
+
     }
 }
 
