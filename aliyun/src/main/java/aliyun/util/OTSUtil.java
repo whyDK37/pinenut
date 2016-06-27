@@ -1,13 +1,3 @@
-/**
- * Copyright (C) 2014 北京学信科技有限公司
- *
- * @className:com.xuexin.util.OTSUtil
- * @version:v1.0.0
- * @author:李大鹏 Modification History:
- * Date         Author      Version     Description
- * -----------------------------------------------------------------
- * 2014-4-9       李大鹏                        v1.0.0        create
- */
 package aliyun.util;
 
 import org.apache.commons.logging.Log;
@@ -24,6 +14,9 @@ import com.aliyun.openservices.ots.model.RowPrimaryKey;
 import com.aliyun.openservices.ots.model.RowPutChange;
 import com.aliyun.openservices.ots.model.SingleRowQueryCriteria;
 
+/**
+ * 2014-4-9       李大鹏                        v1.0.0
+ */
 public class OTSUtil {
     private static final Log logger = LogFactory.getLog(OTSUtil.class);
     //    private static final Logger Log = LoggerFactory.getLogger(OTSUtil.class);

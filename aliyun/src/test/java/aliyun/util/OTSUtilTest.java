@@ -1,10 +1,7 @@
 package aliyun.util;
 
 import com.aliyun.openservices.ots.OTSClient;
-import com.aliyun.openservices.ots.model.DescribeTableRequest;
-import com.aliyun.openservices.ots.model.DescribeTableResult;
-import com.aliyun.openservices.ots.model.ListTableResult;
-import com.aliyun.openservices.ots.model.PrimaryKeyType;
+import com.aliyun.openservices.ots.model.*;
 import org.junit.Test;
 
 import java.net.URI;
@@ -17,29 +14,17 @@ public class OTSUtilTest {
 
     @Test
     public void client() {
-//        String intance = PropertyUtils.getInstance().getProp(
-//                "xuexin.ots.instance");
-//        String endpoint = "http://"
-//                + intance
-//                + "."
-//                + PropertyUtils.getInstance()
-//                .getProp("xuexin.ots.endpoint");
-//        System.out.println(endpoint);
-//        clientIns = new OTSClient(endpoint,
-//                XuexinConstants.ALIYUN_ACCESS_ID,
-//                XuexinConstants.ALIYUN_ACCESS_KEY, intance);
+        OTSClient client = OTSUtil.getClient();
 
-        OTSClient otsClient = OTSUtil.getClient();
+        String uri = client.getEndpoint();
+        System.out.println(uri);
 
-        URI uri = otsClient.getEndpoint();
-        System.out.println(uri.toString());
-
-        ListTableResult listTableResult = otsClient.listTable();
+        ListTableResult listTableResult = client.listTable();
         System.out.println("tables:");
         for (String tableName : listTableResult.getTableNames()) {
             System.out.println("\t" + tableName);
 
-            descTable(otsClient, tableName);
+            descTable(client, tableName);
         }
 
     }
@@ -51,7 +36,16 @@ public class OTSUtilTest {
 
         Map<String,PrimaryKeyType> keyTypeMap = describeTableResult.getTableMeta().getPrimaryKey();
         for (Map.Entry<String, PrimaryKeyType> entry: keyTypeMap.entrySet()){
-            System.out.println("\t\t"+entry.getKey() +"-"+entry.getValue().toString());
+            System.out.println("\t\t" + entry.getKey() + "-" + entry.getValue().toString());
         }
+    }
+
+    @Test
+    public void getRowTest(){
+        String tableName = "cn_loginlog";
+        OTSClient otsClient = OTSUtil.getClient();
+        GetRangeRequest getRangeRequest = new GetRangeRequest();
+
+        otsClient.getRange(getRangeRequest);
     }
 }

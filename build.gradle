@@ -128,15 +128,8 @@ project(':mc') {
 project(':aliyun') {
     description = 'aliyun test'
     dependencies {
-
         compile 'commons-logging:commons-logging:1.2'
-        compile 'com.aliyun.openservices:aliyun-openservices:OTS-2.0.4'
-
+//        compile 'com.aliyun.openservices:aliyun-openservices:OTS-2.0.4'
+        compile 'com.aliyun.openservices:ots-public:2.2.4'
     }
 }
-
-
-
-
-
-
