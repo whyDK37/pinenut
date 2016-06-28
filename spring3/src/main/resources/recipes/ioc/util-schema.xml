@@ -29,24 +29,50 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
 http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd"
-       default-lazy-init="false">
+       default-lazy-init="false" >
 
-    <bean id="myTestBean" class="c0.MyTestBean" p:teststr="test">
-        <meta key="m1" value="meta data"/>
-    </bean>
-    <alias name="myTestBean" alias="myTestBeanA"/>
+    <util:list id="arrayList" value-type="java.lang.Integer" list-class="java.util.ArrayList">
+        <value>12</value>
+        <value>13</value>
+        <value>14</value>
+    </util:list>
 
-    <import resource="../c3/lookpu-method.xml"/>
+    <util:list id="linkedList" value-type="java.lang.Integer" list-class="java.util.LinkedList">
+        <value>12</value>
+        <value>13</value>
+        <value>14</value>
+    </util:list>
 
-    <util:set id="emails" set-class="java.util.TreeSet">
-        <value>pechorin@hero.org</value>
-        <value>raskolnikov@slums.org</value>
-        <value>stavrogin@gov.org</value>
-        <value>porfiry@gov.org</value>
+    <util:set id="hashSet" value-type="java.lang.Integer" set-class="java.util.HashSet">
+        <value>12</value>
+        <value>13</value>
+        <value>14</value>
+    </util:set>
+    <util:set id="treeSet" value-type="java.lang.Integer" set-class="java.util.TreeSet">
+        <value>12</value>
+        <value>13</value>
+        <value>14</value>
     </util:set>
 
-
+    <util:map id="hashMap" map-class="java.util.HashMap" key-type="java.lang.Integer" value-type="java.lang.Integer">
+        <entry key="12" value="12"/>
+        <entry key="13" value="13"/>
+        <entry key="14" value="14"/>
+    </util:map>
+    <util:map id="hashTable" map-class="java.util.Hashtable" key-type="java.lang.Integer" value-type="java.lang.Integer">
+        <entry key="12" value="12"/>
+        <entry key="13" value="13"/>
+        <entry key="14" value="14"/>
+    </util:map>
     
+    <util:constant id="staticfield" static-field="recipes.ioc.UtilSchema.staticfield"/>
 
+    <util:properties id="utilp" location="classpath:recipes/ioc/util.properties"/>
 
+    <bean id="utilSchema" class="recipes.ioc.UtilSchema" p:age="12" p:name="father" />
+
+    <!-- return 12 -->
+    <bean id="utilSchema.age" class="org.springframework.beans.factory.config.PropertyPathFactoryBean"/>
+    <!-- will result in 12, which is the value of property 'age' of bean 'utilSchema' -->
+    <util:property-path id="age" path="utilSchema.age"/>
 </beans>

@@ -31,22 +31,9 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
 http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd"
        default-lazy-init="false">
 
-    <bean id="myTestBean" class="c0.MyTestBean" p:teststr="test">
-        <meta key="m1" value="meta data"/>
-    </bean>
-    <alias name="myTestBean" alias="myTestBeanA"/>
-
-    <import resource="../c3/lookpu-method.xml"/>
-
-    <util:set id="emails" set-class="java.util.TreeSet">
-        <value>pechorin@hero.org</value>
-        <value>raskolnikov@slums.org</value>
-        <value>stavrogin@gov.org</value>
-        <value>porfiry@gov.org</value>
-    </util:set>
-
-
-    
-
+    <jdbc:embedded-database id="dataSource" type="HSQL">
+        <jdbc:script location="classpath:jdbc/init-schema.sql"/>
+        <jdbc:script location="classpath:jdbc/init-data.sql"/>
+    </jdbc:embedded-database>
 
 </beans>

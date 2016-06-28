@@ -31,22 +31,23 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
 http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd"
        default-lazy-init="false">
 
-    <bean id="myTestBean" class="c0.MyTestBean" p:teststr="test">
-        <meta key="m1" value="meta data"/>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="org.h2.Driver" />
+        <property name="url" value="jdbc:h2:D:/tmp/h2db" />
+        <property name="username"><value>root</value></property>
+        <property name="password"><value>root</value></property>
+        <property name="maxActive"><value>20</value></property>
+        <property name="initialSize"><value>10</value></property>
+        <property name="maxWait"><value>60000</value></property>
+        <property name="maxIdle"><value>20</value></property>
+        <property name="minIdle"><value>5</value></property>
+        <property name="removeAbandoned"><value>true</value></property>
+        <property name="removeAbandonedTimeout"><value>180</value></property>
+        <property name="connectionProperties"><value>clientEncoding=UTF-8</value></property>
     </bean>
-    <alias name="myTestBean" alias="myTestBeanA"/>
 
-    <import resource="../c3/lookpu-method.xml"/>
-
-    <util:set id="emails" set-class="java.util.TreeSet">
-        <value>pechorin@hero.org</value>
-        <value>raskolnikov@slums.org</value>
-        <value>stavrogin@gov.org</value>
-        <value>porfiry@gov.org</value>
-    </util:set>
-
-
-    
-
-
+    <bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean name="actorService" class="jdbc.DefaultActorService" p:jdbcTemplate-ref="jdbcTemplate"/>
 </beans>
