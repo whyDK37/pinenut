@@ -9,9 +9,9 @@ import com.aliyun.openservices.ots.OTSClient;
 import com.aliyun.openservices.ots.OTSErrorCode;
 import com.aliyun.openservices.ots.OTSException;
 import com.aliyun.openservices.ots.model.*;
-import com.aliyun.openservices.ots.model.condition.ColumnCondition;
-import com.aliyun.openservices.ots.model.condition.ColumnConditionType;
-import com.google.protobuf.ByteString;
+import javafx.util.Pair;
+
+import static aliyun.util.OTSUtil.*;
 
 public class OTSMultiDataSample {
     private static final String COLUMN_GID_NAME = "gid";
@@ -21,6 +21,9 @@ public class OTSMultiDataSample {
     private static final String COLUMN_AGE_NAME = "age";
     private static final String COLUMN_MOBILE_NAME = "mobile";
 
+    private static final String tableName = "sampleTable";
+    private static final int putrows = 100;
+    private static final boolean BERBOSE = false;
     public static void main(String args[]) {
 //        final String endPoint = "http://";
 //        final String accessId = "xxxx";
@@ -29,22 +32,24 @@ public class OTSMultiDataSample {
 //
 //        OTSClient client = new OTSClient(endPoint, accessId, accessKey,
 //                instanceName);
-        OTSClient client = OTSUtil.getClient();
-        final String tableName = "sampleTable";
-
+        OTSClient client = getClient();
+//        final String tableName = "sampleTable";
+//        final int putrows = 100;
         try {
             // 创建表
             createTable(client, tableName);
 
             // 注意：创建表只是提交请求，OTS创建表需要一段时间。
-            // 这里简单地等待30秒，请根据您的实际逻辑修改。
-            Thread.sleep(500);
+            // 这里简单地等待一下，请根据您的实际逻辑修改。
+            Thread.sleep(1000);
 
             // 插入多行数据。
             putRows(client, tableName);
             // 再取回来看看。
-            getRange(client, tableName);
+            getRange(client, tableName, BERBOSE);
 //            getCount(client, tableName);
+            //类似分页查询
+            readByPage(client, tableName);
         } catch (ServiceException e) {
             System.err.println("操作失败，详情：" + e.getErrorCode() +" - "+ e.getMessage());
             // 可以根据错误代码做出处理， OTS的ErrorCode定义在OTSErrorCode中。
@@ -91,16 +96,6 @@ public class OTSMultiDataSample {
         request.setRangeRowQueryCriteria(criteria);
         GetRangeResult result = client.getRange(request);
         List<Row> rows = result.getRows();
-//        for (Row row : rows) {
-//            System.out.println("name信息为："
-//                    + row.getColumns().get(COLUMN_NAME_NAME));
-//            System.out.println("address信息为："
-//                    + row.getColumns().get(COLUMN_ADDRESS_NAME));
-//            System.out.println("mobile信息为："
-//                    + row.getColumns().get(COLUMN_MOBILE_NAME));
-//            System.out
-//                    .println("age信息为：" + row.getColumns().get(COLUMN_AGE_NAME));
-//        }
 
         System.out.println("本次查询数据条数：" + rows.size());
         System.out.println("本次读操作消耗的读CapacityUnit为：" + result.getConsumedCapacity().getCapacityUnit()
@@ -135,7 +130,7 @@ public class OTSMultiDataSample {
     private static void putRows(OTSClient client, String tableName)
             throws OTSException, ClientException {
         int bid = 1;
-        final int rowCount = 10;
+        final int rowCount = putrows;
         for (int i = 0; i < rowCount; ++i) {
             RowPutChange rowChange = new RowPutChange(tableName);
             RowPrimaryKey primaryKey = new RowPrimaryKey();
@@ -156,14 +151,16 @@ public class OTSMultiDataSample {
             int consumedWriteCU = result.getConsumedCapacity()
                     .getCapacityUnit().getWriteCapacityUnit();
 
-            System.out.println("成功插入数据, 消耗的写CU为：" + consumedWriteCU);
+            if(BERBOSE)
+                System.out.println("成功插入数据, 消耗的写CU为：" + consumedWriteCU);
         }
 
         System.out.println(String.format("成功插入%d行数据。", rowCount));
     }
 
-    private static void getRange(OTSClient client, String tableName)
+    private static void getRange(OTSClient client, String tableName, boolean printrows)
             throws OTSException, ClientException {
+        System.out.println("getRange---------------------------------------");
         // 演示一下如何按主键范围查找，这里查找uid从1-4（左开右闭）的数据
         RangeRowQueryCriteria criteria = new RangeRowQueryCriteria(tableName);
         RowPrimaryKey inclusiveStartKey = new RowPrimaryKey();
@@ -172,7 +169,7 @@ public class OTSMultiDataSample {
         // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
 
         RowPrimaryKey exclusiveEndKey = new RowPrimaryKey();
-        exclusiveEndKey.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.fromLong(4));
+        exclusiveEndKey.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.fromLong(100));
         exclusiveEndKey.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.INF_MAX);
         // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
 
@@ -183,19 +180,56 @@ public class OTSMultiDataSample {
         request.setRangeRowQueryCriteria(criteria);
         GetRangeResult result = client.getRange(request);
         List<Row> rows = result.getRows();
-        for (Row row : rows) {
-            System.out.println("gid信息为：" + row.getColumns().get(COLUMN_GID_NAME));
-            System.out.println("uid信息为：" + row.getColumns().get(COLUMN_UID_NAME));
-            System.out.println("name信息为：" + row.getColumns().get(COLUMN_NAME_NAME));
-            System.out.println("address信息为：" + row.getColumns().get(COLUMN_ADDRESS_NAME));
-            System.out.println("mobile信息为：" + row.getColumns().get(COLUMN_MOBILE_NAME));
-            System.out.println("age信息为：" + row.getColumns().get(COLUMN_AGE_NAME));
-            System.out.println("----------------------------------------------------");
-        }
+        if (printrows)
+            for (Row row : rows) {
+                System.out.println("gid信息为：" + row.getColumns().get(COLUMN_GID_NAME));
+                System.out.println("uid信息为：" + row.getColumns().get(COLUMN_UID_NAME));
+                System.out.println("name信息为：" + row.getColumns().get(COLUMN_NAME_NAME));
+                System.out.println("address信息为：" + row.getColumns().get(COLUMN_ADDRESS_NAME));
+                System.out.println("mobile信息为：" + row.getColumns().get(COLUMN_MOBILE_NAME));
+                System.out.println("age信息为：" + row.getColumns().get(COLUMN_AGE_NAME));
+                System.out.println("----------------------------------------------------");
+            }
 
         int consumedReadCU = result.getConsumedCapacity().getCapacityUnit()
                 .getReadCapacityUnit();
         System.out.println("本次查询数据条数："+rows.size());
         System.out.println("本次读操作消耗的读CapacityUnit为：" + consumedReadCU);
+
+        System.out.println("getRange---------------------------------------end");
+    }
+
+    private static void readByPage(OTSClient client, String tableName) {
+        System.out.println("readByPage-------------------------------");
+        int pageSize = 8;
+        int offset = 33;
+
+        RowPrimaryKey startKey = new RowPrimaryKey();
+        startKey.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.INF_MIN);
+        startKey.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.INF_MIN);
+
+        RowPrimaryKey endKey = new RowPrimaryKey();
+        endKey.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.INF_MAX);
+        endKey.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.INF_MAX);
+        // 读第一页，从范围的offset=33的行开始读起
+        Pair<List<Row>, RowPrimaryKey> result = OTSUtil.readByPage(client, tableName, startKey, endKey, offset, pageSize);
+        for (Row row : result.getKey()) {
+            System.out.println(row.getColumns());
+        }
+        System.out.println("Total rows count: " + result.getKey().size());
+
+        // 顺序翻页，读完范围内的所有数据
+        startKey = result.getValue();
+        while (startKey != null) {
+            System.out.println("============= start read next page ==============");
+            result = OTSUtil.readByPage(client, tableName, startKey, endKey, 0, pageSize);
+            for (Row row : result.getKey()) {
+                System.out.println(row.getColumns());
+            }
+            startKey = result.getValue();
+            System.out.println("Total rows count: " + result.getKey().size());
+        }
+
+        System.out.println("readByPage-------------------------------end");
     }
 }
