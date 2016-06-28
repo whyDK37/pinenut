@@ -40,7 +40,7 @@ public class OTSConditionalUpdateSample {
 
             // 注意：创建表只是提交请求，OTS创建表需要一段时间。
             // 这里简单地等待10秒，请根据您的实际逻辑修改。
-            Thread.sleep(10 * 1000);
+            Thread.sleep(500);
 
             // 插入一条数据。
             putRow(client, tableName);
@@ -50,10 +50,10 @@ public class OTSConditionalUpdateSample {
 
             // 设置update condition为：年龄小于20岁
             ColumnCondition cond = new RelationalCondition(
-                    COLUMN_AGE_NAME, RelationalCondition.CompareOperator.LESS_THAN,
+                    COLUMN_AGE_NAME, RelationalCondition.CompareOperator.LESS_EQUAL,
                     ColumnValue.fromLong(20));
             // 这时update应该失败
-            updateRow(client, tableName, cond);
+            updateRow(client, tableName, cond,"B");
             getRow(client, tableName);
 
             // 设置update condition为：年龄大于等于20 并且 地址是中国A地
@@ -63,9 +63,9 @@ public class OTSConditionalUpdateSample {
                             ColumnValue.fromLong(20)))
                     .addCondition(new RelationalCondition(
                             COLUMN_ADDRESS_NAME, RelationalCondition.CompareOperator.EQUAL,
-                            ColumnValue.fromString("中国A地")));
+                            ColumnValue.fromString("中国B")));
             // 这时update应该成功
-            updateRow(client, tableName, cond);
+            updateRow(client, tableName, cond,"C");
             getRow(client, tableName);
 
             // 删除这条数据。
@@ -163,7 +163,7 @@ public class OTSConditionalUpdateSample {
         System.out.println("age信息：" + row.getColumns().get(COLUMN_AGE_NAME));
     }
 
-    private static boolean updateRow(OTSClient client, String tableName, ColumnCondition cond) {
+    private static boolean updateRow(OTSClient client, String tableName, ColumnCondition cond,String subffix) {
         try {
             RowUpdateChange rowChange = new RowUpdateChange(tableName);
             RowPrimaryKey primaryKeys = new RowPrimaryKey();
@@ -172,7 +172,7 @@ public class OTSConditionalUpdateSample {
             rowChange.setPrimaryKey(primaryKeys);
             // 更新以下三列的值
             rowChange.addAttributeColumn(COLUMN_NAME_NAME, ColumnValue.fromString("张三"));
-            rowChange.addAttributeColumn(COLUMN_ADDRESS_NAME, ColumnValue.fromString("中国B地"));
+            rowChange.addAttributeColumn(COLUMN_ADDRESS_NAME, ColumnValue.fromString("中国"+subffix));
             // 删除mobile和age信息
             rowChange.deleteAttributeColumn(COLUMN_MOBILE_NAME);
             rowChange.deleteAttributeColumn(COLUMN_AGE_NAME);
@@ -198,6 +198,7 @@ public class OTSConditionalUpdateSample {
             }
             // Request ID可以用于有问题时联系客服诊断异常。
             System.err.println("Request ID:" + e.getRequestId());
+//            e.printStackTrace();
         } catch(ClientException e) {
             // 可能是网络不好或者是返回结果有问题
             System.err.println("请求失败，详情：" + e.getMessage());

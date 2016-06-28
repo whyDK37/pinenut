@@ -61,7 +61,7 @@ public class OTSSingleDataSample {
 
             // 注意：创建表只是提交请求，OTS创建表需要一段时间。
             // 这里简单地等待30秒，请根据您的实际逻辑修改。
-            Thread.sleep(5000);
+            Thread.sleep(500);
 
             // 插入一条数据。
             putRow(client, tableName);
