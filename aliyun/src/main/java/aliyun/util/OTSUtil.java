@@ -24,6 +24,7 @@ public class OTSUtil {
     public static final String intance = "xuexin-dev";
 
     public static OTSClient getClient() {
+		
         if (clientIns == null) {
 //            String intance = PropertyUtils.getInstance().getProp(
 //                    "xuexin.ots.instance");
