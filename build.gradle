@@ -35,6 +35,7 @@ subprojects {
     ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
 
     apply plugin: 'java'
+    apply plugin: 'idea'
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -45,8 +46,7 @@ subprojects {
     }
 
     dependencies {
-
-        testCompile 'junit:junit:4.12'
+        testCompile "junit:junit:${junitVersion}"
     }
 }
 
@@ -105,7 +105,6 @@ project(':spring3') {
         compile "org.springframework:spring-jdbc:3.2.15.RELEASE"
         compile "org.springframework:spring-orm:3.2.15.RELEASE"
         compile "org.springframework:spring-tx:3.2.15.RELEASE"
-        compile "org.springframework:spring-test:3.2.15.RELEASE"
 
         // aop
         compile "org.aspectj:aspectjrt:1.7.4"
@@ -120,7 +119,9 @@ project(':spring3') {
         compile "c3p0:c3p0:0.9.1.2"
 
         compile "mysql:mysql-connector-java:5.1.34"
-        compile "junit:junit:${junitVersion}"
+
+        testCompile "org.springframework:spring-test:3.2.15.RELEASE"
+//        compile "junit:junit:${junitVersion}"
         
     }
 }
