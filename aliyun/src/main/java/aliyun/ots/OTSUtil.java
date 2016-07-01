@@ -1,5 +1,7 @@
-package aliyun.util;
+package aliyun.ots;
 
+import com.aliyun.openservices.ots.ClientException;
+import com.aliyun.openservices.ots.ServiceException;
 import com.aliyun.openservices.ots.model.*;
 import com.aliyun.openservices.ots.utils.Preconditions;
 import javafx.util.Pair;
@@ -10,37 +12,87 @@ import com.aliyun.openservices.ots.OTSClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 2014-4-9       李大鹏                        v1.0.0
  */
-public class OTSUtil {
+public abstract class OTSUtil {
     private static final Log logger = LogFactory.getLog(OTSUtil.class);
     //    private static final Logger Log = LoggerFactory.getLogger(OTSUtil.class);
     private static OTSClient clientIns;
-    public static final String endpoint = "http://xuexin-dev.cn-hangzhou.ots.aliyuncs.com";
+
+//    public static final String ALIYUN_OTS_ENDPOINT = "http://ots.aliyuncs.com";
+//    public static final String ALIYUN_ACCESS_ID = "8pO2VD2xEYk0vpGF";
+//    public static final String ALIYUN_ACCESS_KEY = "2pDJZvDZN05TBeeLZZxGiIM2HOW1Yp";
+//    public static final String ALIYUN_INSTANCE_NAME = "hi20479763@aliyun.com";
+
+    public static final String ALIYUN_OTS_ENDPOINT = "http://xuexin-dev.cn-hangzhou.ots.aliyuncs.com";
     public static final String ALIYUN_ACCESS_ID = "8pO2VD2xEYk0vpGF";
     public static final String ALIYUN_ACCESS_KEY = "2pDJZvDZN05TBeeLZZxGiIM2HOW1Yp";
-    public static final String intance = "xuexin-dev";
+    public static final String ALIYUN_INSTANCE_NAME = "xuexin-dev";
 
     public static OTSClient getClient() {
 		
         if (clientIns == null) {
-//            String intance = PropertyUtils.getInstance().getProp(
+//            String ALIYUN_INSTANCE_NAME = PropertyUtils.getInstance().getProp(
 //                    "xuexin.ots.instance");
-//            String endpoint = "http://"
-//                    + intance
+//            String ALIYUN_OTS_ENDPOINT = "http://"
+//                    + ALIYUN_INSTANCE_NAME
 //                    + "."
 //                    + PropertyUtils.getInstance()
-//                            .getProp("xuexin.ots.endpoint");
+//                            .getProp("xuexin.ots.ALIYUN_OTS_ENDPOINT");
 
-            clientIns = new OTSClient(endpoint,
+            clientIns = new OTSClient(ALIYUN_OTS_ENDPOINT,
                     ALIYUN_ACCESS_ID,
-                    ALIYUN_ACCESS_KEY, intance);
+                    ALIYUN_ACCESS_KEY, ALIYUN_INSTANCE_NAME);
         }
         return clientIns;
     }
 
+    /**
+     *
+     * @param client
+     * @param table
+     * @throws ServiceException
+     * @throws ClientException
+     */
+    private static void createTable(OTSClient client, Table table)
+            throws ServiceException, ClientException {
+        TableMeta tableMeta = new TableMeta(table.getTableName());
+        for(Map.Entry<String, PrimaryKeyType> entry:table.getPrimaryKey().entrySet()){
+            tableMeta.addPrimaryKeyColumn(entry.getKey(), entry.getValue());
+        }
+
+        CreateTableRequest request = new CreateTableRequest();
+        request.setTableMeta(tableMeta);
+        request.setReservedThroughput(table.getCapacityUnit());
+        client.createTable(request);
+
+    }
+
+    private static void deleteTable(OTSClient client, Table table)
+            throws ServiceException, ClientException{
+        deleteTable(client,table.getTableName());
+    }
+
+    private static void deleteTable(OTSClient client, String tableName)
+            throws ServiceException, ClientException{
+        DeleteTableRequest request = new DeleteTableRequest();
+        request.setTableName(tableName);
+        client.deleteTable(request);
+    }
+
+    /**
+     * 获取tablename list
+     * @param client
+     * @return
+     */
+    public static List<String> tableNameList(OTSClient client){
+        ListTableResult listTableResult = client.listTable();
+        return listTableResult.getTableNames();
+    }
     /**
      * 保存公众消息浏览记录
      *

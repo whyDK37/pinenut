@@ -1,41 +1,21 @@
-package aliyun.util;
+package aliyun.ots;
 
+
+import aliyun.ots.OTSUtil;
 import com.aliyun.openservices.ots.ClientException;
-import com.aliyun.openservices.ots.ServiceException;
 import com.aliyun.openservices.ots.OTSClient;
 import com.aliyun.openservices.ots.OTSErrorCode;
-import com.aliyun.openservices.ots.model.CapacityUnit;
-import com.aliyun.openservices.ots.model.Condition;
-import com.aliyun.openservices.ots.model.ColumnValue;
-import com.aliyun.openservices.ots.model.CreateTableRequest;
-import com.aliyun.openservices.ots.model.DeleteRowRequest;
-import com.aliyun.openservices.ots.model.DeleteRowResult;
-import com.aliyun.openservices.ots.model.DeleteTableRequest;
-import com.aliyun.openservices.ots.model.GetRowRequest;
-import com.aliyun.openservices.ots.model.GetRowResult;
-import com.aliyun.openservices.ots.model.PrimaryKeyType;
-import com.aliyun.openservices.ots.model.PrimaryKeyValue;
-import com.aliyun.openservices.ots.model.PutRowRequest;
-import com.aliyun.openservices.ots.model.PutRowResult;
-import com.aliyun.openservices.ots.model.Row;
-import com.aliyun.openservices.ots.model.RowDeleteChange;
-import com.aliyun.openservices.ots.model.RowExistenceExpectation;
-import com.aliyun.openservices.ots.model.RowPrimaryKey;
-import com.aliyun.openservices.ots.model.RowPutChange;
-import com.aliyun.openservices.ots.model.RowUpdateChange;
-import com.aliyun.openservices.ots.model.SingleRowQueryCriteria;
-import com.aliyun.openservices.ots.model.TableMeta;
-import com.aliyun.openservices.ots.model.UpdateRowRequest;
-import com.aliyun.openservices.ots.model.UpdateRowResult;
+import com.aliyun.openservices.ots.ServiceException;
+import com.aliyun.openservices.ots.model.*;
+import com.aliyun.openservices.ots.model.condition.ColumnCondition;
+import com.aliyun.openservices.ots.model.condition.CompositeCondition;
 import com.aliyun.openservices.ots.model.condition.RelationalCondition;
+import com.aliyun.openservices.ots.protocol.OtsProtocol2;
 
 /**
- * 该示例代码包含了如何创建、删除OTS表；
- * 如何向表中插入一条数据；
- * 以及如何从表中根据指定条件查询一条数据。
- *
+ * 该示例代码包含了如何使用OTS的Conditional update功能
  */
-public class OTSSingleDataSample {
+public class OTSConditionalUpdateSample {
 
     private static final String COLUMN_GID_NAME = "gid";
     private static final String COLUMN_UID_NAME = "uid";
@@ -51,28 +31,48 @@ public class OTSSingleDataSample {
 //        final String instanceName = "zzzz";
 //
 //        OTSClient client = new OTSClient(endPoint, accessId, accessKey, instanceName);
-
         OTSClient client = OTSUtil.getClient();
-        final String tableName = "sampleTable";
+
+        final String tableName = "ConditionalUpdateSampleTable";
 
         try{
             // 创建表
             createTable(client, tableName);
 
             // 注意：创建表只是提交请求，OTS创建表需要一段时间。
-            // 这里简单地等待30秒，请根据您的实际逻辑修改。
-            Thread.sleep(1000);
+            // 这里简单地等待10秒，请根据您的实际逻辑修改。
+            Thread.sleep(500);
 
             // 插入一条数据。
             putRow(client, tableName);
             // 再取回来看看。
             getRow(client, tableName);
             // 改一下这条数据。
-            updateRow(client, tableName);
+
+            // 设置update condition为：年龄小于20岁
+            ColumnCondition cond = new RelationalCondition(
+                    COLUMN_AGE_NAME, RelationalCondition.CompareOperator.LESS_EQUAL,
+                    ColumnValue.fromLong(20));
+            // 这时update应该失败
+            updateRow(client, tableName, cond,"B");
+            getRow(client, tableName);
+
+            // 设置update condition为：年龄大于等于20 并且 地址是中国A地
+            cond = new CompositeCondition(CompositeCondition.LogicOperator.AND)
+                    .addCondition(new RelationalCondition(
+                            COLUMN_AGE_NAME, RelationalCondition.CompareOperator.GREATER_EQUAL,
+                            ColumnValue.fromLong(20)))
+                    .addCondition(new RelationalCondition(
+                            COLUMN_ADDRESS_NAME, RelationalCondition.CompareOperator.EQUAL,
+                            ColumnValue.fromString("中国B")));
+            // 这时update应该成功
+            updateRow(client, tableName, cond,"C");
+            getRow(client, tableName);
+
             // 删除这条数据。
             deleteRow(client, tableName);
 
-        }catch(ServiceException e){
+        } catch(ServiceException e) {
             System.err.println("操作失败，详情：" + e.getMessage());
             // 可以根据错误代码做出处理， OTS的ErrorCode定义在OTSErrorCode中。
             if (OTSErrorCode.QUOTA_EXHAUSTED.equals(e.getErrorCode())){
@@ -80,13 +80,12 @@ public class OTSSingleDataSample {
             }
             // Request ID可以用于有问题时联系客服诊断异常。
             System.err.println("Request ID:" + e.getRequestId());
-        }catch(ClientException e){
+        } catch(ClientException e) {
             // 可能是网络不好或者是返回结果有问题
             System.err.println("请求失败，详情：" + e.getMessage());
         } catch (InterruptedException e) {
             System.err.println(e.getMessage());
-        }
-        finally{
+        } finally{
             // 不留垃圾。
             try {
                 deleteTable(client, tableName);
@@ -128,8 +127,8 @@ public class OTSSingleDataSample {
         rowChange.addAttributeColumn(COLUMN_MOBILE_NAME, ColumnValue.fromString("111111111"));
         rowChange.addAttributeColumn(COLUMN_ADDRESS_NAME, ColumnValue.fromString("中国A地"));
         rowChange.addAttributeColumn(COLUMN_AGE_NAME, ColumnValue.fromLong(20));
-        rowChange.setCondition(new Condition(RowExistenceExpectation.EXPECT_NOT_EXIST)); 
-        
+        rowChange.setCondition(new Condition(RowExistenceExpectation.EXPECT_NOT_EXIST));
+
         PutRowRequest request = new PutRowRequest();
         request.setRowChange(rowChange);
 
@@ -157,46 +156,58 @@ public class OTSSingleDataSample {
         request.setRowQueryCriteria(criteria);
         GetRowResult result = client.getRow(request);
         Row row = result.getRow();
-        
+
         int consumedReadCU = result.getConsumedCapacity().getCapacityUnit().getReadCapacityUnit();
         System.out.println("本次读操作消耗的读CapacityUnti为：" + consumedReadCU);
         System.out.println("name信息：" + row.getColumns().get(COLUMN_NAME_NAME));
         System.out.println("address信息：" + row.getColumns().get(COLUMN_ADDRESS_NAME));
         System.out.println("age信息：" + row.getColumns().get(COLUMN_AGE_NAME));
     }
-    
-    private static void updateRow(OTSClient client, String tableName)
-            throws ServiceException, ClientException{
-        RowUpdateChange rowChange = new RowUpdateChange(tableName);
-        RowPrimaryKey primaryKeys = new RowPrimaryKey();
-        primaryKeys.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.fromLong(1));
-        primaryKeys.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.fromLong(101));
-        rowChange.setPrimaryKey(primaryKeys);
-        // 更新以下三列的值
-        rowChange.addAttributeColumn(COLUMN_NAME_NAME, ColumnValue.fromString("张三"));
-        rowChange.addAttributeColumn(COLUMN_ADDRESS_NAME, ColumnValue.fromString("中国B地"));
-        // 删除mobile和age信息
-        rowChange.deleteAttributeColumn(COLUMN_MOBILE_NAME);
-        rowChange.deleteAttributeColumn(COLUMN_AGE_NAME);
 
-        // 设置update condition为"年龄小于25"
-        Condition cond = new Condition(RowExistenceExpectation.EXPECT_EXIST);
-        cond.setColumnCondition(
-            new RelationalCondition(
-                COLUMN_AGE_NAME,
-                RelationalCondition.CompareOperator.LESS_THAN,
-                ColumnValue.fromLong(25)));
-        rowChange.setCondition(cond);
+    private static boolean updateRow(OTSClient client, String tableName, ColumnCondition cond,String subffix) {
+        try {
+            RowUpdateChange rowChange = new RowUpdateChange(tableName);
+            RowPrimaryKey primaryKeys = new RowPrimaryKey();
+            primaryKeys.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.fromLong(1));
+            primaryKeys.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.fromLong(101));
+            rowChange.setPrimaryKey(primaryKeys);
+            // 更新以下三列的值
+            rowChange.addAttributeColumn(COLUMN_NAME_NAME, ColumnValue.fromString("张三"));
+            rowChange.addAttributeColumn(COLUMN_ADDRESS_NAME, ColumnValue.fromString("中国"+subffix));
+            // 删除mobile和age信息
+            rowChange.deleteAttributeColumn(COLUMN_MOBILE_NAME);
+            rowChange.deleteAttributeColumn(COLUMN_AGE_NAME);
 
-        UpdateRowRequest request = new UpdateRowRequest();
-        request.setRowChange(rowChange);
+            // 设置update condition为"年龄小于25"
+            Condition condition = new Condition(RowExistenceExpectation.IGNORE);
+            condition.setColumnCondition(cond);
+            rowChange.setCondition(condition);
 
-        UpdateRowResult result = client.updateRow(request);
-        int consumedWriteCU = result.getConsumedCapacity().getCapacityUnit().getWriteCapacityUnit();
+            UpdateRowRequest request = new UpdateRowRequest();
+            request.setRowChange(rowChange);
 
-        System.out.println("成功更新数据, 消耗的写CapacityUnit为：" + consumedWriteCU);
+            UpdateRowResult result = client.updateRow(request);
+            int consumedWriteCU = result.getConsumedCapacity().getCapacityUnit().getWriteCapacityUnit();
+            System.out.println("成功更新数据, 消耗的写CapacityUnit为：" + consumedWriteCU);
+
+            return true;
+        } catch(ServiceException e) {
+            System.err.println("操作失败，详情：" + e.getMessage());
+            // 可以根据错误代码做出处理， OTS的ErrorCode定义在OTSErrorCode中。
+            if (OTSErrorCode.QUOTA_EXHAUSTED.equals(e.getErrorCode())){
+                System.err.println("超出存储配额。");
+            }
+            // Request ID可以用于有问题时联系客服诊断异常。
+            System.err.println("Request ID:" + e.getRequestId());
+//            e.printStackTrace();
+        } catch(ClientException e) {
+            // 可能是网络不好或者是返回结果有问题
+            System.err.println("请求失败，详情：" + e.getMessage());
+        }
+
+        return false;
     }
-    
+
     private static void deleteRow(OTSClient client, String tableName)
             throws ServiceException, ClientException{
         RowDeleteChange rowChange = new RowDeleteChange(tableName);
@@ -204,7 +215,7 @@ public class OTSSingleDataSample {
         primaryKeys.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.fromLong(1));
         primaryKeys.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.fromLong(101));
         rowChange.setPrimaryKey(primaryKeys);
-        
+
         DeleteRowRequest request = new DeleteRowRequest();
         request.setRowChange(rowChange);
 

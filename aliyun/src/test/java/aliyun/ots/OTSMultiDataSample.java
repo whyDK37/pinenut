@@ -1,8 +1,9 @@
-package aliyun.util;
+package aliyun.ots;
 
 
 import java.util.List;
 
+import aliyun.ots.OTSUtil;
 import com.aliyun.openservices.ots.ClientException;
 import com.aliyun.openservices.ots.ServiceException;
 import com.aliyun.openservices.ots.OTSClient;
@@ -11,7 +12,7 @@ import com.aliyun.openservices.ots.OTSException;
 import com.aliyun.openservices.ots.model.*;
 import javafx.util.Pair;
 
-import static aliyun.util.OTSUtil.*;
+import static aliyun.ots.OTSUtil.*;
 
 public class OTSMultiDataSample {
     private static final String COLUMN_GID_NAME = "gid";

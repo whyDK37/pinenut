@@ -1,6 +1,7 @@
-package aliyun.util;
+package aliyun.ots;
 
 
+import aliyun.ots.OTSUtil;
 import com.aliyun.openservices.ots.ClientException;
 import com.aliyun.openservices.ots.ServiceException;
 import com.aliyun.openservices.ots.OTSClient;

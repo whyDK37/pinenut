@@ -1,5 +1,6 @@
-package aliyun.util;
+package aliyun.ots;
 
+import aliyun.ots.OTSUtil;
 import com.aliyun.openservices.ots.OTSClient;
 import com.aliyun.openservices.ots.model.*;
 import org.junit.Test;
@@ -38,6 +39,9 @@ public class OTSUtilTest {
         for (Map.Entry<String, PrimaryKeyType> entry: keyTypeMap.entrySet()){
             System.out.println("\t\t" + entry.getKey() + "-" + entry.getValue().toString());
         }
+        ReservedThroughputDetails details = describeTableResult.getReservedThroughputDetails();
+        System.out.println(details.getNumberOfDecreasesToday());
+        System.out.println(details.getNumberOfDecreasesToday());
     }
 
     @Test
