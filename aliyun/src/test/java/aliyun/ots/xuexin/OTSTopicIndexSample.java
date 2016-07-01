@@ -21,7 +21,7 @@ public class OTSTopicIndexSample {
     private static final String COLUMN_MOBILE_NAME = "mobile";
 
     private static final String tableName = "topic_index";
-    private static final int putrows = 100;
+    private static final int putrows = 20;
     private static final boolean BERBOSE = true;
 
     public static void main(String args[]) {
@@ -42,10 +42,10 @@ public class OTSTopicIndexSample {
             Thread.sleep(1000);
             OTSUtil.descTable(client,table.getTableName());
             // 插入多行数据。
-            putRows(client, tableName,"9000001","0","1");
-            putRows(client, tableName,"9000002","0","2");
+            putRows(client, tableName,"9000001","1001","1");
+            putRows(client, tableName,"9000002","1002","2");
 //            // 再取回来看看。
-            String userid="9000001",topicid="50",time="",classid="";
+            String userid="9000001",topicid="5",time="9999999999999",classid="1002";
             getRange(client, tableName, BERBOSE,userid,topicid,time,classid,"0");
 //            getRangeBACKWARD(client, tableName, BERBOSE,userid,topicid,time,classid);
 //            getCount(client, tableName);
@@ -234,6 +234,7 @@ public class OTSTopicIndexSample {
                                  String time,String classid,String topictype)
             throws OTSException, ClientException {
         System.out.println("getRange---------------------------------------");
+        System.out.println(buildkey(userid,topicid,time,classid).asString());
         // 演示一下如何按主键范围查找，这里查找uid从1-4（左开右闭）的数据
         RangeRowQueryCriteria criteria = new RangeRowQueryCriteria(tableName);
         RowPrimaryKey inclusiveStartKey = new RowPrimaryKey();
@@ -248,6 +249,7 @@ public class OTSTopicIndexSample {
 
         criteria.setInclusiveStartPrimaryKey(inclusiveStartKey);
         criteria.setExclusiveEndPrimaryKey(exclusiveEndKey);
+        criteria.setLimit(10);
 //        criteria.setDirection(Direction.BACKWARD);
         GetRangeRequest request = new GetRangeRequest();
         request.setRangeRowQueryCriteria(criteria);
