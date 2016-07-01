@@ -23,7 +23,7 @@ public class OTSMultiDataSample {
 
     private static final String tableName = "sampleTable";
     private static final int putrows = 100;
-    private static final boolean BERBOSE = false;
+    private static final boolean BERBOSE = true;
     public static void main(String args[]) {
 //        final String endPoint = "http://";
 //        final String accessId = "xxxx";
@@ -46,10 +46,10 @@ public class OTSMultiDataSample {
             // 插入多行数据。
             putRows(client, tableName);
             // 再取回来看看。
-            getRange(client, tableName, BERBOSE);
+            getRangeBACKWARD(client, tableName, BERBOSE);
 //            getCount(client, tableName);
             //类似分页查询
-            readByPage(client, tableName);
+//            readByPage(client, tableName);
         } catch (ServiceException e) {
             System.err.println("操作失败，详情：" + e.getErrorCode() +" - "+ e.getMessage());
             // 可以根据错误代码做出处理， OTS的ErrorCode定义在OTSErrorCode中。
@@ -176,6 +176,47 @@ public class OTSMultiDataSample {
         criteria.setInclusiveStartPrimaryKey(inclusiveStartKey);
         criteria.setExclusiveEndPrimaryKey(exclusiveEndKey);
 //        criteria.setDirection(Direction.BACKWARD);
+        GetRangeRequest request = new GetRangeRequest();
+        request.setRangeRowQueryCriteria(criteria);
+        GetRangeResult result = client.getRange(request);
+        List<Row> rows = result.getRows();
+        if (printrows)
+            for (Row row : rows) {
+                System.out.println("gid信息为：" + row.getColumns().get(COLUMN_GID_NAME));
+                System.out.println("uid信息为：" + row.getColumns().get(COLUMN_UID_NAME));
+                System.out.println("name信息为：" + row.getColumns().get(COLUMN_NAME_NAME));
+                System.out.println("address信息为：" + row.getColumns().get(COLUMN_ADDRESS_NAME));
+                System.out.println("mobile信息为：" + row.getColumns().get(COLUMN_MOBILE_NAME));
+                System.out.println("age信息为：" + row.getColumns().get(COLUMN_AGE_NAME));
+                System.out.println("----------------------------------------------------");
+            }
+
+        int consumedReadCU = result.getConsumedCapacity().getCapacityUnit()
+                .getReadCapacityUnit();
+        System.out.println("本次查询数据条数："+rows.size());
+        System.out.println("本次读操作消耗的读CapacityUnit为：" + consumedReadCU);
+
+        System.out.println("getRange---------------------------------------end");
+    }
+
+    private static void getRangeBACKWARD(OTSClient client, String tableName, boolean printrows)
+            throws OTSException, ClientException {
+        System.out.println("getRange---------------------------------------");
+        // 演示一下如何按主键范围查找，这里查找uid从1-4（左开右闭）的数据
+        RangeRowQueryCriteria criteria = new RangeRowQueryCriteria(tableName);
+        RowPrimaryKey inclusiveStartKey = new RowPrimaryKey();
+        inclusiveStartKey.addPrimaryKeyColumn(COLUMN_GID_NAME,PrimaryKeyValue.fromLong(100));
+        inclusiveStartKey.addPrimaryKeyColumn(COLUMN_UID_NAME,PrimaryKeyValue.INF_MAX);
+        // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
+
+        RowPrimaryKey exclusiveEndKey = new RowPrimaryKey();
+        exclusiveEndKey.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.fromLong(0));
+        exclusiveEndKey.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.INF_MIN);
+        // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
+
+        criteria.setInclusiveStartPrimaryKey(inclusiveStartKey);
+        criteria.setExclusiveEndPrimaryKey(exclusiveEndKey);
+        criteria.setDirection(Direction.BACKWARD);
         GetRangeRequest request = new GetRangeRequest();
         request.setRangeRowQueryCriteria(criteria);
         GetRangeResult result = client.getRange(request);

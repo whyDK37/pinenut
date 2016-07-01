@@ -3,6 +3,7 @@ package aliyun.util;
 
 import com.aliyun.openservices.ots.*;
 import com.aliyun.openservices.ots.model.*;
+import com.aliyun.openservices.ots.model.condition.ColumnCondition;
 import javafx.util.Pair;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class OTSBatchDataSample {
 
     private static final String tableName = "sampleTable";
     private static final int putrows = 200;
+    private static final int threshold = 200;
     private static final boolean BERBOSE = false;
     public static void main(String args[]) {
 //        final String endPoint = "http://";
@@ -135,10 +137,10 @@ public class OTSBatchDataSample {
             primaryKey.addPrimaryKeyColumn(COLUMN_GID_NAME,PrimaryKeyValue.fromLong(i));
             primaryKey.addPrimaryKeyColumn(COLUMN_UID_NAME,PrimaryKeyValue.fromLong(i));
             rowChange.setPrimaryKey(primaryKey);
-
+            
             rowChange.addAttributeColumn(COLUMN_NAME_NAME,ColumnValue.fromString("小" + Integer.toString(i + 1)));
-            rowChange.addAttributeColumn(COLUMN_MOBILE_NAME,ColumnValue.fromString("111111111"));
-            rowChange.addAttributeColumn(COLUMN_ADDRESS_NAME,ColumnValue.fromString("中国A地"));
+            rowChange.addAttributeColumn(COLUMN_MOBILE_NAME,ColumnValue.fromString(""));
+            rowChange.addAttributeColumn(COLUMN_ADDRESS_NAME,ColumnValue.fromString(""));
             rowChange.addAttributeColumn(COLUMN_AGE_NAME,ColumnValue.fromLong(20));
             rowChange.setCondition(new Condition(RowExistenceExpectation.EXPECT_NOT_EXIST));
 
@@ -230,5 +232,49 @@ public class OTSBatchDataSample {
         }
 
         System.out.println("readByPage-------------------------------end");
+    }
+
+    private static boolean updateRow(OTSClient client, String tableName, ColumnCondition cond) {
+        try {
+            RowUpdateChange rowChange = new RowUpdateChange(tableName);
+            RowPrimaryKey primaryKeys = new RowPrimaryKey();
+            primaryKeys.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.fromLong(1));
+            primaryKeys.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.fromLong(101));
+            rowChange.setPrimaryKey(primaryKeys);
+            // 更新以下三列的值
+            rowChange.addAttributeColumn(COLUMN_NAME_NAME, ColumnValue.fromString("张三"));
+            rowChange.addAttributeColumn(COLUMN_ADDRESS_NAME, ColumnValue.fromString("中国"));
+            // 删除mobile和age信息
+            rowChange.deleteAttributeColumn(COLUMN_MOBILE_NAME);
+            rowChange.deleteAttributeColumn(COLUMN_AGE_NAME);
+
+            // 设置update condition为"年龄小于25"
+            Condition condition = new Condition(RowExistenceExpectation.IGNORE);
+            condition.setColumnCondition(cond);
+            rowChange.setCondition(condition);
+
+            UpdateRowRequest request = new UpdateRowRequest();
+            request.setRowChange(rowChange);
+
+            UpdateRowResult result = client.updateRow(request);
+            int consumedWriteCU = result.getConsumedCapacity().getCapacityUnit().getWriteCapacityUnit();
+            System.out.println("成功更新数据, 消耗的写CapacityUnit为：" + consumedWriteCU);
+
+            return true;
+        } catch(ServiceException e) {
+            System.err.println("操作失败，详情：" + e.getMessage());
+            // 可以根据错误代码做出处理， OTS的ErrorCode定义在OTSErrorCode中。
+            if (OTSErrorCode.QUOTA_EXHAUSTED.equals(e.getErrorCode())){
+                System.err.println("超出存储配额。");
+            }
+            // Request ID可以用于有问题时联系客服诊断异常。
+            System.err.println("Request ID:" + e.getRequestId());
+//            e.printStackTrace();
+        } catch(ClientException e) {
+            // 可能是网络不好或者是返回结果有问题
+            System.err.println("请求失败，详情：" + e.getMessage());
+        }
+
+        return false;
     }
 }

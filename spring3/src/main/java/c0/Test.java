@@ -17,13 +17,16 @@ public class Test {
         bigInteger = new BigInteger("123456789987654321123456789987654321123456789987654321");
         System.out.println(bigInteger);
 
+        char c = '`';
+        System.out.println((int)c);
         //保持引用，防止自动垃圾回收
-        List<String> list = new ArrayList<String>(2000);
+//        List<String> list = new ArrayList<String>(2000);
         int i = 0;
-        while(true){
-            //通过intern方法向常量池中手动添加常量
-            list.add(String.valueOf("通过intern方法向常量池中手动添加常量"+i++).intern());
-            System.out.println(list.get(list.size()-1));
-        }
+//        while(true){
+//            //通过intern方法向常量池中手动添加常量
+//            list.add(String.valueOf("通过intern方法向常量池中手动添加常量"+i++).intern());
+//            System.out.println(list.get(list.size()-1));
+//        }
+
     }
 }
