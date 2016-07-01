@@ -58,7 +58,7 @@ public abstract class OTSUtil {
      * @throws ServiceException
      * @throws ClientException
      */
-    private static void createTable(OTSClient client, Table table)
+    public static void createTable(OTSClient client, Table table)
             throws ServiceException, ClientException {
         TableMeta tableMeta = new TableMeta(table.getTableName());
         for(Map.Entry<String, PrimaryKeyType> entry:table.getPrimaryKey().entrySet()){
@@ -72,7 +72,7 @@ public abstract class OTSUtil {
 
     }
 
-    private static void deleteTable(OTSClient client, Table table)
+    public static void deleteTable(OTSClient client, Table table)
             throws ServiceException, ClientException{
         deleteTable(client,table.getTableName());
     }
@@ -330,4 +330,17 @@ public abstract class OTSUtil {
         return new Pair<List<Row>, RowPrimaryKey>(rows, nextStart);
     }
 
+    public static void descTable(OTSClient otsClient, String tableName) {
+        DescribeTableRequest describeTableRequest = new DescribeTableRequest();
+        describeTableRequest.setTableName(tableName);
+        DescribeTableResult describeTableResult = otsClient.describeTable(describeTableRequest);
+
+        Map<String,PrimaryKeyType> keyTypeMap = describeTableResult.getTableMeta().getPrimaryKey();
+        for (Map.Entry<String, PrimaryKeyType> entry: keyTypeMap.entrySet()){
+            System.out.println("\t\t" + entry.getKey() + "-" + entry.getValue().toString());
+        }
+        ReservedThroughputDetails details = describeTableResult.getReservedThroughputDetails();
+        System.out.println(details.getNumberOfDecreasesToday());
+        System.out.println(details.getNumberOfDecreasesToday());
+    }
 }

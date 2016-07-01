@@ -40,20 +40,29 @@ public class Table {
         this.tableName = tableName;
     }
 
-    public void setTableName(String tableName) {
+    public Table setTableName(String tableName) {
         this.tableName = tableName;
+        return this;
     }
 
-    public void setPrimaryKey(Map<String, PrimaryKeyType> primaryKey) {
+    public Table setPrimaryKey(Map<String, PrimaryKeyType> primaryKey) {
         this.primaryKey = primaryKey;
+        return this;
     }
 
-    public void setReadCapacityUnit(int readCapacityUnit) {
+    public Table addPrimaryKey(String key, PrimaryKeyType keyType) {
+        primaryKey.put(key, keyType);
+        return this;
+    }
+
+    public Table setReadCapacityUnit(int readCapacityUnit) {
         this.readCapacityUnit = readCapacityUnit;
+        return this;
     }
 
-    public void setWriteCapacityUnit(int writeCapacityUnit) {
+    public Table setWriteCapacityUnit(int writeCapacityUnit) {
         this.writeCapacityUnit = writeCapacityUnit;
+        return this;
     }
 
     public String getTableName() {
@@ -62,7 +71,7 @@ public class Table {
 
     public Map<String, PrimaryKeyType> getPrimaryKey() {
         // todo 处理
-        if(primaryKey.size() == 0);
+        if (primaryKey.size() == 0) ;
         return primaryKey;
     }
 
@@ -74,7 +83,7 @@ public class Table {
         return writeCapacityUnit;
     }
 
-    public CapacityUnit getCapacityUnit(){
+    public CapacityUnit getCapacityUnit() {
         return new CapacityUnit(this.readCapacityUnit, this.writeCapacityUnit);
     }
 }
