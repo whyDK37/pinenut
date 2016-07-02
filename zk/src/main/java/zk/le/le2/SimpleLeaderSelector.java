@@ -25,7 +25,6 @@ public class SimpleLeaderSelector extends BaseLeaderSelector implements LeaderSe
                 System.out.println("requene node:" + leadernode + ",data:" + data);
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

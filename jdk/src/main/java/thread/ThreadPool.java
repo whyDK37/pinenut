@@ -24,7 +24,7 @@ public class ThreadPool {
     private static final ThreadPoolExecutor.AbortPolicy HANDLER = new ThreadPoolExecutor.AbortPolicy();
 
     public static void main(String[] args) {
-        // TODO 初始化线程池
+        // 初始化线程池
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(COREPOOLSIZE, MAXINUMPOOLSIZE, KEEPALIVETIME, UNIT, WORKQUEUE, HANDLER);
         for (int i = 1; i < 11; i++) {
             String task = "task@"+i;
@@ -41,7 +41,6 @@ public class ThreadPool {
 //            try {
 //                Thread.sleep(1000);
 //            } catch (InterruptedException e) {
-//                // TODO Auto-generated catch block
 //                e.printStackTrace();
 //            }
         }
@@ -60,13 +59,11 @@ public class ThreadPool {
         }
 
         public void run() {
-            // TODO Auto-generated method stub
             System.out.println("start..."+threadPoolTaskData);
             try {
                 //模拟线程正在执行任务
                 Thread.sleep(produceTaskSleepTime);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             System.out.println("stop..."+threadPoolTaskData);

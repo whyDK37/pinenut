@@ -51,25 +51,20 @@ public class MemcachedClientTest {
                 memcachedClient.delete("zlex");
                 assertNull(memcachedClient.get("zlex"));
             } catch (TimeoutException e) {
-                // TODO Auto-generated catch block  
                 e.printStackTrace();
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block  
                 e.printStackTrace();
             } catch (MemcachedException e) {
-                // TODO Auto-generated catch block  
                 e.printStackTrace();
             }
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block  
             e.printStackTrace();
         } finally {
             if (memcachedClient != null) {
                 try {
                     memcachedClient.shutdown();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block  
                     e.printStackTrace();
                 }
             }
