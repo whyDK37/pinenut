@@ -18,6 +18,7 @@ public class DbcpTest {
         System.out.println(ds.getNumActive() +"-"+ ds.getNumIdle());
         try {
             Connection connection = ds.getConnection();
+            System.out.println(connection.getClass());
             System.out.println(ds.getNumActive() +"-"+ ds.getNumIdle());
             Connection connection1 = ds.getConnection();
             System.out.println(ds.getNumActive() +"-"+ ds.getNumIdle());

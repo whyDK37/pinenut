@@ -6,48 +6,47 @@ import aliyun.ots.StringUtils;
 import aliyun.ots.Table;
 import com.aliyun.openservices.ots.*;
 import com.aliyun.openservices.ots.model.*;
-import javafx.util.Pair;
 
 import java.util.List;
 
 import static aliyun.ots.OTSUtil.getClient;
 
 /**
- *   userid classid topicid time
+ * userid classid topictype time+topicid
  */
-public class OTSTopicIndexSample2 {
+public class OTSTopicIndexSample6 {
 
     private static final String tableName = "topic_index";
-    private static final int putrows = 3;
+    private static final int putrows = 20;
     private static final int limit = 5;
     private static final boolean BERBOSE = true;
+    static String[] pkname = {"userid", "classid", "topictype", "timetopicid"};
+    static PrimaryKeyType[] pktype = {PrimaryKeyType.INTEGER, PrimaryKeyType.INTEGER, PrimaryKeyType.INTEGER, PrimaryKeyType.STRING};
+    public static final String Separator = ",";
 
     public static void main(String args[]) {
         OTSClient client = getClient();
-//        final String tableName = "sampleTable";
-//        final int putrows = 100;
         Table table = new Table(tableName);
         try {
-            table.addPrimaryKey("userid", PrimaryKeyType.INTEGER)
-                    .addPrimaryKey("classid", PrimaryKeyType.INTEGER)
-                    .addPrimaryKey("topicid", PrimaryKeyType.INTEGER)
-                    .addPrimaryKey("time", PrimaryKeyType.INTEGER)
-                    .setReadCapacityUnit(100)
+            for (int i = 0; i < pkname.length; i++) {
+                table.addPrimaryKey(pkname[i], pktype[i]);
+            }
+            table.setReadCapacityUnit(100)
                     .setWriteCapacityUnit(200);
             // 创建表
-           OTSUtil.createTable(client,table);
+            OTSUtil.createTable(client, table);
 
             // 注意：创建表只是提交请求，OTS创建表需要一段时间。
             // 这里简单地等待一下，请根据您的实际逻辑修改。
             Thread.sleep(1000);
-            OTSUtil.descTable(client,table.getTableName());
+            OTSUtil.descTable(client, table.getTableName());
             // 插入多行数据。
             long time = System.currentTimeMillis();
-            putRows(client, tableName,9000001,1001,time,1);
-            putRows(client, tableName,9000002,1002,time,2);
+            putRows(client, tableName, 9000001, 1001, time, 1);
+            putRows(client, tableName, 9000002, 1002, time, 2);
 
-//            educircle(client,time);
-            clazz(client,time);
+            educircle(client, time);
+//            clazz(client,time);
 //            getRangeBACKWARD(client, tableName, BERBOSE,userid,topicid,time,classid);
         } catch (ServiceException e) {
             System.err.println("操作失败，详情：" + e.getErrorCode() + " - " + e.getMessage());
@@ -66,7 +65,7 @@ public class OTSTopicIndexSample2 {
         } finally {
             // 不留垃圾。
             try {
-                OTSUtil.deleteTable(client,table);
+                OTSUtil.deleteTable(client, table);
 //                deleteTable(client, tableName);
             } catch (ServiceException e) {
                 System.err.println("删除表格失败，原因：" + e.getMessage());
@@ -79,49 +78,47 @@ public class OTSTopicIndexSample2 {
         }
     }
 
-    private static void educircle(OTSClient client,long ptime) {
+    private static void educircle(OTSClient client, long ptime) {
         long time = ptime;
-        long userid=9000001,topicid=0,classid=0;
+        long userid = 9000001, topicid = 0, classid = 0, topictype = 0;
+
+        System.out.println("查询用户 time 时间之后的 所有帖子");
+        userid=9000001;topicid=0;classid=0 ;time = ptime+2;
         getRange(client, tableName, BERBOSE,userid,topicid,time,classid,0);
+
+        System.out.println("查询所有帖子");
         userid=9000002L;topicid=0L;classid=0;time = 0;
         getRange(client, tableName, BERBOSE,userid,topicid,time,classid,0);
+
+        System.out.println("查询帖子id之后的帖子");
+        userid=9000002L;topicid=5L;classid=0;time = ptime+topicid;
+        getRange(client, tableName, BERBOSE,userid,topicid,time,classid,0);
+
+        System.out.println("不存在的用户查询结果为0");
         userid=9000000L;topicid=0L;classid=0;time = 0;
         getRange(client, tableName, BERBOSE,userid,topicid,time,classid,0);
+
+        System.out.println("不存在的班级查询结果0");
+        userid = 9000002L;topicid = 2L;classid = 1001;time = 0;topictype=3;
+        getRange(client, tableName, BERBOSE, userid, topicid, time, classid, topictype);
+
     }
 
-    private static void clazz(OTSClient client,long ptime) {
-        long time = ptime;
-        long userid=9000001,topicid=0,classid=1001;
-        getRange(client, tableName, BERBOSE,userid,topicid,time,classid,0);
-        userid=9000002L;topicid=0L;classid=1001;time = 0;
-        getRange(client, tableName, BERBOSE,userid,topicid,time,classid,0);
-        userid=9000000L;topicid=0L;classid=1002;time = 0;
-        getRange(client, tableName, BERBOSE,userid,topicid,time,classid,0);
-    }
-
-    private static void deleteTable(OTSClient client, String tableName)
-            throws ServiceException, ClientException {
-        DeleteTableRequest request = new DeleteTableRequest();
-        request.setTableName(tableName);
-        client.deleteTable(request);
-
-        System.out.println("表已删除");
-    }
-
-    private static void putRows(OTSClient client, String tableName,int userid,int classid,long time, int topictype)
+    private static void putRows(OTSClient client, String tableName, int userid, int classid, long time, int topictype)
             throws OTSException, ClientException {
         int bid = 1;
         final int rowCount = putrows;
         for (int i = 0; i < rowCount; ++i) {
             RowPutChange rowChange = new RowPutChange(tableName);
             RowPrimaryKey primaryKey = new RowPrimaryKey();
-            primaryKey.addPrimaryKeyColumn("userid", PrimaryKeyValue.fromLong(userid));
-            primaryKey.addPrimaryKeyColumn("topicid", PrimaryKeyValue.fromLong(i+1));
-            primaryKey.addPrimaryKeyColumn("time",PrimaryKeyValue.fromLong(time++));
-            primaryKey.addPrimaryKeyColumn("classid", PrimaryKeyValue.fromLong(classid));
+
+            primaryKey.addPrimaryKeyColumn(pkname[0], PrimaryKeyValue.fromLong(userid));
+            primaryKey.addPrimaryKeyColumn(pkname[1], PrimaryKeyValue.fromLong(classid));
+            primaryKey.addPrimaryKeyColumn(pkname[2], PrimaryKeyValue.fromLong(topictype));
+            primaryKey.addPrimaryKeyColumn(pkname[3], buildkey(time++, i));
             rowChange.setPrimaryKey(primaryKey);
 
-            rowChange.addAttributeColumn("topictype", ColumnValue.fromString("" + topictype));
+//            rowChange.addAttributeColumn("topictype", ColumnValue.fromString("" + topictype));
             rowChange.setCondition(new Condition(RowExistenceExpectation.EXPECT_NOT_EXIST));
 
             PutRowRequest request = new PutRowRequest();
@@ -131,32 +128,42 @@ public class OTSTopicIndexSample2 {
             int consumedWriteCU = result.getConsumedCapacity()
                     .getCapacityUnit().getWriteCapacityUnit();
 
-            if (BERBOSE)
-                System.out.println("成功插入数据, 消耗的写CU为：" + consumedWriteCU);
+//            if (BERBOSE)
+//                System.out.println("成功插入数据, 消耗的写CU为：" + consumedWriteCU);
         }
 
         System.out.println(String.format("成功插入%d行数据。", rowCount));
     }
 
-    private static void getRange(OTSClient client, String tableName, boolean printrows,long userid,long topicid,
-                                 long time,long classid,long topictype)
+    private static PrimaryKeyValue buildkey(long time, long topicid) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(StringUtils.zeroPadString(time + "", 13)).append(",");
+        stringBuilder.append(StringUtils.zeroPadString(topicid + "", 9)).append(",");
+        return PrimaryKeyValue.fromString(stringBuilder.toString());
+    }
+
+    private static void getRange(OTSClient client, String tableName, boolean printrows, long userid, long topicid,
+                                 long time, long classid, long topictype)
             throws OTSException, ClientException {
-        System.out.println("getRange---------------------------------------");
-        System.out.println("条件："+userid+"-"+classid+"-"+topicid+"-"+time);
+        System.out.println("getRange---------------------------------------------------------------------------------------");
+        System.out.println("userid：" + userid + "- classid: " + classid + "- topicid: " + topicid + "- time: " + time + "- topictype: " + topictype);
         // 演示一下如何按主键范围查找，这里查找uid从1-4（左开右闭）的数据
         RangeRowQueryCriteria criteria = new RangeRowQueryCriteria(tableName);
         RowPrimaryKey inclusiveStartKey = new RowPrimaryKey();
-        inclusiveStartKey.addPrimaryKeyColumn("userid", PrimaryKeyValue.fromLong(userid));
-        inclusiveStartKey.addPrimaryKeyColumn("classid", PrimaryKeyValue.fromLong(classid));
-        inclusiveStartKey.addPrimaryKeyColumn("topicid", PrimaryKeyValue.fromLong(topicid));
-        inclusiveStartKey.addPrimaryKeyColumn("time", PrimaryKeyValue.fromLong(time));
+        inclusiveStartKey.addPrimaryKeyColumn(pkname[0], PrimaryKeyValue.fromLong(userid));
+        inclusiveStartKey.addPrimaryKeyColumn(pkname[1], classid == 0 ? PrimaryKeyValue.INF_MIN : PrimaryKeyValue.fromLong(classid));
+        inclusiveStartKey.addPrimaryKeyColumn(pkname[2], topictype == 0 ? PrimaryKeyValue.INF_MIN : PrimaryKeyValue.fromLong(topictype));
+        inclusiveStartKey.addPrimaryKeyColumn(pkname[3], time == 0 ? PrimaryKeyValue.INF_MIN : buildkey(time, topicid));
         // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
 
         RowPrimaryKey exclusiveEndKey = new RowPrimaryKey();
-        exclusiveEndKey.addPrimaryKeyColumn("userid", PrimaryKeyValue.fromLong(userid));
-        exclusiveEndKey.addPrimaryKeyColumn("classid", classid == 0 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(classid));
-        exclusiveEndKey.addPrimaryKeyColumn("topicid", topicid == 0 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(topicid));
-        exclusiveEndKey.addPrimaryKeyColumn("time", time == 0 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(time+1));
+        exclusiveEndKey.addPrimaryKeyColumn(pkname[0], PrimaryKeyValue.fromLong(userid));
+        exclusiveEndKey.addPrimaryKeyColumn(pkname[1], classid == 0 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(classid));
+        exclusiveEndKey.addPrimaryKeyColumn(pkname[2], topictype == 0 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(topictype));
+        exclusiveEndKey.addPrimaryKeyColumn(pkname[3], PrimaryKeyValue.INF_MAX);
+        System.out.println(inclusiveStartKey.toString());
+        System.out.println(exclusiveEndKey.toString());
+        System.out.println();
         // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
 
         criteria.setInclusiveStartPrimaryKey(inclusiveStartKey);
@@ -169,11 +176,11 @@ public class OTSTopicIndexSample2 {
         List<Row> rows = result.getRows();
         if (printrows)
             for (Row row : rows) {
-                System.out.println("userid 信息为：" + row.getColumns().get("userid"));
-                System.out.println("topicid 信息为：" + row.getColumns().get("topicid"));
-                System.out.println("time 信息为：" + row.getColumns().get("time"));
-                System.out.println("classid 信息为：" + row.getColumns().get("classid"));
-                System.out.println("topictype 信息为：" + row.getColumns().get("topictype"));
+                System.out.println(pkname[0] + " 信息为：" + row.getColumns().get(pkname[0]));
+                System.out.println(pkname[1] + " 信息为：" + row.getColumns().get(pkname[1]));
+                System.out.println(pkname[2] + " 信息为：" + row.getColumns().get(pkname[2]));
+                System.out.println(pkname[3] + " 信息为：" + row.getColumns().get(pkname[3]));
+//                System.out.println("topictype 信息为：" + row.getColumns().get(pkname[0]));
                 System.out.println("---");
             }
 
@@ -182,6 +189,6 @@ public class OTSTopicIndexSample2 {
         System.out.println("本次查询数据条数：" + rows.size());
         System.out.println("本次读操作消耗的读CapacityUnit为：" + consumedReadCU);
 
-        System.out.println("getRange---------------------------------------end");
+        System.out.println("getRange---------------------------------------------------------------------------------------end");
     }
 }

@@ -14,8 +14,7 @@ public class LocalMac {
 	 * @throws SocketException 
 	 */
 	public static void main(String[] args) throws UnknownHostException, SocketException {
-		// TODO Auto-generated method stub
-		
+
 		//得到IP，输出PC-201309011313/122.206.73.83
 		InetAddress ia = InetAddress.getLocalHost();
 		System.out.println(ia);
