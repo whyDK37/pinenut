@@ -2,11 +2,9 @@ package aliyun.ots.xuexin;
 
 
 import aliyun.ots.OTSUtil;
-import aliyun.ots.StringUtils;
-import aliyun.ots.Table;
+import aliyun.ots.OTSTable;
 import com.aliyun.openservices.ots.*;
 import com.aliyun.openservices.ots.model.*;
-import javafx.util.Pair;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class OTSTopicIndexSample2 {
         OTSClient client = getClient();
 //        final String tableName = "sampleTable";
 //        final int putrows = 100;
-        Table table = new Table(tableName);
+        OTSTable table = new OTSTable(tableName);
         try {
             table.addPrimaryKey("userid", PrimaryKeyType.INTEGER)
                     .addPrimaryKey("classid", PrimaryKeyType.INTEGER)
@@ -144,7 +142,6 @@ public class OTSTopicIndexSample2 {
         System.out.println("getRange---------------------------------------");
         System.out.println("条件："+userid+"-"+classid+"-"+topicid+"-"+time);
         // 演示一下如何按主键范围查找，这里查找uid从1-4（左开右闭）的数据
-        RangeRowQueryCriteria criteria = new RangeRowQueryCriteria(tableName);
         RowPrimaryKey inclusiveStartKey = new RowPrimaryKey();
         inclusiveStartKey.addPrimaryKeyColumn("userid", PrimaryKeyValue.fromLong(userid));
         inclusiveStartKey.addPrimaryKeyColumn("classid", PrimaryKeyValue.fromLong(classid));
@@ -159,14 +156,8 @@ public class OTSTopicIndexSample2 {
         exclusiveEndKey.addPrimaryKeyColumn("time", time == 0 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(time+1));
         // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
 
-        criteria.setInclusiveStartPrimaryKey(inclusiveStartKey);
-        criteria.setExclusiveEndPrimaryKey(exclusiveEndKey);
-        criteria.setLimit(limit);
-//        criteria.setDirection(Direction.BACKWARD);
-        GetRangeRequest request = new GetRangeRequest();
-        request.setRangeRowQueryCriteria(criteria);
-        GetRangeResult result = client.getRange(request);
-        List<Row> rows = result.getRows();
+//        List<Row> rows = result.getRows();
+        List<Row> rows = (List<Row>) OTSUtil.readByPage(client,tableName,inclusiveStartKey,exclusiveEndKey,limit,null);
         if (printrows)
             for (Row row : rows) {
                 System.out.println("userid 信息为：" + row.getColumns().get("userid"));
@@ -176,11 +167,6 @@ public class OTSTopicIndexSample2 {
                 System.out.println("topictype 信息为：" + row.getColumns().get("topictype"));
                 System.out.println("---");
             }
-
-        int consumedReadCU = result.getConsumedCapacity().getCapacityUnit()
-                .getReadCapacityUnit();
-        System.out.println("本次查询数据条数：" + rows.size());
-        System.out.println("本次读操作消耗的读CapacityUnit为：" + consumedReadCU);
 
         System.out.println("getRange---------------------------------------end");
     }

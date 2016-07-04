@@ -2,6 +2,7 @@ package aliyun.ots;
 
 import com.aliyun.openservices.ots.model.CapacityUnit;
 import com.aliyun.openservices.ots.model.PrimaryKeyType;
+import com.aliyun.openservices.ots.utils.Preconditions;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Map;
 /**
  * Created by whydk on 2016/7/1.
  */
-public class Table {
+public class OTSTable {
 
     /**
      * 表的名称。
@@ -22,6 +23,8 @@ public class Table {
      */
     private Map<String, PrimaryKeyType> primaryKey = new LinkedHashMap<String, PrimaryKeyType>();
 
+    private static final int MAX_PRIMARY = 4;
+
     /**
      * 表的读CapacityUnit设置。
      */
@@ -32,35 +35,36 @@ public class Table {
      */
     private int writeCapacityUnit = 0;
 
-    public Table() {
+    protected OTSTable() {
     }
 
-    public Table(String tableName) {
+    public OTSTable(String tableName) {
         this();
         this.tableName = tableName;
     }
 
-    public Table setTableName(String tableName) {
+    public OTSTable setTableName(String tableName) {
         this.tableName = tableName;
         return this;
     }
 
-    public Table setPrimaryKey(Map<String, PrimaryKeyType> primaryKey) {
+    public OTSTable setPrimaryKey(Map<String, PrimaryKeyType> primaryKey) {
         this.primaryKey = primaryKey;
         return this;
     }
 
-    public Table addPrimaryKey(String key, PrimaryKeyType keyType) {
+    public OTSTable addPrimaryKey(String key, PrimaryKeyType keyType) {
+        Preconditions.checkArgument(primaryKey.size() <= 4, "primary key should`t greater than 4.");
         primaryKey.put(key, keyType);
         return this;
     }
 
-    public Table setReadCapacityUnit(int readCapacityUnit) {
+    public OTSTable setReadCapacityUnit(int readCapacityUnit) {
         this.readCapacityUnit = readCapacityUnit;
         return this;
     }
 
-    public Table setWriteCapacityUnit(int writeCapacityUnit) {
+    public OTSTable setWriteCapacityUnit(int writeCapacityUnit) {
         this.writeCapacityUnit = writeCapacityUnit;
         return this;
     }

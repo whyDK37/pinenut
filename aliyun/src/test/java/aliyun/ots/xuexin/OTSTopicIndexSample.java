@@ -3,7 +3,7 @@ package aliyun.ots.xuexin;
 
 import aliyun.ots.OTSUtil;
 import aliyun.ots.StringUtils;
-import aliyun.ots.Table;
+import aliyun.ots.OTSTable;
 import com.aliyun.openservices.ots.*;
 import com.aliyun.openservices.ots.model.*;
 import javafx.util.Pair;
@@ -28,7 +28,7 @@ public class OTSTopicIndexSample {
         OTSClient client = getClient();
 //        final String tableName = "sampleTable";
 //        final int putrows = 100;
-        Table table = new Table(tableName);
+        OTSTable table = new OTSTable(tableName);
         try {
             table.addPrimaryKey(COLUMN_GID_NAME, PrimaryKeyType.STRING)
                     .addPrimaryKey(COLUMN_UID_NAME, PrimaryKeyType.STRING)
