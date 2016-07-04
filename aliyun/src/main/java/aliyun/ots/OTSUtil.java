@@ -1,6 +1,7 @@
 package aliyun.ots;
 
 import com.aliyun.openservices.ots.ClientException;
+import com.aliyun.openservices.ots.OTSException;
 import com.aliyun.openservices.ots.ServiceException;
 import com.aliyun.openservices.ots.model.*;
 import com.aliyun.openservices.ots.utils.Preconditions;
@@ -82,6 +83,18 @@ public abstract class OTSUtil {
         DeleteTableRequest request = new DeleteTableRequest();
         request.setTableName(tableName);
         client.deleteTable(request);
+    }
+
+    private static BatchWriteRowResult batchPutRows(OTSClient client, List<RowPutChange> rowChanges)
+            throws OTSException, ClientException {
+        BatchWriteRowRequest batchWriteRowRequest = new BatchWriteRowRequest();
+
+        for (RowPutChange rowPutChange:rowChanges) {
+            rowPutChange.setCondition(new Condition(RowExistenceExpectation.EXPECT_NOT_EXIST));
+
+            batchWriteRowRequest.addRowPutChange(rowPutChange);
+        }
+        return client.batchWriteRow(batchWriteRowRequest);
     }
 
     /**
@@ -378,6 +391,8 @@ public abstract class OTSUtil {
             System.out.println("\t\t" + entry.getKey() + "-" + entry.getValue().toString());
         }
         ReservedThroughputDetails details = describeTableResult.getReservedThroughputDetails();
+        System.out.println(details.getCapacityUnit().getReadCapacityUnit());
+        System.out.println(details.getCapacityUnit().getWriteCapacityUnit());
         System.out.println(details.getNumberOfDecreasesToday());
         System.out.println(details.getNumberOfDecreasesToday());
     }

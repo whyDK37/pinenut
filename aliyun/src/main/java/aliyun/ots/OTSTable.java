@@ -54,7 +54,7 @@ public class OTSTable {
     }
 
     public OTSTable addPrimaryKey(String key, PrimaryKeyType keyType) {
-        Preconditions.checkArgument(primaryKey.size() <= 4, "primary key should`t greater than 4.");
+        Preconditions.checkArgument(primaryKey.size() < 4, "The number of primary key columns must be in range: [1, 4]");
         primaryKey.put(key, keyType);
         return this;
     }
