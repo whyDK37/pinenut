@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 2014-4-9       李大鹏                        v1.0.0
+ * 2016-7-5 王环宇
  */
 public abstract class OTSUtil {
     private static final Log logger = LogFactory.getLog(OTSUtil.class);
@@ -27,7 +27,7 @@ public abstract class OTSUtil {
     /**
      * 批处理最多数据量
      */
-    private static final int BATCH_THRESHOLD = 200;
+    public static final int BATCH_THRESHOLD = 200;
 //    public static final String ALIYUN_OTS_ENDPOINT = "http://ots.aliyuncs.com";
 //    public static final String ALIYUN_ACCESS_ID = "8pO2VD2xEYk0vpGF";
 //    public static final String ALIYUN_ACCESS_KEY = "2pDJZvDZN05TBeeLZZxGiIM2HOW1Yp";
