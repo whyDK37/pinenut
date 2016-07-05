@@ -1,3 +1,6 @@
+import aliyun.ots.StringUtils;
+import com.aliyun.openservices.ots.model.PrimaryKeyType;
+
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,9 +18,10 @@ public class Main {
         map.put("2","d");
         map.put("a","d");
         map.put("e","d");
-        Set<String> keys = map.keySet();
-        for (String key:keys){
-            System.out.println(key + "-"+map.get(key));
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            System.out.println(entry.getKey()+ "-"+entry.getValue());
         }
+
+        System.out.println(StringUtils.appendNinePreString("",2));
     }
 }
