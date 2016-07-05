@@ -386,6 +386,10 @@ public abstract class OTSUtil {
         return readLimitRows(client, tableName, startKey, endKey, limit, direction, null, null);
     }
 
+    public static List<Row> readLimitRows(OTSClient client, String tableName,
+                                          RowPrimaryKey startKey, RowPrimaryKey endKey, int limit, Direction direction,List<String> columnsToGet) {
+        return readLimitRows(client, tableName, startKey, endKey, limit, direction, columnsToGet, null);
+    }
     /**
      * 读取指定行数的数据
      * @param client

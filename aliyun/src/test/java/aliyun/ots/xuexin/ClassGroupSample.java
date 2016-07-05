@@ -205,7 +205,7 @@ public class ClassGroupSample {
 //        GetRangeResult result = client.getRange(request);
 //        List<Row> rows = result.getRows();
 
-        List<Row> rows = OTSUtil.readByPage(client, tableName, inclusiveStartKey, exclusiveEndKey, limit, Direction.BACKWARD);
+        List<Row> rows = OTSUtil.readLimitRows(client, tableName, inclusiveStartKey, exclusiveEndKey, limit, Direction.BACKWARD);
         if (printrows)
             for (Row row : rows) {
                 row.getColumns();

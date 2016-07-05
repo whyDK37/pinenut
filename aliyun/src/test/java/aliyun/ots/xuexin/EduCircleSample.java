@@ -7,7 +7,7 @@ import aliyun.ots.StringUtils;
 import com.aliyun.openservices.ots.*;
 import com.aliyun.openservices.ots.model.*;
 
-import java.util.List;
+import java.util.*;
 
 import static aliyun.ots.OTSUtil.getClient;
 
@@ -192,11 +192,20 @@ public class EduCircleSample {
         GetRangeResult result = client.getRange(request);
 //        List<Row> rows = result.getRows();
 
-        List<Row> rows = OTSUtil.readByPage(client, tableName, inclusiveStartKey, exclusiveEndKey, limit, Direction.BACKWARD);
+        List<String> column = new ArrayList<String>();
+        for (String pk:pkname){
+            column.add(pk);
+        }
+        column.add("abc");
+        column.add("bcd");
+
+
+        List<Row> rows = OTSUtil.readLimitRows(client, tableName, inclusiveStartKey, exclusiveEndKey, limit, Direction.BACKWARD);
         if (printrows)
             for (Row row : rows) {
-                for (String pn : pkname)
-                    System.out.println(pn + " 信息为：" + row.getColumns().get(pn));
+                SortedMap<String, ColumnValue> rowmap =  row.getSortedColumns();
+                for (Map.Entry<String, ColumnValue> valueSet: rowmap.entrySet())
+                    System.out.println(valueSet.getKey() + " 信息为：" + valueSet.getValue().toString());
 //                System.out.println("topictype 信息为：" + row.getColumns().get(pkname[0]));
                 System.out.println("---");
             }
