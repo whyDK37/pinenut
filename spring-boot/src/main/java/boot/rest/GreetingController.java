@@ -1,9 +1,9 @@
-package rest;
+package boot.rest;
 
+import boot.pojo.Greeting;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pojo.Greeting;
 
 import java.util.concurrent.atomic.AtomicLong;
 

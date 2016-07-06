@@ -133,6 +133,7 @@ project(':spring3') {
 
 project(':spring-boot') {
     dependencies {
+        compile project(":redis")
         //compile "org.me:me:3.3.0"
         compile "org.springframework:spring-context:3.2.15.RELEASE"
         compile "org.springframework:spring-context-support:3.2.15.RELEASE"
@@ -148,6 +149,7 @@ project(':spring-boot') {
 
         // spring boot
         compile("org.springframework.boot:spring-boot-starter-web:1.3.6.RELEASE")
+
 
 //        compile "mysql:mysql-connector-java:5.1.34"
 //        compile "org.hsqldb:hsqldb:2.3.3"

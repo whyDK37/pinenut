@@ -74,8 +74,7 @@ public class OTSTable {
     }
 
     public Map<String, PrimaryKeyType> getPrimaryKey() {
-        // todo 处理
-        if (primaryKey.size() == 0) ;
+        Preconditions.checkArgument(primaryKey.size() != 0, "The number of primary key columns must be in range: [1, 4]");
         return primaryKey;
     }
 

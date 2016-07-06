@@ -11,6 +11,8 @@ import java.util.Set;
  */
 public class Main {
     public static void main(String[] args) throws UnsupportedEncodingException {
-        System.out.println(Long.MAX_VALUE);
+        for (int i = 0; i < 100; i++) {
+            System.out.println(System.nanoTime());
+        }
     }
 }

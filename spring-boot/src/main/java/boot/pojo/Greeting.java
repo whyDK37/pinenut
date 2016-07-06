@@ -1,4 +1,4 @@
-package pojo;
+package boot.pojo;
 
 public class Greeting {
 
