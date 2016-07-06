@@ -1,17 +1,15 @@
-package boot;
-
-import java.util.Arrays;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
-import org.springframework.orm.hibernate3.HibernateExceptionTranslator;
-import org.springframework.orm.jdo.DefaultJdoDialect;
+
+import java.util.Arrays;
 
 @SpringBootApplication
+//@Configuration
+//@EnableAutoConfiguration
 public class Application {
 
     public static void main(String[] args) {
@@ -24,6 +22,8 @@ public class Application {
         for (String beanName : beanNames) {
             System.out.println(beanName);
         }
+        System.out.println(beanNames.length);
+
     }
 
     @Bean

@@ -1,7 +1,7 @@
-package boot.controller;
+package hello;
 
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * curl -X POST http://localhost:8080/hello
