@@ -6,6 +6,7 @@ import foo.JedisUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
@@ -28,7 +29,7 @@ public class SeqController {
         int port = 6379;
 
 
-        seqGenerator = new SeqGenerator( KEY, maxseq, step, threshold);
+        seqGenerator = new SeqGenerator(KEY, maxseq, step, threshold);
         seqGenerator.init();
 
         SeqChecker seqChecker = new SeqChecker(seqGenerator);
@@ -36,12 +37,14 @@ public class SeqController {
     }
 
     @RequestMapping("/seq")
-    public Seq greeting(String sys, String type,int fetchcount) {
-        Long ns = seqGenerator.nextSeq();
-        if(ns == -1){
+    public Seq greeting(String sys,
+                        String type,
+                        @RequestParam(value = "fc", required = false, defaultValue = "1") int fc) {
+        String seq = seqGenerator.nextSeq(fc);
+        if (seq == null) {
             logger.warn("未能获取序号，请重新申请");
-            return new Seq(1, "未能获取序号，请重新申请");
+            return new Seq(1).setMsg("未能获取序号，请重新申请");
         }
-        return new Seq(0, ns);
+        return new Seq(0).setSeq(seq);
     }
 }

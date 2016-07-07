@@ -3,7 +3,9 @@ package boot.seq;
 import foo.JedisAPI;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Pipeline;
+
+import java.util.List;
 
 /**
  * 序号生成器
@@ -11,12 +13,13 @@ import redis.clients.jedis.Jedis;
  */
 public class SeqGenerator {
     public static final Log logger = LogFactory.getLog(SeqGenerator.class);
-
+    public static final long MAX_FETCH_COUNT = 500;
     public static final String KEY = "seq";
 
     public int step = 10000;
     public int threshold = 200;
     private long maxSeq = 0;
+    private long maxFetchCount = MAX_FETCH_COUNT;
     private String key;
 
     /**
@@ -49,7 +52,7 @@ public class SeqGenerator {
         JedisAPI.lpop(KEY);
     }
 
-    public void loadNextPhase() {
+    public long loadNextPhase() {
         //持久化当前最大的 seq
         long maxseq = maxSeq;
         persistMaxSeq();
@@ -60,8 +63,7 @@ public class SeqGenerator {
         for (int i = 0; i < step; i++) {
             seq[i] = ++maxseq + "";
         }
-        Long length = JedisAPI.rpush(KEY, seq);
-
+        return JedisAPI.rpush(KEY, seq);
     }
 
     public void persistMaxSeq() {
@@ -70,27 +72,64 @@ public class SeqGenerator {
     }
 
     /**
-     * @return
+     * @param fetchcount
+     * @return 返回单个seq,或多个seq(用“,”分割)
      */
-    public Long nextSeq() {
+    public String nextSeq(final int fetchcount) {
+        checkArgument(fetchcount > 0, "fetchcount must bigger than 0.");
         try {
-            long start = System.currentTimeMillis();
-            String ns = JedisAPI.lpop(key);
-            long end = System.currentTimeMillis();
-            System.out.println("next seq : "+(end - start));
-            if (ns != null)
-                return Long.valueOf(ns);
+            String nextseq = null;
+            if (fetchcount == 1) {
+                nextseq = JedisAPI.lpop(key);
+            } else {
+                //最多取seq 个数
+                final long fc = fetchcount<=maxFetchCount?fetchcount:maxFetchCount;
+
+                ensureCapacityInternal(fc);
+
+                List<Object> rs = JedisAPI.pipeLine(new JedisAPI.PipeLineRequeest() {
+                    @Override
+                    public List<Object> doRequest(Pipeline pipeline) {
+                        pipeline.lrange("seq", 0, fc-1);
+                        pipeline.ltrim("seq", fc, -1);
+                        return pipeline.syncAndReturnAll();
+                    }
+                });
+
+                if(rs != null){
+                    List<String> list = (List<String>)rs.get(0);
+                    StringBuilder seqBuilder = new StringBuilder();
+                    for(String seq:list){
+                        seqBuilder.append(seq).append(",");
+                    }
+                    seqBuilder.deleteCharAt(seqBuilder.length()-1);
+                    nextseq = seqBuilder.toString();
+                }
+            }
+            if (nextseq != null)
+                return nextseq;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
 
-        return -1L;
+        return null;
+    }
+
+    private void ensureCapacityInternal(long fc) {
+        boolean hasEnoughSeq = hasEnoughSeq(fc+threshold);
+        if(!hasEnoughSeq){
+            loadNextPhase();
+        }
     }
 
     public boolean needLoadNextPhase() {
+        return hasEnoughSeq(threshold);
+    }
+
+    public boolean hasEnoughSeq(long needCount){
         try {
-            long length = JedisAPI.llen(key);
-            if (length < threshold)
+            long length = getCurrentLength();
+            if (length < needCount)
                 return true;
 
         } catch (Exception e) {
@@ -99,4 +138,13 @@ public class SeqGenerator {
         return false;
     }
 
+    public long getCurrentLength(){
+        return JedisAPI.llen(key);
+    }
+
+    public static void checkArgument(boolean expression, Object errorMessage) {
+        if (!expression) {
+            throw new IllegalArgumentException(String.valueOf(errorMessage));
+        }
+    }
 }

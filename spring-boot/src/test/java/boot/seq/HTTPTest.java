@@ -55,7 +55,7 @@ public class HTTPTest {
 
     @Test
     public void doHttpCall() {
-        String url = testUrl + "/seq";
+        String url = testUrl + "/seq?fc=1000";
         long start = System.currentTimeMillis();
         send(url, "");
         long end = System.currentTimeMillis();

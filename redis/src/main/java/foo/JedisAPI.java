@@ -20,6 +20,7 @@ import java.util.Set;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.Pipeline;
 
 
 /**
@@ -812,5 +813,25 @@ public class JedisAPI {
             returnResource(jedis);
         }
         return -1;
+    }
+
+    public static List<Object> pipeLine(PipeLineRequeest pipeLineRequeest){
+        Jedis jedis = null;
+        try {
+            jedis = getResource();
+            return pipeLineRequeest.doRequest(jedis.pipelined());
+        } catch (Exception e) {
+            // 释放redis对象
+            brokenResource(jedis);
+            e.printStackTrace();
+        } finally {
+            // 返还到连接池
+            returnResource(jedis);
+        }
+        return null;
+    }
+
+    public interface PipeLineRequeest{
+        List<Object> doRequest(Pipeline pipeline);
     }
 }

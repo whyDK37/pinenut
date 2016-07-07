@@ -3,22 +3,31 @@ package boot.pojo;
 public class Seq {
 
     private long rc;
-    private long seq;
+    private String seq;
     private String msg;
-    public Seq(long rc, long seq) {
+    public Seq(long rc) {
         this.rc = rc;
-        this.seq = seq;
-    }
-    public Seq(long rc, String msg) {
-        this.rc = rc;
-        this.msg = msg;
     }
 
     public long getRc() {
         return rc;
     }
 
-    public long getSeq() {
+    public String getSeq() {
         return seq;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public Seq setSeq(String seq) {
+        this.seq = seq;
+        return this;
+    }
+
+    public Seq setMsg(String msg) {
+        this.msg = msg;
+        return this;
     }
 }

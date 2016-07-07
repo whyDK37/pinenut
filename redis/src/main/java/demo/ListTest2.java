@@ -2,6 +2,8 @@ package demo;
 
 import foo.JedisUtil;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Pipeline;
+import redis.clients.jedis.Response;
 
 import java.util.List;
 
@@ -23,11 +25,21 @@ public class ListTest2 {
 //            jedis.rpush("seq",i+"");
         }
         Long length = jedis.rpush("seq",seq);
+        jedis.getClient();
         long end = System.nanoTime();
-        System.out.println(length);
-        System.out.println(end-start);
-        List<String> seqs = jedis.lrange("seq",0,20);
-        System.out.println(seqs);
+        Pipeline pipeline = jedis.pipelined();
+        pipeline.lrange("seq",0,19);
+        pipeline.ltrim("seq",20,-1);
+
+        List<Object> rs = pipeline.syncAndReturnAll();
+        List<String> list = (List<String>)rs.get(0);
+        StringBuilder seqBuilder = new StringBuilder();
+        for(String s:list){
+            seqBuilder.append(s).append(",");
+        }
+        seqBuilder.deleteCharAt(seqBuilder.length()-1);
+        System.out.println(seqBuilder.toString());
+
         // 清空 seq
 //        jedis.ltrim("seq",0,0);
 //        jedis.lpop("seq");
