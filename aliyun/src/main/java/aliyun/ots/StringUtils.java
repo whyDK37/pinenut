@@ -786,9 +786,9 @@ public class StringUtils {
         return replace(string, "&amp;", "&");
     }
 
-    private static final char[] zeroArray = "0000000000000000000000000000000000000000000000000000000000000000"
-            .toCharArray();
+    private static final char[] zeroArray = "0000000000000000000000000000000000000000000000000000000000000000".toCharArray();
 
+    private static final char[] nineArray = "9999999999999999999999999999999999999999999999999999999999999999".toCharArray();
     /**
      * Pads the supplied String with 0's to the specified length and returns the
      * result as a new String. For example, if the initial String is "9999" and
@@ -807,6 +807,15 @@ public class StringUtils {
         }
         StringBuilder buf = new StringBuilder(length);
         buf.append(zeroArray, 0, length - string.length()).append(string);
+        return buf.toString();
+    }
+
+    public static String appendNinePreString(String string, int length) {
+        if (string == null || string.length() > length) {
+            return string;
+        }
+        StringBuilder buf = new StringBuilder(length);
+        buf.append(nineArray, 0, length - string.length()).append(string);
         return buf.toString();
     }
 

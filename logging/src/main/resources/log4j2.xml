@@ -4,7 +4,7 @@
     <appenders>
         <GELF name="gelfAppender" server="192.168.56.101" port="12201" hostName="NLWGM1793" protocol="UDP"
               additionalFields="environment=DEV,application=log4j2-demo-app" />
-        <File name="fileAppender" fileName="app.log">
+        <File name="fileAppender" fileName="boot.log">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>

@@ -12,7 +12,7 @@ import java.util.List;
 import static aliyun.ots.OTSUtil.getClient;
 
 /**
- * userid classid topictype time+topicid
+ * userid  topictype+classid+time+topicid
  */
 public class OTSTopicIndexSample6 {
 
@@ -20,8 +20,8 @@ public class OTSTopicIndexSample6 {
     private static final int putrows = 20;
     private static final int limit = 5;
     private static final boolean BERBOSE = true;
-    static String[] pkname = {"userid", "classid", "topictype", "timetopicid"};
-    static PrimaryKeyType[] pktype = {PrimaryKeyType.INTEGER, PrimaryKeyType.INTEGER, PrimaryKeyType.INTEGER, PrimaryKeyType.STRING};
+    static String[] pkname = {"userid", "classidtopictypetimetopicid"};
+    static PrimaryKeyType[] pktype = {PrimaryKeyType.INTEGER, PrimaryKeyType.STRING};
     public static final String Separator = ",";
 
     public static void main(String args[]) {
@@ -113,9 +113,7 @@ public class OTSTopicIndexSample6 {
             RowPrimaryKey primaryKey = new RowPrimaryKey();
 
             primaryKey.addPrimaryKeyColumn(pkname[0], PrimaryKeyValue.fromLong(userid));
-            primaryKey.addPrimaryKeyColumn(pkname[1], PrimaryKeyValue.fromLong(classid));
-            primaryKey.addPrimaryKeyColumn(pkname[2], PrimaryKeyValue.fromLong(topictype));
-            primaryKey.addPrimaryKeyColumn(pkname[3], buildkey(time++, i));
+            primaryKey.addPrimaryKeyColumn(pkname[1], buildkey(classid,topictype,time++, i));
             rowChange.setPrimaryKey(primaryKey);
 
 //            rowChange.addAttributeColumn("topictype", ColumnValue.fromString("" + topictype));
@@ -135,10 +133,12 @@ public class OTSTopicIndexSample6 {
         System.out.println(String.format("成功插入%d行数据。", rowCount));
     }
 
-    private static PrimaryKeyValue buildkey(long time, long topicid) {
+    private static PrimaryKeyValue buildkey(long classid,long topictype,long time, long topicid) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(StringUtils.zeroPadString(time + "", 13)).append(",");
-        stringBuilder.append(StringUtils.zeroPadString(topicid + "", 9)).append(",");
+        stringBuilder.append(StringUtils.zeroPadString(topictype+ "", 1)).append(Separator );
+        stringBuilder.append(StringUtils.zeroPadString(classid + "", 9)).append(Separator );
+        stringBuilder.append(StringUtils.zeroPadString(time + "", 13)).append(Separator );
+        stringBuilder.append(StringUtils.zeroPadString(topicid + "", 9)).append(Separator );
         return PrimaryKeyValue.fromString(stringBuilder.toString());
     }
 
@@ -151,16 +151,12 @@ public class OTSTopicIndexSample6 {
         RangeRowQueryCriteria criteria = new RangeRowQueryCriteria(tableName);
         RowPrimaryKey inclusiveStartKey = new RowPrimaryKey();
         inclusiveStartKey.addPrimaryKeyColumn(pkname[0], PrimaryKeyValue.fromLong(userid));
-        inclusiveStartKey.addPrimaryKeyColumn(pkname[1], classid == 0 ? PrimaryKeyValue.INF_MIN : PrimaryKeyValue.fromLong(classid));
-        inclusiveStartKey.addPrimaryKeyColumn(pkname[2], topictype == 0 ? PrimaryKeyValue.INF_MIN : PrimaryKeyValue.fromLong(topictype));
-        inclusiveStartKey.addPrimaryKeyColumn(pkname[3], time == 0 ? PrimaryKeyValue.INF_MIN : buildkey(time, topicid));
+        inclusiveStartKey.addPrimaryKeyColumn(pkname[1], time == 0 ? PrimaryKeyValue.INF_MIN : buildkey(classid,topictype,time, topicid));
         // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
 
         RowPrimaryKey exclusiveEndKey = new RowPrimaryKey();
         exclusiveEndKey.addPrimaryKeyColumn(pkname[0], PrimaryKeyValue.fromLong(userid));
-        exclusiveEndKey.addPrimaryKeyColumn(pkname[1], classid == 0 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(classid));
-        exclusiveEndKey.addPrimaryKeyColumn(pkname[2], topictype == 0 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(topictype));
-        exclusiveEndKey.addPrimaryKeyColumn(pkname[3], PrimaryKeyValue.INF_MAX);
+        exclusiveEndKey.addPrimaryKeyColumn(pkname[1], buildkey(classid==0?9999999:classid,topictype==0?9:topictype,time, topicid));
         System.out.println(inclusiveStartKey.toString());
         System.out.println(exclusiveEndKey.toString());
         System.out.println();
@@ -178,8 +174,8 @@ public class OTSTopicIndexSample6 {
             for (Row row : rows) {
                 System.out.println(pkname[0] + " 信息为：" + row.getColumns().get(pkname[0]));
                 System.out.println(pkname[1] + " 信息为：" + row.getColumns().get(pkname[1]));
-                System.out.println(pkname[2] + " 信息为：" + row.getColumns().get(pkname[2]));
-                System.out.println(pkname[3] + " 信息为：" + row.getColumns().get(pkname[3]));
+//                System.out.println(pkname[2] + " 信息为：" + row.getColumns().get(pkname[2]));
+//                System.out.println(pkname[3] + " 信息为：" + row.getColumns().get(pkname[3]));
 //                System.out.println("topictype 信息为：" + row.getColumns().get(pkname[0]));
                 System.out.println("---");
             }

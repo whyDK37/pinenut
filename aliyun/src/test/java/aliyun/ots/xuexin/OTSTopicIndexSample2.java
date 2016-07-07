@@ -157,7 +157,7 @@ public class OTSTopicIndexSample2 {
         // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
 
 //        List<Row> rows = result.getRows();
-        List<Row> rows = (List<Row>) OTSUtil.readByPage(client,tableName,inclusiveStartKey,exclusiveEndKey,limit,null);
+        List<Row> rows = (List<Row>) OTSUtil.readLimitRows(client,tableName,inclusiveStartKey,exclusiveEndKey,limit,null);
         if (printrows)
             for (Row row : rows) {
                 System.out.println("userid 信息为：" + row.getColumns().get("userid"));
