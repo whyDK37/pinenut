@@ -38,18 +38,13 @@ public class SeqChecker {
             public void run() {
                 do {
                     logger.info("do check");
-                    if (seqGenerator.needLoadNextPhase()) {
-                        seqGenerator.loadNextPhase();
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(checktime);
+                    } catch (InterruptedException e) {
+                        logger.error(e.getMessage(), e);
                     }
-                    else {
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(checktime);
-                        } catch (InterruptedException e) {
-                            logger.error(e.getMessage(),e);
-//                            start = false;
-                        }
-                    }
-                }while (start);
+                    seqGenerator.ensureCapacity(seqGenerator.getThreshold());
+                } while (start);
             }
         });
 

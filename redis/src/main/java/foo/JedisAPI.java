@@ -48,7 +48,7 @@ public class JedisAPI {
             // 如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
 
             // 设置最大连接数
-            config.setMaxTotal(100);
+            config.setMaxTotal(1000);
             // 设置最大阻塞时间，记住是毫秒数milliseconds
             config.setMaxWaitMillis(1000 * 60);
             // 设置空间连接

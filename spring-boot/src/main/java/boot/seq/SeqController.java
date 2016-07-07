@@ -1,8 +1,6 @@
 package boot.seq;
 
 import boot.pojo.Seq;
-import foo.JedisAPI;
-import foo.JedisUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,7 @@ public class SeqController {
     public static final Log logger = LogFactory.getLog(SeqController.class);
 
     public static final int step = 10000;
-    public static final int threshold = 2000;
+    public static final int threshold = 1000;
     private int maxseq = 0;
     public static final String KEY = "seq";
     Jedis jedis;
@@ -28,8 +26,7 @@ public class SeqController {
         String host = "127.0.0.1";
         int port = 6379;
 
-
-        seqGenerator = new SeqGenerator(KEY, maxseq, step, threshold);
+        seqGenerator = new SeqRedisGenerator(KEY, maxseq, step, threshold);
         seqGenerator.init();
 
         SeqChecker seqChecker = new SeqChecker(seqGenerator);

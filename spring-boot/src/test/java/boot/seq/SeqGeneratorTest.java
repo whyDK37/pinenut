@@ -17,7 +17,7 @@ public class SeqGeneratorTest {
     private int maxseq = 0;
     public static final String KEY = "seq";
     Jedis jedis;
-    SeqGenerator seqGenerator;
+    SeqRedisGenerator seqGenerator;
 
     @Test
     public void test() {
@@ -33,7 +33,7 @@ public class SeqGeneratorTest {
         int port = 6379;
         jedis = JedisUtil.createJedis(host, port);
 
-        seqGenerator = new SeqGenerator(KEY, maxseq, step, threshold);
+        seqGenerator = new SeqRedisGenerator(KEY, maxseq, step, threshold);
         seqGenerator.init();
 
         SeqChecker seqChecker = new SeqChecker(seqGenerator,10);

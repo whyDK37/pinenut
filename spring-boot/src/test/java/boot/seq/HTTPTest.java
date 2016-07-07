@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
  * Created by whydk on 2016/7/6.
  */
 public class HTTPTest {
-    private static final int COREPOOLSIZE = 100;
-    private static final int MAXINUMPOOLSIZE = 150;
+    private static final int COREPOOLSIZE = 1000;
+    private static final int MAXINUMPOOLSIZE = 1000;
     private static final long KEEPALIVETIME = 5;
     private static final TimeUnit UNIT = TimeUnit.SECONDS;
     private static final BlockingQueue<Runnable> WORKQUEUE = new ArrayBlockingQueue<Runnable>(1000);
@@ -40,11 +40,11 @@ public class HTTPTest {
             String task = "task@" + i;
             System.out.println("put->" + task);
             threadPool.execute(caller);
-//            try {
-//                TimeUnit.MILLISECONDS.sleep(100);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         while(threadPool.getActiveCount() > 0);
 //        threadPool.shutdown();//关闭主线程，但线程池会继续运行，直到所有任务执行完才会停止。若不调用该方法线程池会一直保持下去，以便随时添加新的任务
