@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 /*
  * 物理地址是48位，别和ipv6搞错了
  */
-public class LocalMac {
+public class LOCALMAC {
 	/**
 	 * @param args
 	 * @throws UnknownHostException 

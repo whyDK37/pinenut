@@ -3,6 +3,8 @@ package demo;
 import foo.JedisUtil;
 import redis.clients.jedis.Jedis;
 
+import java.util.List;
+
 /**
  * redis hash
  * Created by drug on 2016/4/27.
@@ -24,8 +26,10 @@ public class ListTest2 {
         long end = System.nanoTime();
         System.out.println(length);
         System.out.println(end-start);
+        List<String> seqs = jedis.lrange("seq",0,20);
+        System.out.println(seqs);
         // 清空 seq
-        jedis.ltrim("seq",0,0);
-        jedis.lpop("seq");
+//        jedis.ltrim("seq",0,0);
+//        jedis.lpop("seq");
     }
 }
