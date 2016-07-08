@@ -24,7 +24,7 @@ public class HTTPTest {
     private static final TimeUnit UNIT = TimeUnit.SECONDS;
     private static final BlockingQueue<Runnable> WORKQUEUE = new ArrayBlockingQueue<Runnable>(1000);
     private static final ThreadPoolExecutor.AbortPolicy HANDLER = new ThreadPoolExecutor.AbortPolicy();
-
+    int fc = 100;
     @Test
     public void test() {
         Runnable caller = new Runnable() {
@@ -36,7 +36,7 @@ public class HTTPTest {
 
         // 初始化线程池
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(COREPOOLSIZE, MAXINUMPOOLSIZE, KEEPALIVETIME, UNIT, WORKQUEUE, HANDLER);
-        for (int i = 1; i < Integer.MAX_VALUE; i++) {
+        for (int i = 1; i < 1000; i++) {
             String task = "task@" + i;
             System.out.println("put->" + task);
             threadPool.execute(caller);
@@ -55,7 +55,7 @@ public class HTTPTest {
 
     @Test
     public void doHttpCall() {
-        String url = testUrl + "/seq?fc=1000";
+        String url = testUrl + "/seq?fc="+fc;
         long start = System.currentTimeMillis();
         send(url, "");
         long end = System.currentTimeMillis();
