@@ -2,14 +2,26 @@ package aliyun.ots;
 
 import com.aliyun.openservices.ots.model.*;
 import com.aliyun.openservices.ots.model.condition.ColumnCondition;
-import com.aliyun.openservices.ots.utils.Preconditions;
+import static com.aliyun.openservices.ots.utils.Preconditions.*;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 /**
+ * OtS  查询封装类。demo如下：
+ * <pre>
+ *       OTSQuery<TopicIndex> otsQuery = new OTSQuery<TopicIndex>();
+         otsQuery.setTablename(tableName);
+         otsQuery.setDirection(direction);
+         otsQuery.setLimit(limit);
+         otsQuery.setRequiredType(TopicIndex.class);
+         otsQuery.addPrimaryKey(pkname[0],userid,PrimaryKeyType.INTEGER, OTSQuery.CompareOperator.EQUAL);
+         otsQuery.addPrimaryKey(pkname[1],topicid,PrimaryKeyType.INTEGER,OTSQuery.CompareOperator.LESS_EQUAL);
+         otsQuery.setColumnsToGet(columnget);
+
+         List<TopicIndex> list = OTSUtil.readLimitRows(client,otsQuery);
+ * </pre>
  * Created by whydk on 2016/7/11.
  */
 public class OTSQuery<T> {
@@ -32,7 +44,11 @@ public class OTSQuery<T> {
     private ColumnCondition filter;
 
     public PrimaryKeyEntry addPrimaryKey(String key, Object value, PrimaryKeyType primaryKeyType, CompareOperator compareOperator) {
-        Preconditions.checkArgument(pk.size() < 4, "The number of primary key columns must be in range: [1, 4]");
+        checkArgument(pk.size() < 4, "The number of primary key columns must be in range: [1, 4]");
+        checkArgument(key != null, "key must not be null");
+        checkArgument(value != null, "value must not be null");
+        checkArgument(primaryKeyType != null, "PrimaryKeyType must not be null");
+        checkArgument(compareOperator != null, "CompareOperator must not be null");
         return pk.put(key, new PrimaryKeyEntry(key, value, primaryKeyType, compareOperator));
     }
 
@@ -52,20 +68,6 @@ public class OTSQuery<T> {
             start.addPrimaryKeyColumn(pkEntry.getKey(), buildStartPrimaryKeyValue(pkEntry.getValue(), defaultVaue));
         }
 
-
-//        if (direction == Direction.FORWARD) {
-//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], topicid == -1 ? PrimaryKeyValue.INF_MIN : PrimaryKeyValue.fromLong(topicid));
-//            pi = 0;
-//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.INF_MAX);
-//        } else {
-//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], topicid == -1 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(topicid));
-//            pi = 0;
-//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.INF_MIN);
-//        }
         return start;
     }
 
@@ -77,20 +79,6 @@ public class OTSQuery<T> {
             end.addPrimaryKeyColumn(pkEntry.getKey(), buildEndStartPrimaryKeyValue(pkEntry.getValue(), defaultVaue));
         }
 
-
-//        if (direction == Direction.FORWARD) {
-//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], topicid == -1 ? PrimaryKeyValue.INF_MIN : PrimaryKeyValue.fromLong(topicid));
-//            pi = 0;
-//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.INF_MAX);
-//        } else {
-//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], topicid == -1 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(topicid));
-//            pi = 0;
-//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.INF_MIN);
-//        }
         return end;
     }
 

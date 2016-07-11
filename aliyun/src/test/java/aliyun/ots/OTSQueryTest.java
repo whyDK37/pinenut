@@ -65,20 +65,8 @@ public class OTSQueryTest {
             putRows(client, tableName, 9000002, 1002, time, 2);
 
             educircle(client, time);
-        } catch (ServiceException e) {
-            System.err.println("操作失败，详情：" + e.getErrorCode() + " - " + e.getMessage());
-            e.printStackTrace();
-            // 可以根据错误代码做出处理， OTS的ErrorCode定义在OTSErrorCode中。
-            if (OTSErrorCode.QUOTA_EXHAUSTED.equals(e.getErrorCode())) {
-                System.err.println("超出存储配额。");
-            }
-            // Request ID可以用于有问题时联系客服诊断异常。
-            System.err.println("Request ID:" + e.getRequestId());
-        } catch (ClientException e) {
-            // 可能是网络不好或者是返回结果有问题
-            System.err.println("请求失败，详情：" + e.getMessage());
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         } finally {
             // 不留垃圾。
             try {
