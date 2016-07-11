@@ -117,14 +117,26 @@ public abstract class OTSUtil {
      * @throws OTSException
      * @throws ClientException
      */
-    private static BatchWriteRowResult batchPutRows(OTSClient client, List<RowPutChange> rowChanges)
+    public static BatchWriteRowResult batchRowRequest(OTSClient client, List<RowPutChange> rowChanges)
+            throws OTSException, ClientException {
+        return batchRowRequest(client,rowChanges,null);
+    }
+
+    /**
+     * 批量记录操作
+     * @param client
+     * @param rowChanges
+     * @return
+     * @throws OTSException
+     * @throws ClientException
+     */
+    private static BatchWriteRowResult batchRowRequest(OTSClient client, List<RowPutChange> rowChanges, Condition condition)
             throws OTSException, ClientException {
         Preconditions.checkArgument(rowChanges.size() <= BATCH_THRESHOLD, "The number of rowChanges columns must be in range: [1, 200]");
         BatchWriteRowRequest batchWriteRowRequest = new BatchWriteRowRequest();
 
         for (RowPutChange rowPutChange : rowChanges) {
-            rowPutChange.setCondition(new Condition(RowExistenceExpectation.EXPECT_NOT_EXIST));
-
+            if(condition != null) rowPutChange.setCondition(condition);
             batchWriteRowRequest.addRowPutChange(rowPutChange);
         }
         return client.batchWriteRow(batchWriteRowRequest);

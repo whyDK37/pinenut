@@ -59,6 +59,14 @@ public class OTSTable {
         return this;
     }
 
+    public OTSTable addPrimaryKey(String[] keys, PrimaryKeyType[] keyTypes) {
+        Preconditions.checkArgument(primaryKey.size() < 4, "The number of primary key columns must be in range: [1, 4]");
+        for (int i = 0; i < keys.length; i++) {
+            primaryKey.put(keys[i], keyTypes[i]);
+        }
+        return this;
+    }
+
     public OTSTable setReadCapacityUnit(int readCapacityUnit) {
         this.readCapacityUnit = readCapacityUnit;
         return this;
@@ -66,6 +74,12 @@ public class OTSTable {
 
     public OTSTable setWriteCapacityUnit(int writeCapacityUnit) {
         this.writeCapacityUnit = writeCapacityUnit;
+        return this;
+    }
+
+    public OTSTable setCapacity(int readCapacity, int writeCapacity) {
+        setReadCapacityUnit(readCapacity);
+        setWriteCapacityUnit(writeCapacity);
         return this;
     }
 

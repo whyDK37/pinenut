@@ -8,39 +8,52 @@ import com.aliyun.openservices.ots.*;
 import com.aliyun.openservices.ots.model.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static aliyun.ots.OTSUtil.getClient;
 
 /**
- * 用户ID  时间  帖子ID
- * userid  time topicid
+ * 【用户ID ，全局ID】时间，帖子类型,班级ID，
  */
 public class EduCircleSample {
 
     private static final String tableName = "topic_index";
     private static final int putrows = 20;
     private static final int limit = 5;
-    private static final boolean BERBOSE = true;
-    static String[] pkname = {"userid", "time", "topicid"};
-    static PrimaryKeyType[] pktype = {PrimaryKeyType.INTEGER, PrimaryKeyType.INTEGER, PrimaryKeyType.INTEGER};
+    private static final boolean VERBOSE = true;
+
+    static String[] pkname = {"userid", "topic_id"};
+    static PrimaryKeyType[] pktype = {PrimaryKeyType.INTEGER, PrimaryKeyType.INTEGER};
+
+    static String[] colname = {"time", "topictype", "classid"};
+    static PrimaryKeyType[] coltype = {PrimaryKeyType.INTEGER, PrimaryKeyType.INTEGER, PrimaryKeyType.INTEGER};
+
     public static final String Separator = ",";
+
+    final static AtomicInteger seq = new AtomicInteger(1);
+
+    static final List<String> columnget = new ArrayList<String>();
 
     public static void main(String args[]) {
         OTSClient client = getClient();
         OTSTable table = new OTSTable(tableName);
+
+        for (int i = 0; i < pkname.length; i++) {
+            columnget.add(pkname[i]);
+        }
+        for (int i = 0; i < colname.length; i++) {
+            columnget.add(colname[i]);
+        }
         try {
-            for (int i = 0; i < pkname.length; i++) {
-                table.addPrimaryKey(pkname[i], pktype[i]);
-            }
-            table.setReadCapacityUnit(100)
-                    .setWriteCapacityUnit(200);
-            // 创建表
+            table.addPrimaryKey(pkname, pktype);
+            table.setCapacity(100, 200);
             OTSUtil.createTable(client, table);
 
             // 注意：创建表只是提交请求，OTS创建表需要一段时间。
             // 这里简单地等待一下，请根据您的实际逻辑修改。
             Thread.sleep(1000);
             OTSUtil.descTable(client, table.getTableName());
+
             // 插入多行数据。
             long time = System.currentTimeMillis();
             putRows(client, tableName, 9000001, 1001, time, 1);
@@ -82,34 +95,34 @@ public class EduCircleSample {
     private static void educircle(OTSClient client, long ptime) {
         long time = ptime;
         long userid = 9000001, topicid = 0, classid = 0, topictype = 0;
-
+        Direction direction = Direction.BACKWARD;
         System.out.println("查询用户 time 时间之 前 的 所有帖子");
         userid = 9000001;
-        topicid = 0;
+        topicid = 1;
         classid = 0;
         time = ptime + putrows;
-        getRange(client, tableName, BERBOSE, userid, topicid, time, classid, 0);
+        getRange(client, tableName, userid, topicid, time, classid, topictype, direction);
 
         System.out.println("查询所有帖子");
         userid = 9000002L;
-        topicid = 0L;
+        topicid = putrows+5L;
         classid = 0;
         time = 0;
-        getRange(client, tableName, BERBOSE, userid, topicid, time, classid, 0);
+        getRange(client, tableName, userid, topicid, time, classid, topictype, direction);
 
         System.out.println("查询帖子id之后的帖子");
         userid = 9000002L;
-        topicid = 5L;
+        topicid = putrows+5L;
         classid = 0;
         time = ptime + topicid;
-        getRange(client, tableName, BERBOSE, userid, topicid, time, classid, 0);
+        getRange(client, tableName, userid, topicid, time, classid, topictype, direction);
 
         System.out.println("不存在的用户查询结果为0");
         userid = 9000000L;
-        topicid = 0L;
+        topicid = putrows+3L;
         classid = 0;
         time = 0;
-        getRange(client, tableName, BERBOSE, userid, topicid, time, classid, 0);
+        getRange(client, tableName, userid, topicid, time, classid, topictype, direction);
 
 //        System.out.println("不存在的班级查询结果0");
 //        userid = 9000002L;
@@ -125,95 +138,79 @@ public class EduCircleSample {
             throws OTSException, ClientException {
         int bid = 1;
         final int rowCount = putrows;
+        List<RowPutChange> rows = new ArrayList<RowPutChange>(rowCount);
         for (int i = 0; i < rowCount; ++i) {
             RowPutChange rowChange = new RowPutChange(tableName);
             RowPrimaryKey primaryKey = new RowPrimaryKey();
 
-            primaryKey.addPrimaryKeyColumn(pkname[0], PrimaryKeyValue.fromLong(userid));
-            primaryKey.addPrimaryKeyColumn(pkname[1], PrimaryKeyValue.fromLong(++time));
-            primaryKey.addPrimaryKeyColumn(pkname[2], PrimaryKeyValue.fromLong(i));
+            int pi = 0, ci = 0;
+            primaryKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
+            primaryKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(seq.getAndAdd(1)));
             rowChange.setPrimaryKey(primaryKey);
 
-//            rowChange.addAttributeColumn("topictype", ColumnValue.fromString("" + topictype));
+            rowChange.addAttributeColumn(colname[ci++], ColumnValue.fromLong(System.currentTimeMillis()));
+            rowChange.addAttributeColumn(colname[ci++], ColumnValue.fromLong(topictype));
+            rowChange.addAttributeColumn(colname[ci++], ColumnValue.fromLong(classid));
             rowChange.setCondition(new Condition(RowExistenceExpectation.EXPECT_NOT_EXIST));
-
-            PutRowRequest request = new PutRowRequest();
-            request.setRowChange(rowChange);
-
-            PutRowResult result = client.putRow(request);
-            int consumedWriteCU = result.getConsumedCapacity()
-                    .getCapacityUnit().getWriteCapacityUnit();
-
-//            if (BERBOSE)
-//                System.out.println("成功插入数据, 消耗的写CU为：" + consumedWriteCU);
+            rows.add(rowChange);
         }
 
-        System.out.println(String.format("成功插入%d行数据。", rowCount));
+        BatchWriteRowResult batchWriteRowResult = OTSUtil.batchRowRequest(client, rows);
+
+        System.out.println(batchWriteRowResult);
     }
 
-    private static PrimaryKeyValue buildkey(long classid, long topictype, long time, long topicid) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(StringUtils.zeroPadString(topictype + "", 1)).append(Separator);
-        stringBuilder.append(StringUtils.zeroPadString(classid + "", 9)).append(Separator);
-        stringBuilder.append(StringUtils.zeroPadString(time + "", 13)).append(Separator);
-        stringBuilder.append(StringUtils.zeroPadString(topicid + "", 9)).append(Separator);
-        return PrimaryKeyValue.fromString(stringBuilder.toString());
-    }
+//    private static PrimaryKeyValue buildkey(long classid, long topictype, long time, long topicid) {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append(StringUtils.zeroPadString(topictype + "", 1)).append(Separator);
+//        stringBuilder.append(StringUtils.zeroPadString(classid + "", 9)).append(Separator);
+//        stringBuilder.append(StringUtils.zeroPadString(time + "", 13)).append(Separator);
+//        stringBuilder.append(StringUtils.zeroPadString(topicid + "", 9)).append(Separator);
+//        return PrimaryKeyValue.fromString(stringBuilder.toString());
+//    }
 
-    private static List<Row> getRange(OTSClient client, String tableName, boolean printrows, long userid, long topicid,
-                                      long time, long classid, long topictype)
+    private static List<Row> getRange(OTSClient client, String tableName, long userid, long topicid,
+                                      long time, long classid, long topictype, Direction direction)
             throws OTSException, ClientException {
         System.out.println("getRange---------------------------------------------------------------------------------------");
         System.out.println("userid：" + userid + "- classid: " + classid + "- topicid: " + topicid + "- time: " + time + "- topictype: " + topictype);
         System.out.println("limit:" + limit);
         // 演示一下如何按主键范围查找，这里查找uid从1-4（左开右闭）的数据
-        RangeRowQueryCriteria criteria = new RangeRowQueryCriteria(tableName);
+        int pi = 0, ci = 0;
         RowPrimaryKey inclusiveStartKey = new RowPrimaryKey();
-        inclusiveStartKey.addPrimaryKeyColumn(pkname[0], PrimaryKeyValue.fromLong(userid));
-        inclusiveStartKey.addPrimaryKeyColumn(pkname[1], time == 0 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(time));
-        inclusiveStartKey.addPrimaryKeyColumn(pkname[2], topicid == 0 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(topicid));
-        // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
-
         RowPrimaryKey exclusiveEndKey = new RowPrimaryKey();
-        exclusiveEndKey.addPrimaryKeyColumn(pkname[0], PrimaryKeyValue.fromLong(userid));
-        exclusiveEndKey.addPrimaryKeyColumn(pkname[1], PrimaryKeyValue.INF_MIN);
-        exclusiveEndKey.addPrimaryKeyColumn(pkname[2], PrimaryKeyValue.INF_MIN);
+
+        if (direction == Direction.FORWARD) {
+            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
+            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], topicid == -1 ? PrimaryKeyValue.INF_MIN : PrimaryKeyValue.fromLong(topicid));
+            pi = 0;
+            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
+            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.INF_MAX);
+        } else {
+            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
+            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], topicid == -1 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(topicid));
+            pi = 0;
+            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
+            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.INF_MIN);
+        }
+
         System.out.println(inclusiveStartKey.toString());
         System.out.println(exclusiveEndKey.toString());
         System.out.println();
         // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
 
-        criteria.setInclusiveStartPrimaryKey(inclusiveStartKey);
-        criteria.setExclusiveEndPrimaryKey(exclusiveEndKey);
-        criteria.setLimit(limit);
-        criteria.setDirection(Direction.BACKWARD);
-        GetRangeRequest request = new GetRangeRequest();
-        request.setRangeRowQueryCriteria(criteria);
-        GetRangeResult result = client.getRange(request);
-//        List<Row> rows = result.getRows();
 
-        List<String> column = new ArrayList<String>();
-        for (String pk:pkname){
-            column.add(pk);
-        }
-        column.add("abc");
-        column.add("bcd");
-
-
-        List<Row> rows = OTSUtil.readLimitRows(client, tableName, inclusiveStartKey, exclusiveEndKey, limit, Direction.BACKWARD);
-        if (printrows)
+        List<Row> rows = OTSUtil.readLimitRows(client, tableName, inclusiveStartKey, exclusiveEndKey, limit, direction, columnget);
+        if (VERBOSE)
             for (Row row : rows) {
-                SortedMap<String, ColumnValue> rowmap =  row.getSortedColumns();
-                for (Map.Entry<String, ColumnValue> valueSet: rowmap.entrySet())
+                SortedMap<String, ColumnValue> rowmap = row.getSortedColumns();
+                for (Map.Entry<String, ColumnValue> valueSet : rowmap.entrySet())
                     System.out.println(valueSet.getKey() + " 信息为：" + valueSet.getValue().toString());
 //                System.out.println("topictype 信息为：" + row.getColumns().get(pkname[0]));
                 System.out.println("---");
             }
 
-        int consumedReadCU = result.getConsumedCapacity().getCapacityUnit()
-                .getReadCapacityUnit();
         System.out.println("本次查询数据条数：" + rows.size());
-        System.out.println("本次读操作消耗的读CapacityUnit为：" + consumedReadCU);
 
         System.out.println("getRange---------------------------------------------------------------------------------------end");
         return rows;
