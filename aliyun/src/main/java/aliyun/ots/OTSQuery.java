@@ -44,7 +44,7 @@ public class OTSQuery<T> {
     private ColumnCondition filter;
 
     public PrimaryKeyEntry addPrimaryKey(String key, Object value, PrimaryKeyType primaryKeyType, CompareOperator compareOperator) {
-        checkArgument(pk.size() < 4, "The number of primary key columns must be in range: [1, 4]");
+        checkArgument(pk.size() < OTSTable.MAX_PRIMARY_KEY, "The number of primary key columns must be in range: [1, 4]");
         checkArgument(key != null, "key must not be null");
         checkArgument(value != null, "value must not be null");
         checkArgument(primaryKeyType != null, "PrimaryKeyType must not be null");

@@ -22,8 +22,12 @@ public class OTSTable {
      * 字典内的主键是有顺序的，顺序与用户添加主键的顺序相同。
      */
     private Map<String, PrimaryKeyType> primaryKey = new LinkedHashMap<String, PrimaryKeyType>();
+    /**
+     * 数据列
+     */
+    private Map<String, PrimaryKeyType> columns = new LinkedHashMap<String, PrimaryKeyType>();
 
-    private static final int MAX_PRIMARY = 4;
+    public static final int MAX_PRIMARY_KEY = 4;
 
     /**
      * 表的读CapacityUnit设置。
@@ -54,15 +58,15 @@ public class OTSTable {
     }
 
     public OTSTable addPrimaryKey(String key, PrimaryKeyType keyType) {
-        Preconditions.checkArgument(primaryKey.size() < 4, "The number of primary key columns must be in range: [1, 4]");
+        Preconditions.checkArgument(primaryKey.size() < MAX_PRIMARY_KEY, "The number of primary key columns must be in range: [1, 4]");
         primaryKey.put(key, keyType);
         return this;
     }
 
     public OTSTable addPrimaryKey(String[] keys, PrimaryKeyType[] keyTypes) {
-        Preconditions.checkArgument(primaryKey.size() < 4, "The number of primary key columns must be in range: [1, 4]");
+        Preconditions.checkArgument(primaryKey.size() < MAX_PRIMARY_KEY, "The number of primary key columns must be in range: [1, 4]");
         for (int i = 0; i < keys.length; i++) {
-            primaryKey.put(keys[i], keyTypes[i]);
+            addPrimaryKey(keys[i], keyTypes[i]);
         }
         return this;
     }
