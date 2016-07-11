@@ -25,7 +25,7 @@ public abstract class OTSUtil {
     private static OTSClient clientIns;
 
     /**
-     * 批处理最多数据量
+     * 批处理一次最大数据量
      */
     public static final int BATCH_THRESHOLD = 200;
 //    public static final String ALIYUN_OTS_ENDPOINT = "http://ots.aliyuncs.com";
@@ -109,8 +109,17 @@ public abstract class OTSUtil {
         client.updateTable(request);
     }
 
+    /**
+     * 批量添加记录，每次最大添加 {@link OTSUtil.BATCH_THRESHOLD VALUE }
+     * @param client
+     * @param rowChanges
+     * @return
+     * @throws OTSException
+     * @throws ClientException
+     */
     private static BatchWriteRowResult batchPutRows(OTSClient client, List<RowPutChange> rowChanges)
             throws OTSException, ClientException {
+        Preconditions.checkArgument(rowChanges.size() <= BATCH_THRESHOLD, "The number of rowChanges columns must be in range: [1, 200]");
         BatchWriteRowRequest batchWriteRowRequest = new BatchWriteRowRequest();
 
         for (RowPutChange rowPutChange : rowChanges) {

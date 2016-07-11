@@ -19,18 +19,17 @@ public class SeqController {
     public static final int threshold = 1000;
     private int maxseq = 0;
     public static final String KEY = "seq";
-    Jedis jedis;
     SeqGenerator seqGenerator;
 
     public SeqController() {
-        String host = "127.0.0.1";
-        int port = 6379;
 
         seqGenerator = new SeqRedisGenerator(KEY, maxseq, step, threshold);
         seqGenerator.init();
 
         SeqChecker seqChecker = new SeqChecker(seqGenerator);
         seqChecker.check();
+
+        seqGenerator.setSeqChecker(seqChecker);
     }
 
     @RequestMapping("/seq")

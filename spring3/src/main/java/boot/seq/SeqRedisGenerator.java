@@ -22,6 +22,11 @@ public class SeqRedisGenerator implements SeqGenerator {
     private long maxFetchCount = MAX_FETCH_COUNT;
     private String key;
 
+    private SeqChecker seqChecker;
+    /**
+     * 是否准备好，准备好才可以提供服务
+     */
+    private boolean ready = false;
     /**
      * @param key       redis key
      * @param maxSeq    当前最大的序号
@@ -44,13 +49,12 @@ public class SeqRedisGenerator implements SeqGenerator {
     public boolean init() {
         cleanKey();
         this.loadNextPhase();
+        ready = true;
         return true;
     }
 
     protected void cleanKey() {
         JedisAPI.delete(KEY);
-//        JedisAPI.ltrim(KEY, 0, 0);
-//        JedisAPI.lpop(KEY);
     }
 
     @Override
@@ -164,4 +168,22 @@ public class SeqRedisGenerator implements SeqGenerator {
     public long getThreshold() {
         return threshold;
     }
+
+    @Override
+    public boolean isReady() {
+        return ready;
+    }
+
+    @Override
+    public boolean shutdown() {
+        persistMaxSeq();
+        seqChecker.stop();
+        ready = false;
+        return true;
+    }
+
+    public void setSeqChecker(SeqChecker seqChecker) {
+        this.seqChecker = seqChecker;
+    }
+
 }

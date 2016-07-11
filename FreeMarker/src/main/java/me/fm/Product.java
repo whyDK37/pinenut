@@ -10,12 +10,12 @@ public class Product {
         this.name = name;
     }
 
-    // As per the JavaBeans spec., this defines the "url" bean property
+    // As per the JavaBeans spec., this defines the "url" framework.bean property
     public String getUrl() {
         return url;
     }
 
-    // As per the JavaBean spec., this defines the "name" bean property
+    // As per the JavaBean spec., this defines the "name" framework.bean property
     public String getName() {
         return name;
     }

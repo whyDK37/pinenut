@@ -102,7 +102,7 @@ project(':spring3') {
         compile project(":redis")
         compile "org.springframework:spring-context:3.2.15.RELEASE"
         compile "org.springframework:spring-context-support:3.2.15.RELEASE"
-        compile "org.springframework:spring-jdbc:3.2.15.RELEASE"
+        compile "org.springframework:spring-framework.jdbc:3.2.15.RELEASE"
         compile "org.springframework:spring-orm:3.2.15.RELEASE"
         compile "org.springframework:spring-tx:3.2.15.RELEASE"
 
@@ -146,7 +146,7 @@ project(':zk') {
         compile "com.101tec:zkclient:0.4"
         compile "org.apache.curator:curator-client:3.1.0"
         compile "org.apache.curator:curator-framework:3.1.0"
-        compile "org.apache.curator:curator-recipes:3.1.0"
+        compile "org.apache.curator:curator-framework.recipes:3.1.0"
         compile "commons-lang:commons-lang:2.3"
     }
 }
@@ -157,7 +157,7 @@ project(':redis') {
         compile "redis.clients:jedis:2.8.0"
 //        compile "org.apache.curator:curator-client:3.1.0"
 //        compile "org.apache.curator:curator-framework:3.1.0"
-//        compile "org.apache.curator:curator-recipes:3.1.0"
+//        compile "org.apache.curator:curator-framework.recipes:3.1.0"
     }
 }
 
@@ -177,7 +177,7 @@ project(':mc') {
         compile "mysql:mysql-connector-java:5.1.34"
 //        compile "org.apache.curator:curator-client:3.1.0"
 //        compile "org.apache.curator:curator-framework:3.1.0"
-//        compile "org.apache.curator:curator-recipes:3.1.0"
+//        compile "org.apache.curator:curator-framework.recipes:3.1.0"
     }
 }
 

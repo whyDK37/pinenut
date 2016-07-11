@@ -21,4 +21,11 @@ public interface SeqGenerator {
     long getCurrentLength();
 
     long getThreshold();
+
+    boolean isReady();
+
+    boolean shutdown();
+
+
+    void setSeqChecker(SeqChecker seqChecker) ;
 }

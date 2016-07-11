@@ -26,7 +26,7 @@ public class LogTest {
             if(wf.get() != null){
                 System.out.println(count++);
             }else{
-                System.out.println("Object has bean gc.");
+                System.out.println("Object has framework.bean gc.");
                 break;
             }
         }

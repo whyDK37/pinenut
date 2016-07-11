@@ -6,7 +6,7 @@
 ##最简单例子
 
 """
-<bean name="memcachedClient" destroy-method="shutdown"
+<framework.bean name="memcachedClient" destroy-method="shutdown"
 
     class="net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean">
 
@@ -16,16 +16,16 @@
 
     </property>
 
-</bean>
+</framework.bean>
 """
 
-然后在 bean 中就可以使用 memcachedClient 了
+然后在 framework.bean 中就可以使用 memcachedClient 了
 
 
 
 ##复杂一点儿的例子
 """
-<bean name="memcachedClient" destroy-method="shutdown"
+<framework.bean name="memcachedClient" destroy-method="shutdown"
                 class="net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean">
     <property name="servers">
         <value>host1:port1 host2:port2 host3:port3</value>
@@ -40,15 +40,15 @@
     </property>
 
     <property name="sessionLocator">
-        <bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator"/>
+        <framework.bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator"/>
     </property>
 
     <property name="transcoder">
-        <bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder" />
+        <framework.bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder" />
     </property>
 
     <property name="bufferAllocator">
-        <bean class="net.rubyeye.xmemcached.buffer.SimpleBufferAllocator">
+        <framework.bean class="net.rubyeye.xmemcached.buffer.SimpleBufferAllocator">
     </property>
-</bean>
+</framework.bean>
 """

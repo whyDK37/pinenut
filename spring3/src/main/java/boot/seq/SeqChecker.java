@@ -58,6 +58,7 @@ public class SeqChecker {
 
     public boolean stop() {
         // fixme
+        checkerThread.stop();
         return false;
     }
 }
