@@ -1,4 +1,5 @@
 
+import com.aliyun.openservices.ots.model.Direction;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 
@@ -18,9 +19,7 @@ public class Main {
 //        }
 //
 
-        List<String> a = a("sdf");
-        System.out.println(a);
-        BeanUtils.createCache();
+
     }
 
     public static <T> List<T> a(Object a) {

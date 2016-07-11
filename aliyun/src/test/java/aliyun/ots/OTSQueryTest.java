@@ -1,18 +1,18 @@
-package aliyun.ots.xuexin;
+package aliyun.ots;
 
 
+import aliyun.ots.OTSQuery;
 import aliyun.ots.OTSTable;
 import aliyun.ots.OTSUtil;
-import aliyun.ots.StringUtils;
 import aliyun.ots.xuexin.pojo.TopicIndex;
 import com.aliyun.openservices.ots.*;
 import com.aliyun.openservices.ots.model.*;
+import com.aliyun.openservices.ots.model.condition.RelationalCondition;
 import com.aliyun.openservices.ots.utils.Preconditions;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static aliyun.ots.OTSUtil.getClient;
@@ -20,7 +20,7 @@ import static aliyun.ots.OTSUtil.getClient;
 /**
  * 【用户ID ，全局ID】时间，帖子类型,班级ID，
  */
-public class EduCircleSample {
+public class OTSQueryTest {
 
     private static final String tableName = "topic_index";
     private static final int putrows = 20;
@@ -65,8 +65,6 @@ public class EduCircleSample {
             putRows(client, tableName, 9000002, 1002, time, 2);
 
             educircle(client, time);
-//            clazz(client,time);
-//            getRangeBACKWARD(client, tableName, BERBOSE,userid,topicid,time,classid);
         } catch (ServiceException e) {
             System.err.println("操作失败，详情：" + e.getErrorCode() + " - " + e.getMessage());
             e.printStackTrace();
@@ -100,40 +98,30 @@ public class EduCircleSample {
         long time = ptime;
         long userid = 9000001, topicid = 0, classid = 0, topictype = 0;
         Direction direction = Direction.BACKWARD;
-        System.out.println("查询用户 time 时间之 前 的 所有帖子");
+        System.out.println("查询用户 topic 时间之 前 的 所有帖子");
         userid = 9000001;
-        topicid = 1;
-        classid = 0;
-        time = ptime + putrows;
-        List<TopicIndex> list = getRange(TopicIndex.class, client, tableName, userid, topicid, time, classid, topictype, direction);
-        System.out.println("查询所有帖子");
-        userid = 9000002L;
-        topicid = putrows + 5L;
-        classid = 0;
-        time = 0;
-        getRange(TopicIndex.class,client, tableName, userid, topicid, time, classid, topictype, direction);
+        topicid = 10;
 
-        System.out.println("查询帖子id之后的帖子");
-        userid = 9000002L;
-        topicid = putrows + 5L;
-        classid = 0;
-        time = ptime + topicid;
-        getRange(TopicIndex.class,client, tableName, userid, topicid, time, classid, topictype, direction);
+        OTSQuery<TopicIndex> otsQuery = new OTSQuery<TopicIndex>();
+        otsQuery.setTablename(tableName);
+        otsQuery.setDirection(direction);
+        otsQuery.setLimit(limit);
+        otsQuery.setRequiredType(TopicIndex.class);
+        otsQuery.addPrimaryKey(pkname[0],userid,PrimaryKeyType.INTEGER, OTSQuery.CompareOperator.EQUAL);
+        otsQuery.addPrimaryKey(pkname[1],topicid,PrimaryKeyType.INTEGER,OTSQuery.CompareOperator.LESS_EQUAL);
+        otsQuery.setColumnsToGet(columnget);
 
-        System.out.println("不存在的用户查询结果为0");
-        userid = 9000000L;
-        topicid = putrows + 3L;
-        classid = 0;
-        time = 0;
-        getRange(TopicIndex.class,client, tableName, userid, topicid, time, classid, topictype, direction);
+        List<TopicIndex> list = OTSUtil.readLimitRows(client,otsQuery);
+        for(TopicIndex topicIndex:list){
+            System.out.println(topicIndex);
+        }
 
-//        System.out.println("不存在的班级查询结果0");
-//        userid = 9000002L;
-//        topicid = 2L;
-//        classid = 1001;
-//        time = 0;
-//        topictype = 3;
-//        getRange(client, tableName, BERBOSE, userid, topicid, time, classid, topictype);
+        System.out.println("---------------------------");
+        otsQuery.setDirection(Direction.FORWARD);
+        list = OTSUtil.readLimitRows(client,otsQuery);
+        for(TopicIndex topicIndex:list){
+            System.out.println(topicIndex);
+        }
 
     }
 
@@ -163,51 +151,51 @@ public class EduCircleSample {
         System.out.println(batchWriteRowResult);
     }
 
-    private static <T> List<T> getRange(Class<T> clazz, OTSClient client, String tableName, long userid, long topicid,
-                                        long time, long classid, long topictype, Direction direction)
-            throws OTSException, ClientException, IllegalAccessException, InstantiationException {
-        Preconditions.checkArgument(clazz != null, " Class must not be null.");
-        System.out.println("getRange---------------------------------------------------------------------------------------");
-        System.out.println("userid：" + userid + "- classid: " + classid + "- topicid: " + topicid + "- time: " + time + "- topictype: " + topictype);
-        System.out.println("limit:" + limit);
-//        System.out.println(T);
-        // 演示一下如何按主键范围查找，这里查找uid从1-4（左开右闭）的数据
-        int pi = 0, ci = 0;
-        RowPrimaryKey inclusiveStartKey = new RowPrimaryKey();
-        RowPrimaryKey exclusiveEndKey = new RowPrimaryKey();
-
-        if (direction == Direction.FORWARD) {
-            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], topicid == -1 ? PrimaryKeyValue.INF_MIN : PrimaryKeyValue.fromLong(topicid));
-            pi = 0;
-            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.INF_MAX);
-        } else {
-            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], topicid == -1 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(topicid));
-            pi = 0;
-            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
-            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.INF_MIN);
-        }
-
-        System.out.println(inclusiveStartKey.toString());
-        System.out.println(exclusiveEndKey.toString());
-        System.out.println();
-        // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
-
-
-        List<T> rows = OTSUtil.readLimitRows(client,clazz, tableName, inclusiveStartKey, exclusiveEndKey, limit, direction, columnget);
-        if (VERBOSE)
-            for (T row : rows) {
-//                System.out.println("topictype 信息为：" + row.getColumns().get(pkname[0]));
-                System.out.println("---");
-            }
-
-        System.out.println("本次查询数据条数：" + rows.size());
-        System.out.println(rows);
-        System.out.println("getRange---------------------------------------------------------------------------------------end");
-
-        return rows;
-    }
+//    private static <T> List<T> getRange(Class<T> clazz, OTSClient client, String tableName, long userid, long topicid,
+//                                        long time, long classid, long topictype, Direction direction)
+//            throws OTSException, ClientException, IllegalAccessException, InstantiationException {
+//        Preconditions.checkArgument(clazz != null, " Class must not be null.");
+//        System.out.println("getRange---------------------------------------------------------------------------------------");
+//        System.out.println("userid：" + userid + "- classid: " + classid + "- topicid: " + topicid + "- time: " + time + "- topictype: " + topictype);
+//        System.out.println("limit:" + limit);
+////        System.out.println(T);
+//        // 演示一下如何按主键范围查找，这里查找uid从1-4（左开右闭）的数据
+//        int pi = 0, ci = 0;
+//        RowPrimaryKey inclusiveStartKey = new RowPrimaryKey();
+//        RowPrimaryKey exclusiveEndKey = new RowPrimaryKey();
+//
+//        if (direction == Direction.FORWARD) {
+//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
+//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], topicid == -1 ? PrimaryKeyValue.INF_MIN : PrimaryKeyValue.fromLong(topicid));
+//            pi = 0;
+//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
+//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.INF_MAX);
+//        } else {
+//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
+//            inclusiveStartKey.addPrimaryKeyColumn(pkname[pi++], topicid == -1 ? PrimaryKeyValue.INF_MAX : PrimaryKeyValue.fromLong(topicid));
+//            pi = 0;
+//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.fromLong(userid));
+//            exclusiveEndKey.addPrimaryKeyColumn(pkname[pi++], PrimaryKeyValue.INF_MIN);
+//        }
+//
+//        System.out.println(inclusiveStartKey.toString());
+//        System.out.println(exclusiveEndKey.toString());
+//        System.out.println();
+//        // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
+//
+//
+//        List<T> rows = OTSUtil.readLimitRows(client,clazz, tableName, inclusiveStartKey, exclusiveEndKey, limit, direction, columnget);
+//        if (VERBOSE)
+//            for (T row : rows) {
+////                System.out.println("topictype 信息为：" + row.getColumns().get(pkname[0]));
+//                System.out.println("---");
+//            }
+//
+//        System.out.println("本次查询数据条数：" + rows.size());
+//        System.out.println(rows);
+//        System.out.println("getRange---------------------------------------------------------------------------------------end");
+//
+//        return rows;
+//    }
 
 }

@@ -401,16 +401,19 @@ public abstract class OTSUtil {
         return new Pair<List<Row>, RowPrimaryKey>(rows, nextStart);
     }
 
+    @Deprecated
     public static <T> List<T> readLimitRows(OTSClient client, Class<T> requiredType, String tableName,
                                             RowPrimaryKey startKey, RowPrimaryKey endKey, int limit) {
         return readLimitRows(client, requiredType, tableName, startKey, endKey, limit, null, null, null);
     }
 
+    @Deprecated
     public static <T> List<T> readLimitRows(OTSClient client, Class<T> requiredType, String tableName,
                                             RowPrimaryKey startKey, RowPrimaryKey endKey, int limit, Direction direction) {
         return readLimitRows(client, requiredType, tableName, startKey, endKey, limit, direction, null, null);
     }
 
+    @Deprecated
     public static <T> List<T> readLimitRows(OTSClient client, Class<T> requiredType, String tableName,
                                             RowPrimaryKey startKey, RowPrimaryKey endKey, int limit, Direction direction, List<String> columnsToGet) {
         return readLimitRows(client, requiredType, tableName, startKey, endKey, limit, direction, columnsToGet, null);
@@ -418,6 +421,7 @@ public abstract class OTSUtil {
 
     /**
      * 读取指定行数的数据
+     *
      *
      * @param client       OTS客户端
      * @param requiredType 返回值类型
@@ -429,7 +433,11 @@ public abstract class OTSUtil {
      * @param columnsToGet 返回列
      * @param filter       过滤条件
      * @return 查询结果集
+     * @deprecated
+     * replaced by <code>OTSUtil.readLimitRows()</code>.
+     *
      */
+    @Deprecated
     public static <T> List<T> readLimitRows(OTSClient client, Class<T> requiredType, String tableName,
                                             RowPrimaryKey startKey, RowPrimaryKey endKey, int limit, Direction direction,
                                             List<String> columnsToGet, ColumnCondition filter) {
@@ -475,7 +483,7 @@ public abstract class OTSUtil {
     }
 
 
-    private static Object getColumnValue(Map.Entry<String, ColumnValue> entry) {
+    public static Object getColumnValue(Map.Entry<String, ColumnValue> entry) {
         Object value = null;
         ColumnValue cv = entry.getValue();
         ColumnType ct = cv.getType();
@@ -507,5 +515,44 @@ public abstract class OTSUtil {
         System.out.println("\t\t" + details.getCapacityUnit().getWriteCapacityUnit());
         System.out.println("\t\t" + details.getNumberOfDecreasesToday());
         System.out.println("\t\t" + details.getNumberOfDecreasesToday());
+    }
+
+    /**
+     *
+     * @param client
+     * @param otsQuery
+     * @param <T>
+     * @return
+     */
+    public static  <T> List<T> readLimitRows(OTSClient client, OTSQuery<T> otsQuery) {
+        Preconditions.checkArgument(otsQuery.getRequiredType() != null, "Class should not be null.");
+        Preconditions.checkArgument(otsQuery.getLimit() > 0, "Page size should be greater than 0.");
+
+        GetRangeRequest request = new GetRangeRequest();
+        request.setRangeRowQueryCriteria(otsQuery.getRangeRowQueryCriteria());
+        GetRangeResult response = client.getRange(request);
+
+        List<T> list = new ArrayList<T>();
+        try {
+            for (Row row : response.getRows()) {
+                T t = otsQuery.getRequiredType().newInstance();
+                for (Map.Entry<String, ColumnValue> entry : row.getColumns().entrySet()) {
+                    String key = entry.getKey();
+                    Object value = getColumnValue(entry);
+                    BeanUtils.setProperty(t, key, value);
+                }
+                list.add(t);
+            }
+
+            // FIXME 处理异常
+        } catch (InstantiationException e) {
+
+        } catch (IllegalAccessException e) {
+
+        } catch (InvocationTargetException e) {
+
+        }
+        return list;
+
     }
 }
