@@ -4,9 +4,14 @@ package aliyun.ots.xuexin;
 import aliyun.ots.OTSTable;
 import aliyun.ots.OTSUtil;
 import aliyun.ots.StringUtils;
+import aliyun.ots.xuexin.pojo.TopicIndex;
 import com.aliyun.openservices.ots.*;
 import com.aliyun.openservices.ots.model.*;
+import com.aliyun.openservices.ots.utils.Preconditions;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,7 +27,7 @@ public class EduCircleSample {
     private static final int limit = 5;
     private static final boolean VERBOSE = true;
 
-    static String[] pkname = {"userid", "topic_id"};
+    static String[] pkname = {"userid", "topicid"};
     static PrimaryKeyType[] pktype = {PrimaryKeyType.INTEGER, PrimaryKeyType.INTEGER};
 
     static String[] colname = {"time", "topictype", "classid"};
@@ -74,13 +79,12 @@ public class EduCircleSample {
         } catch (ClientException e) {
             // 可能是网络不好或者是返回结果有问题
             System.err.println("请求失败，详情：" + e.getMessage());
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
             // 不留垃圾。
             try {
                 OTSUtil.deleteTable(client, table);
-//                deleteTable(client, tableName);
             } catch (ServiceException e) {
                 System.err.println("删除表格失败，原因：" + e.getMessage());
                 e.printStackTrace();
@@ -92,7 +96,7 @@ public class EduCircleSample {
         }
     }
 
-    private static void educircle(OTSClient client, long ptime) {
+    private static void educircle(OTSClient client, long ptime) throws InstantiationException, IllegalAccessException {
         long time = ptime;
         long userid = 9000001, topicid = 0, classid = 0, topictype = 0;
         Direction direction = Direction.BACKWARD;
@@ -101,28 +105,27 @@ public class EduCircleSample {
         topicid = 1;
         classid = 0;
         time = ptime + putrows;
-        getRange(client, tableName, userid, topicid, time, classid, topictype, direction);
-
+        List<TopicIndex> list = getRange(TopicIndex.class, client, tableName, userid, topicid, time, classid, topictype, direction);
         System.out.println("查询所有帖子");
         userid = 9000002L;
-        topicid = putrows+5L;
+        topicid = putrows + 5L;
         classid = 0;
         time = 0;
-        getRange(client, tableName, userid, topicid, time, classid, topictype, direction);
+        getRange(TopicIndex.class,client, tableName, userid, topicid, time, classid, topictype, direction);
 
         System.out.println("查询帖子id之后的帖子");
         userid = 9000002L;
-        topicid = putrows+5L;
+        topicid = putrows + 5L;
         classid = 0;
         time = ptime + topicid;
-        getRange(client, tableName, userid, topicid, time, classid, topictype, direction);
+        getRange(TopicIndex.class,client, tableName, userid, topicid, time, classid, topictype, direction);
 
         System.out.println("不存在的用户查询结果为0");
         userid = 9000000L;
-        topicid = putrows+3L;
+        topicid = putrows + 3L;
         classid = 0;
         time = 0;
-        getRange(client, tableName, userid, topicid, time, classid, topictype, direction);
+        getRange(TopicIndex.class,client, tableName, userid, topicid, time, classid, topictype, direction);
 
 //        System.out.println("不存在的班级查询结果0");
 //        userid = 9000002L;
@@ -160,21 +163,14 @@ public class EduCircleSample {
         System.out.println(batchWriteRowResult);
     }
 
-//    private static PrimaryKeyValue buildkey(long classid, long topictype, long time, long topicid) {
-//        StringBuilder stringBuilder = new StringBuilder();
-//        stringBuilder.append(StringUtils.zeroPadString(topictype + "", 1)).append(Separator);
-//        stringBuilder.append(StringUtils.zeroPadString(classid + "", 9)).append(Separator);
-//        stringBuilder.append(StringUtils.zeroPadString(time + "", 13)).append(Separator);
-//        stringBuilder.append(StringUtils.zeroPadString(topicid + "", 9)).append(Separator);
-//        return PrimaryKeyValue.fromString(stringBuilder.toString());
-//    }
-
-    private static List<Row> getRange(OTSClient client, String tableName, long userid, long topicid,
-                                      long time, long classid, long topictype, Direction direction)
-            throws OTSException, ClientException {
+    private static <T> List<T> getRange(Class<T> clazz, OTSClient client, String tableName, long userid, long topicid,
+                                        long time, long classid, long topictype, Direction direction)
+            throws OTSException, ClientException, IllegalAccessException, InstantiationException {
+        Preconditions.checkArgument(clazz != null, " Class must not be null.");
         System.out.println("getRange---------------------------------------------------------------------------------------");
         System.out.println("userid：" + userid + "- classid: " + classid + "- topicid: " + topicid + "- time: " + time + "- topictype: " + topictype);
         System.out.println("limit:" + limit);
+//        System.out.println(T);
         // 演示一下如何按主键范围查找，这里查找uid从1-4（左开右闭）的数据
         int pi = 0, ci = 0;
         RowPrimaryKey inclusiveStartKey = new RowPrimaryKey();
@@ -200,19 +196,35 @@ public class EduCircleSample {
         // 范围的边界需要提供完整的PK，若查询的范围不涉及到某一列值的范围，则需要将该列设置为无穷大或者无穷小
 
 
-        List<Row> rows = OTSUtil.readLimitRows(client, tableName, inclusiveStartKey, exclusiveEndKey, limit, direction, columnget);
+        List<T> rows = OTSUtil.readLimitRows(client,clazz, tableName, inclusiveStartKey, exclusiveEndKey, limit, direction, columnget);
         if (VERBOSE)
-            for (Row row : rows) {
-                SortedMap<String, ColumnValue> rowmap = row.getSortedColumns();
-                for (Map.Entry<String, ColumnValue> valueSet : rowmap.entrySet())
-                    System.out.println(valueSet.getKey() + " 信息为：" + valueSet.getValue().toString());
+            for (T row : rows) {
 //                System.out.println("topictype 信息为：" + row.getColumns().get(pkname[0]));
                 System.out.println("---");
             }
 
         System.out.println("本次查询数据条数：" + rows.size());
-
+        System.out.println(rows);
         System.out.println("getRange---------------------------------------------------------------------------------------end");
+
         return rows;
+    }
+
+    private static Object getColumnValue(Map.Entry<String, ColumnValue> entry) {
+        Object value = null;
+        ColumnValue cv = entry.getValue();
+        ColumnType ct = cv.getType();
+        if (ct == ColumnType.STRING) {
+            value = cv.asString();
+        } else if (ct == ColumnType.INTEGER) {
+            value = cv.asLong();
+        } else if (ct == ColumnType.BOOLEAN) {
+            value = cv.asBoolean();
+        } else if (ct == ColumnType.BINARY) {
+            value = cv.asBinary();
+        } else if (ct == ColumnType.DOUBLE) {
+            value = cv.asDouble();
+        }
+        return value;
     }
 }

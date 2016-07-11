@@ -7,11 +7,13 @@ import com.aliyun.openservices.ots.model.*;
 import com.aliyun.openservices.ots.model.condition.ColumnCondition;
 import com.aliyun.openservices.ots.utils.Preconditions;
 import javafx.util.Pair;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.aliyun.openservices.ots.OTSClient;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -110,7 +112,8 @@ public abstract class OTSUtil {
     }
 
     /**
-     * 批量添加记录，每次最大添加 {@link OTSUtil.BATCH_THRESHOLD VALUE }
+     * 批量添加记录，每次最大添加  OTSUtil.BATCH_THRESHOLD
+     *
      * @param client
      * @param rowChanges
      * @return
@@ -119,11 +122,12 @@ public abstract class OTSUtil {
      */
     public static BatchWriteRowResult batchRowRequest(OTSClient client, List<RowPutChange> rowChanges)
             throws OTSException, ClientException {
-        return batchRowRequest(client,rowChanges,null);
+        return batchRowRequest(client, rowChanges, null);
     }
 
     /**
      * 批量记录操作
+     *
      * @param client
      * @param rowChanges
      * @return
@@ -136,7 +140,7 @@ public abstract class OTSUtil {
         BatchWriteRowRequest batchWriteRowRequest = new BatchWriteRowRequest();
 
         for (RowPutChange rowPutChange : rowChanges) {
-            if(condition != null) rowPutChange.setCondition(condition);
+            if (condition != null) rowPutChange.setCondition(condition);
             batchWriteRowRequest.addRowPutChange(rowPutChange);
         }
         return client.batchWriteRow(batchWriteRowRequest);
@@ -397,38 +401,40 @@ public abstract class OTSUtil {
         return new Pair<List<Row>, RowPrimaryKey>(rows, nextStart);
     }
 
-    public static List<Row> readLimitRows(OTSClient client, String tableName,
-                                       RowPrimaryKey startKey, RowPrimaryKey endKey, int limit) {
-        return readLimitRows(client, tableName, startKey, endKey, limit, null, null, null);
+    public static <T> List<T> readLimitRows(OTSClient client, Class<T> requiredType, String tableName,
+                                            RowPrimaryKey startKey, RowPrimaryKey endKey, int limit) {
+        return readLimitRows(client, requiredType, tableName, startKey, endKey, limit, null, null, null);
     }
 
-    public static List<Row> readLimitRows(OTSClient client, String tableName,
-                                       RowPrimaryKey startKey, RowPrimaryKey endKey, int limit, Direction direction) {
-        return readLimitRows(client, tableName, startKey, endKey, limit, direction, null, null);
+    public static <T> List<T> readLimitRows(OTSClient client, Class<T> requiredType, String tableName,
+                                            RowPrimaryKey startKey, RowPrimaryKey endKey, int limit, Direction direction) {
+        return readLimitRows(client, requiredType, tableName, startKey, endKey, limit, direction, null, null);
     }
 
-    public static List<Row> readLimitRows(OTSClient client, String tableName,
-                                          RowPrimaryKey startKey, RowPrimaryKey endKey, int limit, Direction direction,List<String> columnsToGet) {
-        return readLimitRows(client, tableName, startKey, endKey, limit, direction, columnsToGet, null);
+    public static <T> List<T> readLimitRows(OTSClient client, Class<T> requiredType, String tableName,
+                                            RowPrimaryKey startKey, RowPrimaryKey endKey, int limit, Direction direction, List<String> columnsToGet) {
+        return readLimitRows(client, requiredType, tableName, startKey, endKey, limit, direction, columnsToGet, null);
     }
+
     /**
      * 读取指定行数的数据
-     * @param client
+     *
+     * @param client       OTS客户端
+     * @param requiredType 返回值类型
      * @param tableName
-     * @param startKey 开始key
-     * @param endKey 结束key
-     * @param limit 读取数据行数
-     * @param direction 排序方式
+     * @param startKey     开始key
+     * @param endKey       结束key
+     * @param limit        读取数据行数
+     * @param direction    排序方式
      * @param columnsToGet 返回列
-     * @param filter 过滤条件
+     * @param filter       过滤条件
      * @return 查询结果集
      */
-    public static List<Row> readLimitRows(OTSClient client, String tableName,
-                                       RowPrimaryKey startKey, RowPrimaryKey endKey, int limit, Direction direction,
-                                       List<String> columnsToGet, ColumnCondition filter) {
+    public static <T> List<T> readLimitRows(OTSClient client, Class<T> requiredType, String tableName,
+                                            RowPrimaryKey startKey, RowPrimaryKey endKey, int limit, Direction direction,
+                                            List<String> columnsToGet, ColumnCondition filter) {
+        Preconditions.checkArgument(requiredType != null, "Class should not be null.");
         Preconditions.checkArgument(limit > 0, "Page size should be greater than 0.");
-
-        List<Row> rows = new ArrayList<Row>(limit);
 
         RowPrimaryKey nextStart = startKey;
 
@@ -446,12 +452,45 @@ public abstract class OTSUtil {
         GetRangeRequest request = new GetRangeRequest();
         request.setRangeRowQueryCriteria(criteria);
         GetRangeResult response = client.getRange(request);
-        for (Row row : response.getRows()) {
-            rows.add(row);
-        }
-//        }
 
-        return rows;
+        List<T> list = new ArrayList<T>();
+        try {
+            for (Row row : response.getRows()) {
+                T t = requiredType.newInstance();
+                for (Map.Entry<String, ColumnValue> entry : row.getColumns().entrySet()) {
+                    String key = entry.getKey();
+                    Object value = getColumnValue(entry);
+                    BeanUtils.setProperty(t, key, value);
+                }
+                list.add(t);
+            }
+        } catch (InstantiationException e) {
+
+        } catch (IllegalAccessException e) {
+
+        } catch (InvocationTargetException e) {
+
+        }
+        return list;
+    }
+
+
+    private static Object getColumnValue(Map.Entry<String, ColumnValue> entry) {
+        Object value = null;
+        ColumnValue cv = entry.getValue();
+        ColumnType ct = cv.getType();
+        if (ct == ColumnType.STRING) {
+            value = cv.asString();
+        } else if (ct == ColumnType.INTEGER) {
+            value = cv.asLong();
+        } else if (ct == ColumnType.BOOLEAN) {
+            value = cv.asBoolean();
+        } else if (ct == ColumnType.BINARY) {
+            value = cv.asBinary();
+        } else if (ct == ColumnType.DOUBLE) {
+            value = cv.asDouble();
+        }
+        return value;
     }
 
     public static void descTable(OTSClient otsClient, String tableName) {
@@ -464,9 +503,9 @@ public abstract class OTSUtil {
             System.out.println("\t\t" + entry.getKey() + "-" + entry.getValue().toString());
         }
         ReservedThroughputDetails details = describeTableResult.getReservedThroughputDetails();
-        System.out.println("\t\t" +details.getCapacityUnit().getReadCapacityUnit());
-        System.out.println("\t\t" +details.getCapacityUnit().getWriteCapacityUnit());
-        System.out.println("\t\t" +details.getNumberOfDecreasesToday());
-        System.out.println("\t\t" +details.getNumberOfDecreasesToday());
+        System.out.println("\t\t" + details.getCapacityUnit().getReadCapacityUnit());
+        System.out.println("\t\t" + details.getCapacityUnit().getWriteCapacityUnit());
+        System.out.println("\t\t" + details.getNumberOfDecreasesToday());
+        System.out.println("\t\t" + details.getNumberOfDecreasesToday());
     }
 }
