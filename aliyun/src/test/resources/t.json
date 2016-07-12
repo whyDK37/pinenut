@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "result": {
+    "count": 20,
+    "eduReplyList": [
+      {
+        "replyID": 2406870473246720,
+        "replyPID": null,
+        "topicID": 2405543340754944,
+        "replyContent": "replyContent",
+        "creator": null,
+        "creatorName": null,
+        "createDate": null,
+        "platform": "IOS",
+        "creatorAvatar": null,
+        "isEffective": 1,
+        "pEduReply": {
+          "replyID": 6,
+          "replyPID": null,
+          "topicID": 2405543340754944,
+          "replyContent": "replyContent",
+          "creator": "128625",
+          "creatorName": "张瑞",
+          "createDate": 1435892202256,
+          "platform": "IOS",
+          "version": "1.1.0",
+          "isEffective": 1,
+          "pEduReply": null
+        }
+      }
+    ]
+  }
+}
