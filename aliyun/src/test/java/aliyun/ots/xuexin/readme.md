@@ -36,7 +36,6 @@
        long 13位                       2286-11-21
 帖子ID long 9位   如：999999999 9亿
 班级ID long 9位   如：999999999 9亿
-班级ID long 9位
 评论ID long 15位
 分享ID long 15位
 赞ID   long 15位
@@ -50,13 +49,13 @@ _注释：【】中是主键，没在【】中的是属性。_
 
 ## 字段说明
 用户ID username long
-时间   time     long
+时间   createDate long
                 long
-帖子ID topicid  long    全局唯一
+帖子ID topicID  long    全局唯一
 班级ID classid  long
-评论ID replyid  long    全局唯一
+评论ID replyID  long    全局唯一
 分享ID shareid  long    全局唯一
-赞ID   praiseid long    全局唯一
+赞ID   likeID   long    全局唯一
 帖子类型 topictype string  2位
 班级ID+帖子类型  classidtopictype string  中间用,号分割如：9000001,01
 
@@ -72,8 +71,21 @@ _注释：【】中是主键，没在【】中的是属性。_
 
 ## 帖子赞表
 【帖子ID，赞全局ID 】时间 ，用户ID ，状态
+
+接口：
+topicID likeID creatorName creator createDate
+
 ## 帖子评论表
 【帖子ID，评论全局ID】时间 ，用户ID ，回复评论ID, 评论人ID， 评论内容 ， 状态
+
+接口 "replyID": 2418133476952064,
+                        "replyPID": null,
+                        "topicID": 2417793839253504,
+                        "replyContent": "哈哈测试来了",
+                        "creator": "101001",
+                        "creatorName": "郜金丹1oaisAASFDAQDF",
+                        "createDate": 1436426129398,
+                        "pEduReply": null
 ## 帖子分享表
 【帖子ID，分享全局ID】时间 ，用户ID，分享平台 状态
 
