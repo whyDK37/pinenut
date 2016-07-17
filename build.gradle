@@ -1,5 +1,4 @@
 allprojects {
-    apply plugin: 'maven'
     apply plugin: 'idea'
 
     group = 'me.pinenut'
