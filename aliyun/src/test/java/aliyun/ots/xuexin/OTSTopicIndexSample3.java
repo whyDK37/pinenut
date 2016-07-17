@@ -33,12 +33,12 @@ public class OTSTopicIndexSample3 {
                     .setReadCapacityUnit(100)
                     .setWriteCapacityUnit(200);
             // 创建表
-           OTSUtil.createTable(client,table);
+           OTSUtil.createTable(table);
 
             // 注意：创建表只是提交请求，OTS创建表需要一段时间。
             // 这里简单地等待一下，请根据您的实际逻辑修改。
             Thread.sleep(1000);
-            OTSUtil.descTable(client,table.getTableName());
+            OTSUtil.descTable(table.getTableName());
             // 插入多行数据。
             long time = System.currentTimeMillis();
             putRows(client, tableName,9000001,1001,time,1);
@@ -64,7 +64,7 @@ public class OTSTopicIndexSample3 {
         } finally {
             // 不留垃圾。
             try {
-                OTSUtil.deleteTable(client,table);
+                OTSUtil.deleteTable(table);
 //                deleteTable(client, tableName);
             } catch (ServiceException e) {
                 System.err.println("删除表格失败，原因：" + e.getMessage());

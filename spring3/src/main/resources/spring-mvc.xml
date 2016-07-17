@@ -1,0 +1,88 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/oxm
+            http://www.springframework.org/schema/oxm/spring-oxm.xsd">
+
+    <mvc:annotation-driven content-negotiation-manager="cnManager"/>
+    <!-- Configures a handler for serving static resources by forwarding to
+            the Servlet container's default Servlet. -->
+    <mvc:default-servlet-handler/>
+
+
+    <context:component-scan base-package="web.*" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
+    <bean id="cnManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
+          p:ignoreAcceptHeader="true"
+          p:favorPathExtension="true"
+          p:favorParameter="true"
+          p:parameterName="mediaType"
+          p:defaultContentType="text/html"
+          p:useJaf="false">
+        <property name="mediaTypes">
+            <map>
+                <entry key="html" value="text/html"/>
+                <entry key="xml" value="application/xml"/>
+                <entry key="json" value="application/json"/>
+            </map>
+        </property>
+    </bean>
+
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver"
+          p:contentNegotiationManager-ref="cnManager">
+        <property name="viewResolvers">
+            <list>
+                <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+                      p:prefix="${web.view.prefix}"
+                      p:suffix="${web.view.suffix}"/>
+                <!--<bean class="org.springframework.web.servlet.view.XmlViewResolver">-->
+                <!--<property name="location" value="/WEB-INF/spring/spreadsheet-views.xml" />-->
+                <!--</bean>-->
+                <!--<bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"-->
+                <!--p:contentType="text/html"/>-->
+                <bean class="web.JsonViewResolver"/>
+
+            </list>
+        </property>
+    </bean>
+
+
+
+
+    <!-- 静态资源映射 -->
+    <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
+
+    <!-- 支持Shiro对Controller的方法级AOP安全控制 begin-->
+    <!--<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">-->
+    <!--<property name="proxyTargetClass" value="true" />-->
+    <!--</bean>-->
+
+    <bean id="simpleMappingExceptionResolver"
+          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.apache.shiro.authz.UnauthorizedException">error/403</prop>
+                <prop key="java.lang.Throwable">error/500</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- 支持Shiro对Controller的方法级AOP安全控制 end -->
+
+    <!-- 上传文件拦截，设置最大上传文件大小   10M=10*1024*1024(B)=10485760 bytes -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+          p:maxUploadSize="${web.maxUploadSize}"/>
+</beans>

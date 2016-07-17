@@ -241,37 +241,37 @@ public class OTSMultiDataSample {
         System.out.println("getRange---------------------------------------end");
     }
 
-    private static void readByPage(OTSClient client, String tableName) {
-        System.out.println("readByPage-------------------------------");
-        int pageSize = 8;
-        int offset = 33;
-
-        RowPrimaryKey startKey = new RowPrimaryKey();
-        startKey.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.INF_MIN);
-        startKey.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.INF_MIN);
-
-        RowPrimaryKey endKey = new RowPrimaryKey();
-        endKey.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.INF_MAX);
-        endKey.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.INF_MAX);
-        // 读第一页，从范围的offset=33的行开始读起
-        Pair<List<Row>, RowPrimaryKey> result = OTSUtil.readByPage(client, tableName, startKey, endKey, offset, pageSize);
-        for (Row row : result.getKey()) {
-            System.out.println(row.getColumns());
-        }
-        System.out.println("Total rows count: " + result.getKey().size());
-
-        // 顺序翻页，读完范围内的所有数据
-        startKey = result.getValue();
-        while (startKey != null) {
-            System.out.println("============= start read next page ==============");
-            result = OTSUtil.readByPage(client, tableName, startKey, endKey, 0, pageSize);
-            for (Row row : result.getKey()) {
-                System.out.println(row.getColumns());
-            }
-            startKey = result.getValue();
-            System.out.println("Total rows count: " + result.getKey().size());
-        }
-
-        System.out.println("readByPage-------------------------------end");
-    }
+//    private static void readByPage(OTSClient client, String tableName) {
+//        System.out.println("readByPage-------------------------------");
+//        int pageSize = 8;
+//        int offset = 33;
+//
+//        RowPrimaryKey startKey = new RowPrimaryKey();
+//        startKey.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.INF_MIN);
+//        startKey.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.INF_MIN);
+//
+//        RowPrimaryKey endKey = new RowPrimaryKey();
+//        endKey.addPrimaryKeyColumn(COLUMN_GID_NAME, PrimaryKeyValue.INF_MAX);
+//        endKey.addPrimaryKeyColumn(COLUMN_UID_NAME, PrimaryKeyValue.INF_MAX);
+//        // 读第一页，从范围的offset=33的行开始读起
+//        Pair<List<Row>, RowPrimaryKey> result = OTSUtil.readByPage(client, tableName, startKey, endKey, offset, pageSize);
+//        for (Row row : result.getKey()) {
+//            System.out.println(row.getColumns());
+//        }
+//        System.out.println("Total rows count: " + result.getKey().size());
+//
+//        // 顺序翻页，读完范围内的所有数据
+//        startKey = result.getValue();
+//        while (startKey != null) {
+//            System.out.println("============= start read next page ==============");
+//            result = OTSUtil.readByPage(client, tableName, startKey, endKey, 0, pageSize);
+//            for (Row row : result.getKey()) {
+//                System.out.println(row.getColumns());
+//            }
+//            startKey = result.getValue();
+//            System.out.println("Total rows count: " + result.getKey().size());
+//        }
+//
+//        System.out.println("readByPage-------------------------------end");
+//    }
 }

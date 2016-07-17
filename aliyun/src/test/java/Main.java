@@ -12,6 +12,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by whydk on 2016/6/30.
  */
 public class Main {
+    private String a;
+    Integer b;
+    Boolean c;
+    Double d;
     public static void main(String[] args) throws UnsupportedEncodingException {
 //        AtomicInteger atomicInteger = new AtomicInteger(1);
 //        for (int i = 0; i < 100; i++) {

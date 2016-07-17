@@ -11,7 +11,7 @@ import redis.clients.jedis.Jedis;
 /**
  * test : curl -X POST http://localhost:8080/seq
  */
-@RestController
+//@RestController
 public class SeqController {
     public static final Log logger = LogFactory.getLog(SeqController.class);
 
