@@ -8,23 +8,23 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <!-- http://code.google.com/p/xmemcached/wiki/Spring_Integration -->
     <context:property-placeholder location="memcached.properties"/>
-    <framework.bean
+    <bean
             id="memcachedClientBuilder"
-            class="net.rubyeye.mc.xmemcached.XMemcachedClientBuilder"
+            class="net.rubyeye.xmemcached.XMemcachedClientBuilder"
             p:connectionPoolSize="${mc.memcached.connectionPoolSize}"
             p:failureMode="${mc.memcached.failureMode}">
         <!-- XMemcachedClientBuilder have two arguments.First is server list,and
             second is weights array. -->
         <constructor-arg>
             <list>
-                <framework.bean class="java.net.InetSocketAddress">
+                <bean class="java.net.InetSocketAddress">
                     <constructor-arg>
                         <value>${mc.memcached.server1.host}</value>
                     </constructor-arg>
                     <constructor-arg>
                         <value>${mc.memcached.server1.port}</value>
                     </constructor-arg>
-                </framework.bean>
+                </bean>
                 <!--<framework.bean class="java.net.InetSocketAddress">-->
                     <!--<constructor-arg>-->
                         <!--<value>${mc.memcached.server2.host}</value>-->
@@ -60,19 +60,19 @@
             </list>
         </constructor-arg>
         <property name="commandFactory">
-            <framework.bean class="net.rubyeye.mc.xmemcached.command.TextCommandFactory"/>
+            <bean class="net.rubyeye.xmemcached.command.TextCommandFactory"/>
         </property>
         <property name="sessionLocator">
-            <framework.bean class="net.rubyeye.mc.xmemcached.impl.KetamaMemcachedSessionLocator"/>
+            <bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator"/>
         </property>
         <property name="transcoder">
-            <framework.bean class="net.rubyeye.mc.xmemcached.transcoders.SerializingTranscoder"/>
+            <bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder"/>
         </property>
-    </framework.bean>
-    <!-- Use factory framework.bean to build mc.memcached client -->
-    <framework.bean
+    </bean>
+    <!-- Use factory bean to build mc.memcached client -->
+    <bean
             id="memcachedClient"
-            factory-framework.bean="memcachedClientBuilder"
+            factory-bean="memcachedClientBuilder"
             factory-method="build"
             destroy-method="shutdown"/>
 </beans>

@@ -13,30 +13,25 @@ import java.util.concurrent.TimeoutException;
 /**
  * Created by drug on 2016/4/29.
  */
-public class BigObjectTest {
+public class BigStringTest {
 
 
     private static MemcachedClient mc;
 
     public static void main(String[] args) throws IOException, InterruptedException, MemcachedException, TimeoutException {
-        String hostport = "172.16.170.128:11211";
+        String hostport = "127.0.0.1:11211";
         mc = MCUtil.createJedis(hostport);
 
-//        mc.set("hello", 0, "Hello,mc.xmemcached");
-//        String value = mc.get("hello");
-//        System.out.println("hello=" + value);
 //
         for (int i = 0; i < 10000; i++) {
-            BigObject bigObject = new BigObject();
-//            System.out.println(bigObject.toString());
-            mc.set("obj"+i,0,bigObject);
+            mc.set("obj"+i,0,"i am a big string "+i);
         }
 
         long t1 = System.currentTimeMillis();
-        BigObject bo = mc.get("obj1");
+        String str = mc.get("obj1");
         long t2 = System.currentTimeMillis();
         System.out.println(t2-t1);
-        System.out.println(bo.toString());
+        System.out.println(str);
 
 //        MCStats(mc);
 

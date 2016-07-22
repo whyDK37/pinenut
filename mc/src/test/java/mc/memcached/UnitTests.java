@@ -23,9 +23,6 @@ import com.meetup.memcached.*;
 import java.util.*;
 import java.io.Serializable;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.BasicConfigurator;
 
 public class UnitTests {
 
@@ -47,8 +44,6 @@ public class UnitTests {
      */
     public static void main(String[] args) {
 
-        BasicConfigurator.configure();
-        org.apache.log4j.Logger.getRootLogger().setLevel(Level.WARN);
 
         if (!UnitTests.class.desiredAssertionStatus()) {
             System.err.println("WARNING: assertions are disabled!");

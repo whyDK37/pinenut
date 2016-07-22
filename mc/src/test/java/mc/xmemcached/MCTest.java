@@ -3,7 +3,6 @@ package mc.xmemcached;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.exception.MemcachedException;
 import net.rubyeye.xmemcached.transcoders.StringTranscoder;
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -16,7 +15,6 @@ import java.util.concurrent.TimeoutException;
  */
 public class MCTest {
 
-    private static Logger log = Logger.getLogger( MCTest.class.getName() );
 
     private static MemcachedClient mc;
     public static void main(String[] args) {
