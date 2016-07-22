@@ -8,7 +8,7 @@
 """
 <framework.bean name="memcachedClient" destroy-method="shutdown"
 
-    class="net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean">
+    class="net.rubyeye.mc.xmemcached.utils.XMemcachedClientFactoryBean">
 
     <property name="servers">
 
@@ -26,7 +26,7 @@
 ##复杂一点儿的例子
 """
 <framework.bean name="memcachedClient" destroy-method="shutdown"
-                class="net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean">
+                class="net.rubyeye.mc.xmemcached.utils.XMemcachedClientFactoryBean">
     <property name="servers">
         <value>host1:port1 host2:port2 host3:port3</value>
     </property>
@@ -40,15 +40,15 @@
     </property>
 
     <property name="sessionLocator">
-        <framework.bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator"/>
+        <framework.bean class="net.rubyeye.mc.xmemcached.impl.KetamaMemcachedSessionLocator"/>
     </property>
 
     <property name="transcoder">
-        <framework.bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder" />
+        <framework.bean class="net.rubyeye.mc.xmemcached.transcoders.SerializingTranscoder" />
     </property>
 
     <property name="bufferAllocator">
-        <framework.bean class="net.rubyeye.xmemcached.buffer.SimpleBufferAllocator">
+        <framework.bean class="net.rubyeye.mc.xmemcached.buffer.SimpleBufferAllocator">
     </property>
 </framework.bean>
 """

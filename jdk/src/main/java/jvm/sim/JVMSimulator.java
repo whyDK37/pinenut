@@ -80,7 +80,7 @@ public abstract class JVMSimulator extends Applet implements Runnable {
 	ConstantPoolEntry[] constantPool;
 	boolean stoppedThreadWhenLeftPage = false;
 
-    // If the "run" button is pushed, a separate thread will be invoked that
+    // If the "run" button is pushed, a separate jdk.thread will be invoked that
     // will cause the JVM to execute until the "stop" button is pressed.
     Thread runner;
     final int millisecondDelayBetweenSteps = 250;
@@ -191,7 +191,7 @@ public abstract class JVMSimulator extends Applet implements Runnable {
         resetButton.enable();
         stopButton.disable();
         if (runner != null) {
-            // Synchronize on currentMethod to allow the thread
+            // Synchronize on currentMethod to allow the jdk.thread
             // to complete execution of the current instruction before
             // killing it.
             synchronized (currentMethod) {
@@ -229,7 +229,7 @@ public abstract class JVMSimulator extends Applet implements Runnable {
                 pcRegister = currentMethod.executeNextInstruction();
             }
             catch (BreakpointException be) {
-                // On a breakpoint, kill the thread.
+                // On a breakpoint, kill the jdk.thread.
                 runButton.enable();
                 stepButton.enable();
                 resetButton.enable();
@@ -629,7 +629,7 @@ public abstract class JVMSimulator extends Applet implements Runnable {
                 resetButton.enable();
                 stopButton.disable();
                 if (runner != null) {
-                    // Synchronize on currentMethod to allow the thread
+                    // Synchronize on currentMethod to allow the jdk.thread
                     // to complete execution of the current instruction before
                     // killing it.
                     synchronized (currentMethod) {

@@ -1,4 +1,4 @@
-group 'me.pinenut'
+group 'jdk.me.pinenut'
 version '0.0.1-SNAPSHOT'
 
 apply plugin: 'java'

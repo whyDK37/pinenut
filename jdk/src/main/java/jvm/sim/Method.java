@@ -85,7 +85,7 @@ class Method {
     }
 
     // This method is synchronized because executing an instruction must be
-    // an idivisible act. If this is being called from the thread that gets
+    // an idivisible act. If this is being called from the jdk.thread that gets
     // fired off by pressing the Run button, it must not be interrupted by
     // the user pressing the Stop button or leaving the page in the browser.
     synchronized int executeNextInstruction() throws BreakpointException {

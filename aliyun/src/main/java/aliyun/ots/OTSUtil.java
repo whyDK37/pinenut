@@ -607,7 +607,7 @@ public class OTSUtil {
     private static void assemblyAttributeColumns(OTSTable table, Object pojo, RowPutChange rowChange) {
         for (OTSTable.OTSColumn column : table.getColumns()) {
             try {
-                rowChange.addAttributeColumn(column.getKey(), buildColumnValue(column, BeanUtil.getPropertyValue(column.getKey(), pojo)));
+//                rowChange.addAttributeColumn(column.getKey(), buildColumnValue(column, BeanUtil.getPropertyValue(column.getKey(), redis.pojo)));
             } catch (Exception e) {
                 //fixme why 忽略属性不存在例外
             }
@@ -618,7 +618,7 @@ public class OTSUtil {
     private static void assemblyAttributeColumns(OTSTable table, Object pojo, RowUpdateChange rowChange) {
         for (OTSTable.OTSColumn column : table.getColumns()) {
             try {
-                rowChange.addAttributeColumn(column.getKey(), buildColumnValue(column, BeanUtil.getPropertyValue(column.getKey(), pojo)));
+//                rowChange.addAttributeColumn(column.getKey(), buildColumnValue(column, BeanUtil.getPropertyValue(column.getKey(), redis.pojo)));
             } catch (Exception e) {
                 //fixme why 忽略属性不存在例外
             }
@@ -732,7 +732,7 @@ public class OTSUtil {
     private static RowPrimaryKey assemblyPrimaryKey(OTSTable table, Object pojo) {
         RowPrimaryKey primaryKeys = new RowPrimaryKey();
         for (OTSTable.OTSPrimaryKey otsPrimaryKey : table.getPrimaryKey()) {
-            primaryKeys.addPrimaryKeyColumn(otsPrimaryKey.getKey(), buildPrimaryKeyValue(otsPrimaryKey.getKeyType(), BeanUtil.getPropertyValue(otsPrimaryKey.getKey(), pojo)));
+//            primaryKeys.addPrimaryKeyColumn(otsPrimaryKey.getKey(), buildPrimaryKeyValue(otsPrimaryKey.getKeyType(), BeanUtil.getPropertyValue(otsPrimaryKey.getKey(), redis.pojo)));
         }
         return primaryKeys;
     }

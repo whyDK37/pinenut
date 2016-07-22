@@ -10,66 +10,66 @@
     <context:property-placeholder location="memcached.properties"/>
     <framework.bean
             id="memcachedClientBuilder"
-            class="net.rubyeye.xmemcached.XMemcachedClientBuilder"
-            p:connectionPoolSize="${memcached.connectionPoolSize}"
-            p:failureMode="${memcached.failureMode}">
+            class="net.rubyeye.mc.xmemcached.XMemcachedClientBuilder"
+            p:connectionPoolSize="${mc.memcached.connectionPoolSize}"
+            p:failureMode="${mc.memcached.failureMode}">
         <!-- XMemcachedClientBuilder have two arguments.First is server list,and
             second is weights array. -->
         <constructor-arg>
             <list>
                 <framework.bean class="java.net.InetSocketAddress">
                     <constructor-arg>
-                        <value>${memcached.server1.host}</value>
+                        <value>${mc.memcached.server1.host}</value>
                     </constructor-arg>
                     <constructor-arg>
-                        <value>${memcached.server1.port}</value>
+                        <value>${mc.memcached.server1.port}</value>
                     </constructor-arg>
                 </framework.bean>
                 <!--<framework.bean class="java.net.InetSocketAddress">-->
                     <!--<constructor-arg>-->
-                        <!--<value>${memcached.server2.host}</value>-->
+                        <!--<value>${mc.memcached.server2.host}</value>-->
                     <!--</constructor-arg>-->
                     <!--<constructor-arg>-->
-                        <!--<value>${memcached.server2.port}</value>-->
-                    <!--</constructor-arg>-->
-                <!--</framework.bean>-->
-                <!--<framework.bean class="java.net.InetSocketAddress">-->
-                    <!--<constructor-arg>-->
-                        <!--<value>${memcached.server3.host}</value>-->
-                    <!--</constructor-arg>-->
-                    <!--<constructor-arg>-->
-                        <!--<value>${memcached.server3.port}</value>-->
+                        <!--<value>${mc.memcached.server2.port}</value>-->
                     <!--</constructor-arg>-->
                 <!--</framework.bean>-->
                 <!--<framework.bean class="java.net.InetSocketAddress">-->
                     <!--<constructor-arg>-->
-                        <!--<value>${memcached.server4.host}</value>-->
+                        <!--<value>${mc.memcached.server3.host}</value>-->
                     <!--</constructor-arg>-->
                     <!--<constructor-arg>-->
-                        <!--<value>${memcached.server4.port}</value>-->
+                        <!--<value>${mc.memcached.server3.port}</value>-->
+                    <!--</constructor-arg>-->
+                <!--</framework.bean>-->
+                <!--<framework.bean class="java.net.InetSocketAddress">-->
+                    <!--<constructor-arg>-->
+                        <!--<value>${mc.memcached.server4.host}</value>-->
+                    <!--</constructor-arg>-->
+                    <!--<constructor-arg>-->
+                        <!--<value>${mc.memcached.server4.port}</value>-->
                     <!--</constructor-arg>-->
                 <!--</framework.bean>-->
             </list>
         </constructor-arg>
         <constructor-arg>
             <list>
-                <value>${memcached.server1.weight}</value>
-                <value>${memcached.server2.weight}</value>
-                <value>${memcached.server3.weight}</value>
-                <value>${memcached.server4.weight}</value>
+                <value>${mc.memcached.server1.weight}</value>
+                <value>${mc.memcached.server2.weight}</value>
+                <value>${mc.memcached.server3.weight}</value>
+                <value>${mc.memcached.server4.weight}</value>
             </list>
         </constructor-arg>
         <property name="commandFactory">
-            <framework.bean class="net.rubyeye.xmemcached.command.TextCommandFactory"/>
+            <framework.bean class="net.rubyeye.mc.xmemcached.command.TextCommandFactory"/>
         </property>
         <property name="sessionLocator">
-            <framework.bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator"/>
+            <framework.bean class="net.rubyeye.mc.xmemcached.impl.KetamaMemcachedSessionLocator"/>
         </property>
         <property name="transcoder">
-            <framework.bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder"/>
+            <framework.bean class="net.rubyeye.mc.xmemcached.transcoders.SerializingTranscoder"/>
         </property>
     </framework.bean>
-    <!-- Use factory framework.bean to build memcached client -->
+    <!-- Use factory framework.bean to build mc.memcached client -->
     <framework.bean
             id="memcachedClient"
             factory-framework.bean="memcachedClientBuilder"

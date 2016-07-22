@@ -12,7 +12,7 @@ public class HelloMBeanServerTest {
     public static void main(String[] args) throws Exception {
 
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        ObjectName name = new ObjectName("jdk.jmx:type=HelloMBean");
+        ObjectName name = new ObjectName("jdk.jdk.jmx:type=HelloMBean");
         Hello mbean = new Hello();
         mbs.registerMBean(mbean, name);
 

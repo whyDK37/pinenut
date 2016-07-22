@@ -162,15 +162,15 @@ project(':redis') {
 }
 
 project(':mc') {
-    description = 'memcached test'
+    description = 'mc.memcached test'
     dependencies {
         compile 'org.slf4j:slf4j-api:1.7.7'
         compile 'log4j:log4j:1.2.17'
 
         // Memcached client
-        compile "com.googlecode.xmemcached:xmemcached:2.0.0"
-        compile 'com.danga:memcached:2.6.6'
-        compile 'com.meetup:memcached:1.6'
+        compile "com.googlecode.mc.xmemcached:mc.xmemcached:2.0.0"
+        compile 'com.danga:mc.memcached:2.6.6'
+        compile 'com.meetup:mc.memcached:1.6'
         compile 'net.spy:spymemcached:2.12.1'
 
         compile "org.springframework:spring-context:3.2.15.RELEASE"

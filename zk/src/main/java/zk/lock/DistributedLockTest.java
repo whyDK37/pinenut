@@ -31,7 +31,7 @@ public class DistributedLockTest {
                         e.printStackTrace();
                     }
                 }
-            }, "thread " + i);
+            }, "jdk.thread " + i);
             t.start();
         }
     }

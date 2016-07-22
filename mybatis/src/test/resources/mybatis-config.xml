@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <properties resource="mybatis-config.properties" />
-    <!--<objectFactory type="my.me.ExampleObjectFactory">-->
+    <!--<objectFactory type="my.jdk.me.ExampleObjectFactory">-->
         <!--<property name="someProperty" value="100"/>-->
     <!--</objectFactory>-->
     <typeAliases>
-        <package name="me.mybatis"/>
+        <package name="jdk.me.mybatis"/>
     </typeAliases>
     <typeHandlers>
-        <typeHandler handler="me.mybatis.type.ExampleTypeHandler" />
+        <typeHandler handler="jdk.me.mybatis.type.ExampleTypeHandler" />
     </typeHandlers>
     <environments default="${evn}">
         <environment id="development">
@@ -30,7 +30,7 @@
         <property name="Oracle" value="oracle" />
     </databaseIdProvider>
     <mappers>
-        <package name="me.mybatis"/>
+        <package name="jdk.me.mybatis"/>
         <!--<mapper resource="com/icfcc/db/sys/SmMenuMapper.xml" />-->
         <!--<mapper resource="com/icfcc/db/user/SmUserAuthMapper.xml" />-->
         <!--<mapper resource="com/icfcc/db/user/SmUserbaseinfoMapper.xml" />-->

@@ -9,7 +9,7 @@
     <display-name>web</display-name>
     <filter>
         <filter-name>EncodingFilter</filter-name>
-        <filter-class>me.filter.EncodingFilter</filter-class>
+        <filter-class>jdk.me.filter.EncodingFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
@@ -18,7 +18,7 @@
 
     <servlet>
         <servlet-name>fileupload</servlet-name>
-        <servlet-class>me.servlet.FileuploadServlet</servlet-class>
+        <servlet-class>jdk.me.servlet.FileuploadServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>fileupload</servlet-name>
@@ -26,7 +26,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>filedownload</servlet-name>
-        <servlet-class>me.servlet.FiledownloadServlet</servlet-class>
+        <servlet-class>jdk.me.servlet.FiledownloadServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>filedownload</servlet-name>
