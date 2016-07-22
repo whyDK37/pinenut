@@ -13,6 +13,9 @@ public class IntegerTest {
     public void test(){
         System.out.println("test");
         BigInteger integer = new BigInteger(Integer.MAX_VALUE+"999999999999999999999999999");
+
         System.out.println(integer);
+        String a = "abc";
+        System.out.println(a);
     }
 }

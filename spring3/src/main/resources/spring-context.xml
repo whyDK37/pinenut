@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd" default-lazy-init="false">
+
+    <description>SSM site Configuration</description>
+    <!--<aop:aspectj-autoproxy/>-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- load properties -->
+    <!--<context:property-placeholder ignore-unresolvable="true" location="classpath:property/site.properties"/>-->
+
+    <!--<context:component-scan base-package="com.icfcc.modules.*" use-default-filters="false">&lt;!&ndash; base-package 如果多个，用“,”分隔 &ndash;&gt;-->
+    <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>-->
+    <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>-->
+    <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>-->
+    <!--</context:component-scan>-->
+
+    <!--<aop:aspectj-autoproxy/>-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- load properties -->
+
+    <context:component-scan base-package="web.**" use-default-filters="false"><!-- base-package 如果多个，用“,”分隔 -->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>-->
+        <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>-->
+    </context:component-scan>
+</beans>
