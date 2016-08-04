@@ -20,7 +20,7 @@ public class NodeMonitor implements Watcher, AsyncCallback.ChildrenCallback {
 
     private ZooKeeper zooKeeper;
     private long sequenceNumber;
-    private static final String ROOT = "/seq/election";
+    private static final String ROOT = "/seq.election";
     private NodeMonitorListener listener = null;
     private String znode;
     private String connectString = "121.40.180.70:2181";
