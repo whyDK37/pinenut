@@ -20,17 +20,17 @@ public class NodeMonitor implements Watcher, AsyncCallback.ChildrenCallback {
 
     private ZooKeeper zooKeeper;
     private long sequenceNumber;
-    private static final String ROOT = "/ELECTION";
+    private static final String ROOT = "/seq/election";
     private NodeMonitorListener listener = null;
     private String znode;
-
+    private String connectString = "121.40.180.70:2181";
     /**
      * Start method to give the listener a change to set itself so
      * as to receive all messages
      * @throws IOException
      */
     public void start() throws IOException {
-        this.zooKeeper = new ZooKeeper("localhost:2181", 3000, this);
+        this.zooKeeper = new ZooKeeper(connectString, 3000, this);
     }
 
     public void setZooKeeper(ZooKeeper zooKeeper) {
