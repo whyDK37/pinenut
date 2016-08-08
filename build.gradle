@@ -46,6 +46,8 @@ subprojects {
     }
 
     dependencies {
+        compile 'commons-logging:commons-logging:1.2'
+
         testCompile "junit:junit:${junitVersion}"
     }
 }

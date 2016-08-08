@@ -3,12 +3,12 @@
  *
  * @className:com.xuexin.bizserver.cache.JedisAPI
  * @version:v1.0.0 
- * @author:李大鹏
+ * @author:why
  * 
  * Modification History:
  * Date         Author      Version     Description
  * -----------------------------------------------------------------
- * 2013-6-25       李大鹏                        v1.0.0        create
+ * 2013-6-25       why                        v1.0.0        create
  *
  */
 package foo;
@@ -17,28 +17,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Pipeline;
 
-
 /**
  * @Description : Redis操作接口，简单操作可以通过调用提供的快速接口实现，复杂的操作自己获取jedis实例，
  *              使用过程中出现异常应调用returnResource方法销毁异常的实例
  *              ，使用完成ying调用returnResource方法归还实例，具体使用方法参考快速接口
- * @Author : 李大鹏
  * @Creation Date : 2013-6-25 上午10:39:09
  */
 public class JedisAPI {
+    public static final Log logger = LogFactory.getLog(JedisAPI.class);
     private static JedisPool pool = null;
-
     /**
      * 从JedisPool中获取Jedis实例
      * 
      * @return Jedis实例
      * @version:v1.0
-     * @author:李大鹏
      * @date:2013-6-25 上午10:37:35
      */
     public static Jedis getResource() {
@@ -63,7 +62,7 @@ public class JedisAPI {
 
     /**
      * 返还连接池
-     * 
+     *
      * @param jedis jedis实例
      * @version:v1.0
      * @author:李大鹏
@@ -71,13 +70,14 @@ public class JedisAPI {
      */
     public static void returnResource(Jedis jedis) {
         if (jedis != null) {
-            pool.returnResource(jedis);
+            jedis.close();
+//            pool.returnResource(jedis);
         }
     }
 
     /**
      * 销毁出现异常的jedis实例
-     * 
+     *
      * @param jedis jedis实例
      * @version:v1.0
      * @author:李大鹏
@@ -85,13 +85,14 @@ public class JedisAPI {
      */
     public static void brokenResource(Jedis jedis) {
         if (jedis != null) {
-            pool.returnBrokenResource(jedis);
+            jedis.close();
+//            pool.returnBrokenResource(jedis);
         }
     }
 
     /**
      * 给指定的key设置过期时间
-     * 
+     *
      * @param key
      * @param seconds
      * @version:v1.0
@@ -115,7 +116,7 @@ public class JedisAPI {
 
     /**
      * 设置到期时间
-     * 
+     *
      * @param key
      * @param unixTime
      * @version:v1.0
@@ -139,7 +140,7 @@ public class JedisAPI {
 
     /**
      * 快速取String类型数据
-     * 
+     *
      * @param key
      * @return
      * @version:v1.0
@@ -148,6 +149,24 @@ public class JedisAPI {
      */
     public static String get(String key) {
         String value = null;
+        Jedis jedis = null;
+        try {
+            jedis = getResource();
+            value = jedis.get(key);
+        } catch (Exception e) {
+            // 释放redis对象
+            brokenResource(jedis);
+            e.printStackTrace();
+        } finally {
+            // 返还到连接池
+            returnResource(jedis);
+        }
+
+        return value;
+    }
+
+    public static byte[] get(byte[] key) {
+        byte[] value = null;
         Jedis jedis = null;
         try {
             jedis = getResource();
@@ -183,7 +202,7 @@ public class JedisAPI {
 
     /**
      * 快速存String类型数据
-     * 
+     *
      * @param key
      * @param value
      * @return 操作状态
@@ -197,6 +216,42 @@ public class JedisAPI {
         try {
             jedis = getResource();
             statusCode = jedis.set(key, value);
+        } catch (Exception e) {
+            // 释放redis对象
+            brokenResource(jedis);
+            e.printStackTrace();
+        } finally {
+            // 返还到连接池
+            returnResource(jedis);
+        }
+
+        return statusCode;
+    }
+
+    public static boolean setbit(String key, long offset, boolean value) {
+        Jedis jedis = null;
+        boolean statusCode = false;
+        try {
+            jedis = getResource();
+            statusCode = jedis.setbit(key, offset, value);
+        } catch (Exception e) {
+            // 释放redis对象
+            brokenResource(jedis);
+            e.printStackTrace();
+        } finally {
+            // 返还到连接池
+            returnResource(jedis);
+        }
+
+        return statusCode;
+    }
+
+    public static boolean getbit(String key, long offset) {
+        Jedis jedis = null;
+        boolean statusCode = false;
+        try {
+            jedis = getResource();
+            statusCode = jedis.getbit(key, offset);
         } catch (Exception e) {
             // 释放redis对象
             brokenResource(jedis);
@@ -229,8 +284,8 @@ public class JedisAPI {
 
     /**
      * 存入hash表
-     * 
-     * @param key hash表名
+     *
+     * @param key   hash表名
      * @param field 字段
      * @param value 值
      * @return 更新返回 0,新增返回 1
@@ -258,8 +313,8 @@ public class JedisAPI {
 
     /**
      * 从hash表取数据
-     * 
-     * @param key hash表名
+     *
+     * @param key   hash表名
      * @param field 字段
      * @return
      * @version:v1.0
@@ -322,7 +377,7 @@ public class JedisAPI {
 
     /**
      * 获得hash中所有的键值对
-     * 
+     *
      * @param key
      * @return
      * @version:v1.0
@@ -349,7 +404,7 @@ public class JedisAPI {
 
     /**
      * 获取hash中所有key
-     * 
+     *
      * @param key
      * @return
      * @version:v1.0
@@ -394,9 +449,8 @@ public class JedisAPI {
 
     /**
      * 从hash表取数据
-     * 
-     * @param key hash表名
-     * @param fields 字段
+     *
+     * @param key   hash表名
      * @return
      * @version:v1.0
      * @author:李大鹏
@@ -438,8 +492,6 @@ public class JedisAPI {
     }
 
     /**
-     * 
-     * 
      * @param key
      * @param members
      * @return 添加成功返回0，要添加的对象已存在返回1
@@ -466,8 +518,6 @@ public class JedisAPI {
     }
 
     /**
-     * 
-     * 
      * @param key
      * @return
      * @version:v1.0
@@ -493,8 +543,6 @@ public class JedisAPI {
     }
 
     /**
-     * 
-     * 
      * @param key
      * @param member
      * @return 添加成功返回0，要添加的对象已存在返回1
@@ -539,8 +587,6 @@ public class JedisAPI {
     }
 
     /**
-     * 
-     * 
      * @param key
      * @return
      * @version:v1.0
@@ -548,8 +594,8 @@ public class JedisAPI {
      * @date:2013-6-26 下午2:32:16
      */
     public static Set<String> zrevrangeByScore(final String key,
-            final String max, final String min, final int offset,
-            final int count) {
+                                               final String max, final String min, final int offset,
+                                               final int count) {
         Jedis jedis = null;
         Set<String> members = null;
         try {
@@ -568,7 +614,7 @@ public class JedisAPI {
     }
 
     public static Set<String> zrangeByScore(final String key, final long min,
-            final long max) {
+                                            final long max) {
         Jedis jedis = null;
         Set<String> members = null;
         try {
@@ -587,7 +633,7 @@ public class JedisAPI {
     }
 
     public static long zremrangeByScore(final String key, final long start,
-            final long end) {
+                                        final long end) {
         Jedis jedis = null;
         long value = 0l;
         try {
@@ -606,7 +652,7 @@ public class JedisAPI {
 
     /**
      * 在list头部添加
-     * 
+     *
      * @param key
      * @param members
      * @return 元素添加完成后list的长度
@@ -634,7 +680,7 @@ public class JedisAPI {
 
     /**
      * 在list尾部取值并删除最后一条
-     * 
+     *
      * @param key
      * @return 元素添加完成后list的长度
      * @version:v1.0
@@ -661,7 +707,7 @@ public class JedisAPI {
 
     /**
      * 在list尾部添加
-     * 
+     *
      * @param key
      * @param members
      * @return 元素添加完成后list的长度
@@ -669,7 +715,12 @@ public class JedisAPI {
      * @author:李大鹏
      * @date:2013-6-26 下午2:43:02
      */
-    public static long rpush(String key, String... members) {
+    public static long rpush(String key, String... members) throws Exception {
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("rpush key :" + key);
+            logger.debug("rpush members :" + members);
+        }
         Jedis jedis = null;
         long length = -1;
         try {
@@ -678,7 +729,8 @@ public class JedisAPI {
         } catch (Exception e) {
             // 释放redis对象
             brokenResource(jedis);
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
+            throw e;
         } finally {
             // 返还到连接池
             returnResource(jedis);
@@ -689,7 +741,7 @@ public class JedisAPI {
 
     /**
      * 是否存在所给的key值
-     * 
+     *
      * @param key
      * @return 验证结果
      * @version:v1.0
@@ -716,7 +768,7 @@ public class JedisAPI {
 
     /**
      * 删除所给Keys,如果所给的keys中有不存在的key，则不会对那些不存在的key执行任何操作
-     * 
+     *
      * @param keys
      * @return 删除key的个数
      * @version:v1.0
@@ -743,7 +795,7 @@ public class JedisAPI {
 
     /**
      * key所对应的存储类型
-     * 
+     *
      * @param key
      * @return"none"/"string"/"list"/"set"/"zset"/"hash"
      * @version:v1.0
@@ -768,11 +820,12 @@ public class JedisAPI {
         return type;
     }
 
+
     public static void ltrim(String key, int start, int end) {
         Jedis jedis = null;
         try {
             jedis = getResource();
-            jedis.ltrim(key,start,end);
+            jedis.ltrim(key, start, end);
         } catch (Exception e) {
             // 释放redis对象
             brokenResource(jedis);
@@ -783,7 +836,7 @@ public class JedisAPI {
         }
     }
 
-    public static String lpop(String key) {
+    public static String lpop(String key) throws Exception {
         Jedis jedis = null;
         try {
             jedis = getResource();
@@ -791,15 +844,14 @@ public class JedisAPI {
         } catch (Exception e) {
             // 释放redis对象
             brokenResource(jedis);
-            e.printStackTrace();
+            throw e;
         } finally {
             // 返还到连接池
             returnResource(jedis);
         }
-        return null;
     }
 
-    public static long llen(String key) {
+    public static long llen(String key) throws Exception {
         Jedis jedis = null;
         try {
             jedis = getResource();
@@ -807,15 +859,15 @@ public class JedisAPI {
         } catch (Exception e) {
             // 释放redis对象
             brokenResource(jedis);
-            e.printStackTrace();
+            throw e;
         } finally {
             // 返还到连接池
             returnResource(jedis);
         }
-        return -1;
     }
 
-    public static List<Object> pipeLine(PipeLineRequeest pipeLineRequeest){
+
+    public static List<Object> pipeLine(PipeLineRequeest pipeLineRequeest) throws Exception {
         Jedis jedis = null;
         try {
             jedis = getResource();
@@ -823,15 +875,14 @@ public class JedisAPI {
         } catch (Exception e) {
             // 释放redis对象
             brokenResource(jedis);
-            e.printStackTrace();
+            throw e;
         } finally {
             // 返还到连接池
             returnResource(jedis);
         }
-        return null;
     }
 
-    public interface PipeLineRequeest{
+    public interface PipeLineRequeest {
         List<Object> doRequest(Pipeline pipeline);
     }
 }

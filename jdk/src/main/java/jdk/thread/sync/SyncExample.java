@@ -41,6 +41,7 @@ public class SyncExample {
                 syncExample.write();
             }
         });
+        write.setName("write");
 
         Thread read = new Thread(new Runnable() {
             @Override
@@ -49,6 +50,7 @@ public class SyncExample {
                 syncExample.read();
             }
         });
+        read.setName("read");
 
         Thread sout = new Thread(new Runnable() {
             @Override
@@ -59,6 +61,8 @@ public class SyncExample {
 
             }
         });
+        sout.setName("sout");
+
         sout.start();
         write.start();
         read.start();
