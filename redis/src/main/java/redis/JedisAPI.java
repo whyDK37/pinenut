@@ -11,7 +11,7 @@
  * 2013-6-25       李大鹏                        v1.0.0        create
  *
  */
-package foo;
+package redis;
 
 import java.util.List;
 import java.util.Map;
@@ -829,6 +829,21 @@ public class JedisAPI {
             returnResource(jedis);
         }
         return null;
+    }
+
+    public static void flushdb() {
+        Jedis jedis = null;
+        try {
+            jedis = getResource();
+            jedis.flushDB();
+        } catch (Exception e) {
+            // 释放redis对象
+            brokenResource(jedis);
+            e.printStackTrace();
+        } finally {
+            // 返还到连接池
+            returnResource(jedis);
+        }
     }
 
     public interface PipeLineRequeest{
