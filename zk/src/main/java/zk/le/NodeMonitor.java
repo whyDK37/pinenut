@@ -20,10 +20,10 @@ public class NodeMonitor implements Watcher, AsyncCallback.ChildrenCallback {
 
     private ZooKeeper zooKeeper;
     private long sequenceNumber;
-    private static final String ROOT = "/seq.election";
+    private static final String ROOT = "/election";
     private NodeMonitorListener listener = null;
     private String znode;
-    private String connectString = "121.40.180.70:2181";
+    private String connectString = "127.0.0.1:2181";
     /**
      * Start method to give the listener a change to set itself so
      * as to receive all messages
