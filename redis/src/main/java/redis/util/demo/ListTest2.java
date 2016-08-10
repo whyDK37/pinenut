@@ -1,9 +1,8 @@
 package redis.util.demo;
 
-import foo.JedisUtil;
+import redis.util.JedisUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
-import redis.clients.jedis.Response;
 
 import java.util.List;
 

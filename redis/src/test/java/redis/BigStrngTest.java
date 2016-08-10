@@ -1,9 +1,7 @@
 package redis;
 
-import foo.JedisUtil;
+import redis.util.JedisUtil;
 import redis.clients.jedis.Jedis;
-import redis.pojo.BigObject;
-import redis.util.ObjectsTranscoder;
 
 /**
  * Created by whydk on 2016/7/21.

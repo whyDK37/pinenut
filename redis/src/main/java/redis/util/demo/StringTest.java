@@ -1,6 +1,6 @@
 package redis.util.demo;
 
-import foo.JedisUtil;
+import redis.util.JedisUtil;
 import redis.clients.jedis.Jedis;
 
 /**

@@ -1,6 +1,6 @@
 package redis;
 
-import foo.JedisUtil;
+import redis.util.JedisUtil;
 import redis.pojo.BigObject;
 import redis.clients.jedis.Jedis;
 import redis.util.ObjectsTranscoder;

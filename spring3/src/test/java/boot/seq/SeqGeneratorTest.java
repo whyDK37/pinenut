@@ -1,6 +1,6 @@
 //package boot.seq;
 //
-//import foo.JedisUtil;
+//import redis.util.JedisUtil;
 //import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
 //import org.junit.Test;

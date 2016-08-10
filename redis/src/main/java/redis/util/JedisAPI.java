@@ -11,7 +11,7 @@
  * 2013-6-25       why                        v1.0.0        create
  *
  */
-package foo;
+package redis.util;
 
 import java.util.List;
 import java.util.Map;
