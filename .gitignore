@@ -29,3 +29,15 @@ zk/build/
 /spring-learn/spring-bean/spring-bean.iml
 /spring-learn/spring-boot/spring-boot.iml
 /spring-learn/spring-batch/spring-batch.iml
+/commons/commons.iml
+/compress/compress.iml
+/aliyun/aliyun.iml
+/FreeMarker/FreeMarker.iml
+/h2/h2.iml
+/jdk/jdk.iml
+/logging/logging.iml
+/mc/mc.iml
+/mybatis/mybatis.iml
+/redis/redis.iml
+/web/web.iml
+/zk/zk.iml
