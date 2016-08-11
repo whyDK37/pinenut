@@ -41,3 +41,6 @@ zk/build/
 /redis/redis.iml
 /web/web.iml
 /zk/zk.iml
+/java-core/DesignPatterns/DesignPatterns.iml
+/java-core/jdk/java-core-jdk.iml
+/java-core/java-core.iml

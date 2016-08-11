@@ -1,4 +1,9 @@
 rootProject.name = 'pinenut'
+
+include 'java-core'
+include 'java-core:jdk'
+include 'java-core:DesignPatterns'
+
 include 'logging'
 include 'h2'
 include 'compress'

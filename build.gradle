@@ -148,7 +148,7 @@ project(':zk') {
         compile "com.101tec:zkclient:0.4"
         compile "org.apache.curator:curator-client:3.1.0"
         compile "org.apache.curator:curator-framework:3.1.0"
-        compile "org.apache.curator:curator-framework.recipes:3.1.0"
+//        compile "org.apache.curator:curator-framework.recipes:3.1.0"
         compile "commons-lang:commons-lang:2.3"
     }
 }
