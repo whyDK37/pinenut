@@ -1,7 +1,6 @@
 package redis;
 
 import org.junit.Test;
-import redis.util.RedisBitMap;
 
 /**
  * Created by whydk on 2016/8/8.

@@ -1,4 +1,6 @@
-package redis.util;
+package redis;
+
+import redis.JedisAPI;
 
 import java.util.BitSet;
 

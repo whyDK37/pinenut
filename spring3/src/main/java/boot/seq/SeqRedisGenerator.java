@@ -1,8 +1,8 @@
 package boot.seq;
 
-import foo.JedisAPI;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import redis.JedisAPI;
 import redis.clients.jedis.Pipeline;
 
 import java.util.List;

@@ -16,7 +16,7 @@ import java.util.Set;
 public class PipelineTest {
     @Test
     public void test() {
-        int datasise = 10000;
+        final int datasise = 1000;
         long start = System.currentTimeMillis();
         JedisAPI.flushdb();
         JedisAPI.pipeLine(new JedisAPI.PipeLineRequeest() {

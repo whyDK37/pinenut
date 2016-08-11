@@ -163,6 +163,23 @@ public class JedisAPI {
 
         return value;
     }
+    public static byte[] get(byte[] key) {
+        byte[] value = null;
+        Jedis jedis = null;
+        try {
+            jedis = getResource();
+            value = jedis.get(key);
+        } catch (Exception e) {
+            // 释放redis对象
+            brokenResource(jedis);
+            e.printStackTrace();
+        } finally {
+            // 返还到连接池
+            returnResource(jedis);
+        }
+
+        return value;
+    }
 
     public static List<String> mget(final String... keys) {
         List<String> resList = null;
@@ -844,6 +861,22 @@ public class JedisAPI {
             // 返还到连接池
             returnResource(jedis);
         }
+    }
+
+    public static boolean setbit(String key, long offset, boolean b) {
+        Jedis jedis = null;
+        try {
+            jedis = getResource();
+            return jedis.setbit(key,offset,b);
+        } catch (Exception e) {
+            // 释放redis对象
+            brokenResource(jedis);
+            e.printStackTrace();
+        } finally {
+            // 返还到连接池
+            returnResource(jedis);
+        }
+        return b;
     }
 
     public interface PipeLineRequeest{
