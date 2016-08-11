@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- 定时任务 -->
+
+    <!-- 配置定时任务的Bean-->
+    <bean id="timeTask" class="com.hengbao.otp.task.TimeTask">
+        <property name="staticsSavePath" value="${statics.save.path}"/>
+    </bean>
+
+    <!-- 配置定时任务具体执行的方法 -->
+
+
+    <bean id="deleteStatis"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="timeTask"/>
+        </property>
+        <!-- 指定定时任务bean中的方法名 -->
+        <property name="targetMethod">
+            <value>deleteStatics</value>
+        </property>
+        <property name="concurrent">
+            <value>false</value>
+        </property>
+    </bean>
+
+
+    <!-- 配置定时任务具体方法的执行时间 -->
+
+    <bean id="deleteStatisStartupTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="deleteStatis"/>
+        </property>
+        <!-- 每天 00:00:00秒执行 -->
+        <property name="cronExpression" value=0 0 0 ? * *>
+    </property>
+</bean>
+
+
+<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+<property name="triggers">
+    <list>
+        <ref local="deleteStatisStartupTrigger"/>
+    </list>
+</property>
+</bean>
+        </beans>

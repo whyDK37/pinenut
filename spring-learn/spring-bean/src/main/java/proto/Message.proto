@@ -1,0 +1,12 @@
+package proto;
+option java_package="proto";
+option java_outer_classname="MessageProto";
+//protoc  --java_out=. User.proto
+//protoc -I=$SRC_DIR --cpp_out=$DST_DIR $SRC_DIR/addressbook.proto
+//protoc  --python_out=. User.proto
+message Message{
+    required int32 ID=1;
+    required string userName=2;
+    required string Password=3;
+    repeated string address=4;
+}
