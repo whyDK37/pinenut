@@ -1,7 +1,7 @@
+package State;
 /**
  *  A concrete state for customer shopping
  */
-import java.io.*;
 
 public class Pay extends ShopState {
     public static boolean instanceFlag = false; //true if have 1 instance

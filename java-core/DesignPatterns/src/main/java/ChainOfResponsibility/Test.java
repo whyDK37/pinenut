@@ -1,7 +1,7 @@
+package ChainOfResponsibility;
 /**
  *  A client to test
  */
-import java.io.*;
 
 public class Test  {
     public static void main(String[] args) {

@@ -1,3 +1,4 @@
+package Visitor;
 public interface awtList
 {
      public void add(String s);

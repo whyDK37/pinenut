@@ -1,8 +1,8 @@
+package ChainOfResponsibility;
 /**
  *  The end of the chain
  *  The resposibility of Others is handle exeception 
  */
-import java.io.*;
 
 public class Others implements Chain {
     private Chain nextChain = null;

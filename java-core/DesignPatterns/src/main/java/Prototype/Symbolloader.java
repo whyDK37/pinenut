@@ -1,7 +1,9 @@
+package Prototype;
 /*
  *  A Symbol Loader to register all prototype instance
  */
-import java.util.*;
+
+import java.util.Hashtable;
 
 public class SymbolLoader  {
     private Hashtable symbols = new Hashtable();

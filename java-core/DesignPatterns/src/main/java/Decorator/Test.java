@@ -1,11 +1,14 @@
-import java.awt.*;
-import java.awt.event.*;
-
-import java.util.Locale;
-import java.util.ResourceBundle;
+package Decorator;
 
 import javax.swing.*;
-import javax.swing.table.*;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Test extends JFrame {
    public static void main(String args[]) {

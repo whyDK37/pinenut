@@ -1,9 +1,10 @@
+package Memento;
 /**
  *  Our test Originator class with Memento class.
  *  Put 2 class into 1 file, so Memento member can be  visited by Originator 
  */
-import java.io.*;
-import java.util.*;
+
+import java.util.LinkedList;
 
 public class TextOriginator  {
     private StringBuffer strbuf = new StringBuffer();

@@ -1,10 +1,11 @@
+package Observer;
 /**
  *  A concrete observer
  *  This concrete observer can change subject through call
  *  a concrete subject setState function
  */
-import java.io.*;
-import java.util.*;
+
+import java.util.Vector;
  
 public class ObserverA implements Observer {
     private Vector strVector;

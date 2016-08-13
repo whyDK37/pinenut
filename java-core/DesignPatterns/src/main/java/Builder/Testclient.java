@@ -1,3 +1,5 @@
+package Builder;
+
 /*
  *  A test client to create a house
  *  but we do not know how the room and door be created

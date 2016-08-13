@@ -1,8 +1,9 @@
+package FlyWeight;
 /**
  *  A test client
  */
-import java.io.*;
-import java.util.*;
+
+import java.util.Hashtable;
 
 public class Test  {
     public static void main(String[] args) {

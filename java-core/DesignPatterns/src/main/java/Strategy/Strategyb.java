@@ -1,3 +1,4 @@
+package Strategy;
 
 public class StrategyB implements Strategy {
     public StrategyB() {

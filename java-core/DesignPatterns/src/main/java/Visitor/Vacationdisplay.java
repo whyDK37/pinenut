@@ -1,12 +1,11 @@
+package Visitor;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 //swing classes
-import javax.swing.text.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
 
 public class VacationDisplay extends JxFrame
    implements ActionListener

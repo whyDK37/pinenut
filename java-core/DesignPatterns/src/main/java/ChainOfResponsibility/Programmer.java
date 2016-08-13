@@ -1,8 +1,8 @@
+package ChainOfResponsibility;
 /**
  *  A member of the chain
  *  The resposibility of Programmer is coding 
  */
-import java.io.*;
 
 public class Programmer implements Chain {
     private Chain nextChain = null;

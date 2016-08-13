@@ -1,7 +1,9 @@
+package Singleton;
 /**
  *  A new Singleton use registry
  */
-import java.util.*;
+
+import java.util.Hashtable;
 
 public class SingletonB  {
     static private Hashtable registry = new Hashtable();

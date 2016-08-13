@@ -1,8 +1,8 @@
+package ChainOfResponsibility;
 /**
  *  A beginner of the chain
  *  The resposibility of manager is to get a project
  */
-import java.io.*;
 
 public class Manager implements Chain {
     private Chain nextChain = null;

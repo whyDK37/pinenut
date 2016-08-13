@@ -1,3 +1,4 @@
+package Decorator;
 import javax.swing.table.TableModel;
 
 public abstract class TableFilterDecorator extends 

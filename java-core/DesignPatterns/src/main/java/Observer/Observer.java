@@ -1,3 +1,4 @@
+package Observer;
 /**
  *  Observer interface
  */

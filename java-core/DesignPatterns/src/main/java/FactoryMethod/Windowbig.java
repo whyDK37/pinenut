@@ -1,3 +1,4 @@
+package FactoryMethod;
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -6,9 +7,6 @@
  * @author Jerry Shen
  * @version 0.5
  */
-
-import java.io.*;
-import java.lang.*;
 
 public class WindowBig extends Window {
     public void func() {

@@ -1,3 +1,4 @@
+package Adapter;
 /**
  *  The Adaptee in this sample
  */

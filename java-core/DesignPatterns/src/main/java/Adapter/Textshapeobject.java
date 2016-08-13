@@ -1,9 +1,10 @@
+package Adapter;
 /**
  *  The Object Adapter in this sample 
  */
-public class TextShapeObject  implements Shape {
+public class Textshapeobject  implements Shape {
     private Text txt;
-    public TextShapeObject(Text t) {
+    public Textshapeobject(Text t) {
         txt = t;
     }
     public void Draw() {
@@ -17,12 +18,12 @@ public class TextShapeObject  implements Shape {
         txt.SetContent(str);
     }
     public String GetContent() {
-        return txt.GetContent();;
+        return txt.GetContent();
     }
 
     public static void main(String[] args) {
         Text myText = new Text();
-        TextShapeObject myTextShapeObject = new TextShapeObject(myText);
+        Textshapeobject myTextShapeObject = new Textshapeobject(myText);
         myTextShapeObject.Draw();
         myTextShapeObject.Border();
         myTextShapeObject.SetContent("A test text !");

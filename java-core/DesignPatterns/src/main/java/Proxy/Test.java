@@ -1,3 +1,4 @@
+package Proxy;
 import javax.swing.*;
 
 public class Test  {

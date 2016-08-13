@@ -1,13 +1,15 @@
+package Composite;
+
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.util.Enumeration;
 
 //swing classes
-import javax.swing.text.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.tree.*;
 
 
 public class empTree extends JxFrame

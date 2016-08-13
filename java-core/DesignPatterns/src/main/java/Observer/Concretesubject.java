@@ -1,8 +1,10 @@
+package Observer;
 /**
  *  A concrete subject
  */
-import java.util.*;
-import java.io.*;
+
+import java.util.LinkedList;
+import java.util.Vector;
 
 public class ConcreteSubject implements Subject {
     private LinkedList observerList;

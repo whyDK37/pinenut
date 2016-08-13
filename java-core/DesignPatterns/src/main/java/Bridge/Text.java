@@ -1,3 +1,4 @@
+package Bridge;
 /**
  *  The Abstract of Text 
  */
@@ -7,7 +8,7 @@ public abstract class Text  {
         if(type.equals("Mac")) {
             return new TextImpMac();
         } else if(type.equals("Linux")) {
-            return new TextImpLinux();
+            return new TextLinuxImpl();
         } else {
             return new TextImpMac();
         }

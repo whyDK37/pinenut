@@ -1,8 +1,8 @@
+package ChainOfResponsibility;
 /**
  *  A member of the chain
  *  The resposibility of PM is to design the project 
  */
-import java.io.*;
 
 public class ProjectManager implements Chain {
     private Chain nextChain = null;

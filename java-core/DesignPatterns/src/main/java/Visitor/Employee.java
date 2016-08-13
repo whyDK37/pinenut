@@ -1,3 +1,4 @@
+package Visitor;
 public class Employee
 {
    int sickDays, vacDays;

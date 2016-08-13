@@ -1,11 +1,9 @@
+package Proxy;
 /**
  *  A Image
  */
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.border.*;
+
+import java.awt.*;
 
 public class ImageA implements Graphic {
     public ImageA(String _fileName) {

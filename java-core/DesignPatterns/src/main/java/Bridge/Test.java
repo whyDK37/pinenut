@@ -1,3 +1,4 @@
+package Bridge;
 /**
  *  A test client
  */

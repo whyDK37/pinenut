@@ -1,7 +1,7 @@
+package Strategy;
 /**
  *  The context user used
  */
-import java.io.*;
 
 public class Context  {
     private Strategy strategy = null;

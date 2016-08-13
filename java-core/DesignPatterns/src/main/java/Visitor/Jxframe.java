@@ -1,11 +1,10 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+package Visitor;
+
+import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 //swing classes
-import javax.swing.text.*;
-import javax.swing.*;
-import javax.swing.event.*;
 
 
 public class JxFrame extends JFrame

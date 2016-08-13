@@ -1,3 +1,4 @@
+package TemplateMethod;
 /**
  *  An abstract class which can get content from a file or a HTTP URL 
  *  or other resource  

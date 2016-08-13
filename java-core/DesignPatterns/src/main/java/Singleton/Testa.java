@@ -1,3 +1,4 @@
+package Singleton;
 /**
  *  A test for SingletonA
  */

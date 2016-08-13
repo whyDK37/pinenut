@@ -1,5 +1,7 @@
-import javax.swing.table.TableModel;
+package Decorator;
+
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 
 // TableModelDecorator implements TableModelListener. That
 // listener interface defines one method: tableChanged(), which

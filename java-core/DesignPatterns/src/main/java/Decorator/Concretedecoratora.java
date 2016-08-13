@@ -1,7 +1,7 @@
+package Decorator;
 /**
  *  The Concrete Decorator
  */
-import java.io.*;
 
 public class ConcreteDecoratorA extends Decorator {
     public ConcreteDecoratorA(Component c) {

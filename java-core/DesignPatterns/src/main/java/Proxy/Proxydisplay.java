@@ -1,9 +1,6 @@
-import java.awt.event.*;
+package Proxy;
+
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.border.*;
- 
 import java.awt.*; 
 public class ProxyDisplay extends JxFrame
 {

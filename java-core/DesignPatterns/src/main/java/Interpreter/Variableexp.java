@@ -1,8 +1,8 @@
+package Interpreter;
 /**
  *  A variable expression implements BooleanExp
  *  A terminal expression
  */
-import java.util.*;
 
 public class VariableExp implements BooleanExp {
     private String name;

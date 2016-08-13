@@ -1,4 +1,5 @@
-import java.awt.event.*;
+package Proxy;
+
 import javax.swing.*;
 
 public class PageProxy extends JPanel  {

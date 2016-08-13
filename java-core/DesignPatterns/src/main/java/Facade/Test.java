@@ -1,7 +1,7 @@
+package Facade;
 /**
  *  A very simple test
  */
-import java.io.*;
 
 class Wall {
     public Wall() {

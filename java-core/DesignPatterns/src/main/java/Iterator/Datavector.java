@@ -1,8 +1,13 @@
+package Iterator;
 /**
  *  Data stored in a vector
  */
-import java.io.*;
-import java.util.*;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Vector;
 
 public class DataVector implements Aggregate {
     private Vector data = new Vector();

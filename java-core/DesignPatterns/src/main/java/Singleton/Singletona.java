@@ -1,3 +1,4 @@
+package Singleton;
 /**
  *  A Singleton , we can only create one instance
  */

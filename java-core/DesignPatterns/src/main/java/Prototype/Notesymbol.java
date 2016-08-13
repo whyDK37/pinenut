@@ -1,3 +1,4 @@
+package Prototype;
 /*
  *  A concrete prototype to draw a note
  */

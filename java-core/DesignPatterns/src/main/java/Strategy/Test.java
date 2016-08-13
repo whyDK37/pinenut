@@ -1,3 +1,4 @@
+package Strategy;
 /**
  *  A test client
  */

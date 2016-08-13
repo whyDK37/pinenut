@@ -1,7 +1,7 @@
+package FlyWeight;
 /**
  *  A shared ConcreteFlyweight
  */
-import java.io.*;
 
 public class ConcreteFont implements Font {
     private String color;

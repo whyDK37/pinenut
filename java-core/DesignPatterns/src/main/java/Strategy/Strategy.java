@@ -1,3 +1,4 @@
+package Strategy;
 /**
  *  The public interface to support varies arithmetic
  */

@@ -1,7 +1,9 @@
+package FlyWeight;
 /**
  *  A Flyweight Factory
  */
-import java.util.*;
+
+import java.util.Hashtable;
 
 public class FontFactory  {
     private Hashtable charHashTable = new Hashtable();

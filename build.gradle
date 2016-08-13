@@ -263,3 +263,11 @@ project(':spring-learn:spring-batch') {
         compile 'org.springframework.batch:spring-batch-core:3.0.7.RELEASE'
     }
 }
+
+project(':spring-learn:spring-web') {
+    dependencies {
+        compile project(":spring-learn:spring-bean")
+        compile project(":spring-learn:spring-boot")
+        compile 'org.springframework.batch:spring-batch-core:3.0.7.RELEASE'
+    }
+}

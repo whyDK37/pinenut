@@ -1,7 +1,9 @@
+package Prototype;
 /*
  * A Graphic Interface ( A prototype interface )
  */
-import java.io.*;
+
+import java.io.Serializable;
 
 public interface IGraphic extends Cloneable, Serializable {
     public String getName() ;

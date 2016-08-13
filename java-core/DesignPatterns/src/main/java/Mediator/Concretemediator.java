@@ -1,3 +1,4 @@
+package Mediator;
 /**
  *  A concrete mediator
  */

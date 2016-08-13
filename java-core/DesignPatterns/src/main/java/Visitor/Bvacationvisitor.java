@@ -1,3 +1,4 @@
+package Visitor;
 public class bVacationVisitor extends Visitor
 {
   int total_days;

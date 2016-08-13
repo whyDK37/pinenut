@@ -1,8 +1,12 @@
+package TemplateMethod;
 /**
  *  A concrete class extends AbstractRead
  *  This class can read from a file
  */
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ReadFile extends AbstractRead {
     private BufferedReader in = null;

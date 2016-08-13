@@ -1,7 +1,7 @@
+package Mediator;
 /**
  *  A concrete colleague 
  */
-import java.io.*;
 
 public class ColleagueC implements Colleague {
     private final String type = "C";

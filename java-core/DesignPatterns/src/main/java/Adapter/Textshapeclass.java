@@ -1,8 +1,9 @@
+package Adapter;
 /**
  *  The Class Adapter in this sample 
  */
-public class TextShapeClass  extends Text implements Shape {
-    public TextShapeClass() {
+public class Textshapeclass  extends Text implements Shape {
+    public Textshapeclass() {
     }
     public void Draw() {
         System.out.println("Draw a shap ! Impelement Shape interface !");
@@ -11,7 +12,7 @@ public class TextShapeClass  extends Text implements Shape {
         System.out.println("Set the border of the shap ! Impelement Shape interface !");
     }
     public static void main(String[] args) {
-        TextShapeClass myTextShapeClass = new TextShapeClass();
+        Textshapeclass myTextShapeClass = new Textshapeclass();
         myTextShapeClass.Draw();
         myTextShapeClass.Border();
         myTextShapeClass.SetContent("A test text !");

@@ -1,3 +1,4 @@
+package TemplateMethod;
 /**
  *  A test client
  */

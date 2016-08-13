@@ -1,9 +1,15 @@
+package TemplateMethod;
 /**
  *  A concrete class extends AbstractRead
  *  This class can read HTML from a HTTP URL
  */
-import java.io.*;
-import java.net.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class ReadHtml extends AbstractRead {
     private URLConnection conn;

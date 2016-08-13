@@ -1,8 +1,11 @@
+package Composite;
 /**
  *  A Component with some common function implementation
  *  You can abstract it.
  */
-import java.util.*;
+
+import java.util.Enumeration;
+import java.util.Vector;
 
 public class Employee {
     String name;

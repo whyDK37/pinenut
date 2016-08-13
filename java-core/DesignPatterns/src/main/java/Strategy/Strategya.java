@@ -1,7 +1,7 @@
+package Strategy;
 /**
  *  A concrete strategy to draw a text by the width of line
  */
-import java.io.*;
 
 public class StrategyA implements Strategy {
     public StrategyA() {

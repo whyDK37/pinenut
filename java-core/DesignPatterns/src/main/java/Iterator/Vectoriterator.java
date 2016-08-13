@@ -1,8 +1,9 @@
+package Iterator;
 /**
  *  A vector iterator to print data reverse
  */
-import java.io.*;
-import java.util.*;
+
+import java.util.Vector;
 
 public class VectorIterator implements Iterator {
     private Vector data = new Vector();

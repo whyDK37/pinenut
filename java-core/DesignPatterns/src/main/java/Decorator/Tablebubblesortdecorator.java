@@ -1,5 +1,7 @@
-import javax.swing.table.TableModel;
+package Decorator;
+
 import javax.swing.event.TableModelEvent;
+import javax.swing.table.TableModel;
 
 public class TableBubbleSortDecorator extends TableSortDecorator {
    // The lone constructor must be passed a reference to a

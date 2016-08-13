@@ -1,9 +1,10 @@
+package abstractfactory;
 /*
  * A concrete Wall for Living Room
  */
-public class LivingRoomWall  extends Wall {
+public class Livingroomwall  extends Wall {
     private String wallName;
-    public LivingRoomWall() {
+    public Livingroomwall() {
         wallName = "LivingRoomWall";
     }
     public String getName() {

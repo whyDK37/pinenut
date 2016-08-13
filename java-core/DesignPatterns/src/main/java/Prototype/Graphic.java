@@ -1,8 +1,7 @@
+package Prototype;
 /*
  * An Abstract Graphic Class ( Prototype )
  */
-import java.lang.*;
-import java.io.*;
 
 public abstract class Graphic implements IGraphic {
     private String name;

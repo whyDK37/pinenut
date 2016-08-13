@@ -1,3 +1,4 @@
+package Decorator;
 /**
  *  A simple test
  */

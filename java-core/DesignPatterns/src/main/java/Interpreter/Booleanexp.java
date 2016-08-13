@@ -1,3 +1,4 @@
+package Interpreter;
 /**
  *  The interface of our BooleanExp Interpreter
  *  BooleanExp definition is:
@@ -11,7 +12,7 @@
  */
 
 public interface BooleanExp {
-    public abstract boolean Evaluate(Context c);
-    public abstract BooleanExp Replace(String var, BooleanExp exp);
-    public abstract BooleanExp Copy();
+    boolean Evaluate(Context c);
+    BooleanExp Replace(String var, BooleanExp exp);
+    BooleanExp Copy();
 }

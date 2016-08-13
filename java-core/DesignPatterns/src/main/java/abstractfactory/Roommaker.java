@@ -1,19 +1,20 @@
+package abstractfactory;
 /*
  * A Room Maker to test our simple Room Abstract Factory
  */
-public class RoomMaker  {
+public class Roommaker  {
     public Room CreateRoom(String roomType) {
         if(roomType.equals("LivingRoom")) {
-            return new LivingRoom();
+            return new Livingroom();
         } else if(roomType.equals("BedRoom")) {
-            return new BedRoom();
+            return new Bedroom();
         } else {
-            return new LivingRoom();
+            return new Livingroom();
         }
     }
 
     public static void main(String[] args) {
-        RoomMaker myMaker = new RoomMaker();
+        Roommaker myMaker = new Roommaker();
         //-----  Create Living Room
         Room myLivingRoom = myMaker.CreateRoom("LivingRoom");
         //-----  Create a door in living room

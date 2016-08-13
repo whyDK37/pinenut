@@ -1,8 +1,9 @@
+package Prototype;
 /*
  *  As  a Test Client to test our pattern  
  */
-import java.util.*;
-import java.lang.*;
+
+import java.util.Hashtable;
 
 public class GraphicTool  {
     public GraphicTool() {

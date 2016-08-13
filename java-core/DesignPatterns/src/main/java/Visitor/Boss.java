@@ -1,3 +1,4 @@
+package Visitor;
 public class Boss extends Employee
 {
    private int bonusDays;

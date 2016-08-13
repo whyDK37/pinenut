@@ -1,3 +1,4 @@
+package Adapter;
 /**
  *  A interface
  */

@@ -1,3 +1,4 @@
+package ChainOfResponsibility;
 /**
  *  The interface of the chain
  *  You can use AddChain function to modify the chain dynamically

@@ -1,14 +1,15 @@
+package abstractfactory;
 /*
  * A concrete Room - LivingRoom
  */
-public class LivingRoom  extends Room {
-    public LivingRoom() {
+public class Livingroom  extends Room {
+    public Livingroom() {
         System.out.println("Initiated a living room !");
     }
     public Door makeDoor() {
-        return new LivingRoomDoor();
+        return new Livingroomdoor();
     }
     public Wall makeWall() {
-        return new LivingRoomWall();
+        return new Livingroomwall();
     }
 }

@@ -1,3 +1,4 @@
+package Mediator;
 /**
  *  An abstract Mediator
  */

@@ -1,9 +1,10 @@
+package abstractfactory;
 /*
  * A concrete Door for Bed Room
  */
-public class BedRoomDoor extends Door {
+public class Bedroomdoor extends Door {
     private String doorName;
-    public BedRoomDoor() {
+    public Bedroomdoor() {
         doorName = "BedRoomDoor";
     }
     public String getName() {

@@ -1,10 +1,11 @@
+package Observer;
 /**
  *  A concrete observer
  *  This observer, can not change subject, 
  *  but it can print the content in vector sorted by alphameric
  */
-import java.io.*;
-import java.util.*;
+
+import java.util.Vector;
 
 public class ObserverB implements Observer {
     private Vector strVector;

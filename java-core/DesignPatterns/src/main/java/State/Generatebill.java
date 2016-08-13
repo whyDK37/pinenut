@@ -1,7 +1,7 @@
+package State;
 /**
  *  A concrete state for generating bill
  */
-import java.io.*;
 
 public class GenerateBill extends ShopState {
     public static boolean instanceFlag = false; //true if have 1 instance

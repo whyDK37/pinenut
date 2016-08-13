@@ -1,7 +1,7 @@
+package Bridge;
 /**
  *  The RefinedAbstraction
  */
-import java.io.*;
 
 public class TextBold extends Text {
     private TextImp imp;

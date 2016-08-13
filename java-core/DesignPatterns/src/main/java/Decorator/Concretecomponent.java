@@ -1,7 +1,7 @@
+package Decorator;
 /**
  *  A Concrete Component
  */
-import java.io.*;
 
 public class ConcreteComponent implements Component {
     public ConcreteComponent() {

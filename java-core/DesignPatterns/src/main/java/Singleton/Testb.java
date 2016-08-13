@@ -1,3 +1,4 @@
+package Singleton;
 /**
  *  Test for our Singleton registry
  */

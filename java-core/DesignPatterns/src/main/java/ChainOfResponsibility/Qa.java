@@ -1,8 +1,8 @@
+package ChainOfResponsibility;
 /**
  *  A member of the chain
  *  The resposibility of QA is test 
  */
-import java.io.*;
 
 public class QA implements Chain {
     private Chain nextChain = null;
