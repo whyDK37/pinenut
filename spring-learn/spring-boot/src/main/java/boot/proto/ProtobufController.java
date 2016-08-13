@@ -10,7 +10,7 @@ import proto.UserProto;
 public class ProtobufController {
     @RequestMapping("/proto/read")
     public ResponseEntity<UserProto.User> protoRead() {
-        return ResponseEntity.ok(UserProto.User.newBuilder().setID(1).setUserName("我的名字").build());
+        return ResponseEntity.ok(UserProto.User.newBuilder().setID(1).setUserName("我的名字").setPassword("password").build());
     }
 
     @RequestMapping("/proto/write")
