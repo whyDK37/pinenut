@@ -28,4 +28,11 @@ include 'spring-learn:spring-boot'
 include 'spring-learn:spring-batch'
 include 'spring-learn:spring-web'
 
+//存储
+include 'storage'
+include 'storage:mc'
+include 'storage:redis'
+include 'storage:h2'
+include 'storage:mybatis'
+
 include 'shell'
