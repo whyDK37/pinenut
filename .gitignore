@@ -45,3 +45,8 @@ zk/build/
 /java-core/jdk/java-core-jdk.iml
 /java-core/java-core.iml
 /shell/shell.iml
+/storage/storage.iml
+/storage/redis/storage-redis.iml
+/storage/mybatis/storage-mybatis.iml
+/storage/mc/storage-mc.iml
+/storage/h2/storage-h2.iml

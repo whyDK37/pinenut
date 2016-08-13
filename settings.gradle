@@ -5,15 +5,11 @@ include 'java-core:jdk'
 include 'java-core:DesignPatterns'
 
 include 'logging'
-include 'h2'
 include 'compress'
 include 'web'
-include 'mybatis'
 include 'FreeMarker'
 include 'commons'
 include 'zk'
-include 'redis'
-include 'mc'
 
 include 'aliyun'
 //project(':logging').projectDir = "$rootDir/logging" as File
