@@ -1,4 +1,4 @@
-//package net;
+package jdk.net;//package net;
 //
 //import java.io.IOException;
 //import java.net.URL;

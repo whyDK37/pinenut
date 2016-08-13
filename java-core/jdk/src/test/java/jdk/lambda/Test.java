@@ -1,4 +1,4 @@
-//package jdk.lambda;
+package jdk.lambda;//package jdk.lambda;
 //
 //import java.io.File;
 //import java.io.FileFilter;

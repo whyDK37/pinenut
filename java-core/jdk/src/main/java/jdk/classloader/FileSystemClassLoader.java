@@ -11,7 +11,7 @@ import java.util.HashMap;
  * 子类优先类加载器。优先加载子类空间的类，如果子类空间没有该类，则交由父类加载。
  *
  * @author why
- * @see java.lang.ClassLoader
+ * @see ClassLoader
  */
 public class FileSystemClassLoader extends ClassLoader {
 
