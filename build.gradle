@@ -62,6 +62,8 @@ subprojects {
 
 //java core
 project('java-core:jdk') {
+    description = 'jdk sample code'
+
     dependencies {
         compile fileTree(dir: 'libs', include: ['*.jar'])
         compile "com.alibaba:fastjson:1.2.7"
@@ -70,7 +72,7 @@ project('java-core:jdk') {
 
 
 project(':logging') {
-    description = ''
+    description = 'logging demo'
     dependencies {
         compile 'commons-logging:commons-logging:1.2'
         compile 'log4j:log4j:1.2.17'
@@ -83,14 +85,14 @@ project(':logging') {
 }
 
 project('storage:h2') {
-    description = 'storage h2'
+    description = 'storage h2 demo'
     dependencies {
         compile 'com.h2database:h2:1.4.187'
     }
 }
 
 project(':compress') {
-    description = 'compress'
+    description = 'compress demo'
     dependencies {
         compile 'org.apache.commons:commons-compress:1.9'
     }
@@ -101,7 +103,7 @@ project(':compress') {
 
 project(':web') {
     apply plugin: 'war'
-    description = 'web'
+    description = 'web demo'
     dependencies {
         compile 'javax.servlet:servlet-api:3.0-alpha-1'
         compile 'commons-fileupload:commons-fileupload:1.3.1'
@@ -109,7 +111,7 @@ project(':web') {
 }
 
 project('storage:mybatis') {
-    description = 'mybatis'
+    description = 'mybatis demo'
     dependencies {
         compile "org.mybatis:mybatis:3.3.0"
         compile "mysql:mysql-connector-java:5.1.34"
@@ -118,14 +120,14 @@ project('storage:mybatis') {
 
 
 project(':FreeMarker') {
-    description = 'FreeMarker'
+    description = 'FreeMarker demo'
     dependencies {
         compile 'org.freemarker:freemarker:2.3.23'
     }
 }
 
 project(':zk') {
-    description = 'zk test'
+    description = 'zk demo'
     dependencies {
         compile "com.101tec:zkclient:0.4"
         compile "org.apache.curator:curator-client:3.1.0"
@@ -136,7 +138,7 @@ project(':zk') {
 }
 
 project('storage:redis') {
-    description = 'redis test'
+    description = 'redis demo'
     dependencies {
         compile "redis.clients:jedis:2.8.0"
 //        compile "org.apache.curator:curator-client:3.1.0"
@@ -146,7 +148,7 @@ project('storage:redis') {
 }
 
 project('storage:mc') {
-    description = 'mc.memcached test'
+    description = 'mc.memcached demo'
     dependencies {
 //        compile 'org.slf4j:slf4j-api:1.7.7'
 //        compile 'log4j:log4j:1.2.17'
@@ -166,7 +168,7 @@ project('storage:mc') {
 }
 
 project(':aliyun') {
-    description = 'aliyun test'
+    description = 'aliyun demo'
     dependencies {
         compile 'commons-logging:commons-logging:1.2'
         compile "commons-beanutils:commons-beanutils:${commonsbeanutls}"
@@ -179,7 +181,7 @@ project(':aliyun') {
 //              spring learn
 //**********************************************
 project(':spring-learn:spring-bean') {
-    description = 'spring 源码学习'
+    description = 'spring bean 源码学习'
 
     dependencies {
         // spring
@@ -218,7 +220,7 @@ project(':spring-learn:spring-bean') {
     }
 }
 project(':spring-learn:spring-boot') {
-    description = 'spring3 源码学习'
+    description = 'spring boot'
 
     dependencies {
         compile project(":spring-learn:spring-bean")
@@ -246,6 +248,8 @@ project(':spring-learn:spring-boot') {
     }
 }
 project(':spring-learn:spring-batch') {
+    description = 'spring batch'
+
     dependencies {
         compile project(":spring-learn:spring-bean")
         compile project(":spring-learn:spring-boot")
@@ -254,9 +258,13 @@ project(':spring-learn:spring-batch') {
 }
 
 project(':spring-learn:spring-web') {
+    description = 'spring web'
+    apply plugin: 'war'
+
     dependencies {
         compile project(":spring-learn:spring-bean")
         compile project(":spring-learn:spring-boot")
-        compile 'org.springframework.batch:spring-batch-core:3.0.7.RELEASE'
+
+        compile 'commons-fileupload:commons-fileupload:1.3.1'
     }
 }

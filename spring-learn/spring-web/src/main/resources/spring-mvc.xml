@@ -14,6 +14,7 @@
             http://www.springframework.org/schema/oxm
             http://www.springframework.org/schema/oxm/spring-oxm.xsd">
 
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:property/site.properties"/>
     <mvc:annotation-driven content-negotiation-manager="cnManager"/>
     <!-- Configures a handler for serving static resources by forwarding to
             the Servlet container's default Servlet. -->
