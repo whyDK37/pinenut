@@ -1,6 +1,7 @@
 package jdk.lang;
 
-import org.junit.Test;
+
+import org.testng.annotations.Test;
 
 import java.math.BigInteger;
 

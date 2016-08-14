@@ -35,9 +35,14 @@ subprojects {
     ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
 
     apply plugin: 'java'
-    apply plugin: 'idea'
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    compileJava {
+        sourceCompatibility=1.8
+        targetCompatibility=1.8
+    }
+    compileTestJava {
+        sourceCompatibility=1.8
+        targetCompatibility=1.8
+    }
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
     repositories {
         mavenLocal()
@@ -49,10 +54,20 @@ subprojects {
         compile 'commons-logging:commons-logging:1.2'
 
         // prefer testNG
-        test.useTestNG()
+        testCompile 'org.testng:testng:6.8.17'
         testCompile "junit:junit:${junitVersion}"
     }
 }
+
+
+//java core
+project('java-core:jdk') {
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile "com.alibaba:fastjson:1.2.7"
+    }
+}
+
 
 project(':logging') {
     description = ''

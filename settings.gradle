@@ -4,7 +4,7 @@ include 'java-core'
 include 'java-core:jdk'
 include 'java-core:DesignPatterns'
 
-project('java-core:jdk').projectDir = "$rootDir/java-core/jdk" as File
+//project('java-core:jdk').projectDir = "$rootDir/java-core/jdk" as File
 
 include 'logging'
 include 'compress'

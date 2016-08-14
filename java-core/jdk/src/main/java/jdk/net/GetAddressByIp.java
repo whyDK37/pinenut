@@ -7,7 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import net.sf.json.JSONObject;
 
 /**
  * 原理是根据淘宝提供的service查询IP的归属地并且解析http请求返回的json串。
@@ -32,16 +31,16 @@ public class GetAddressByIp {
         String resout = "";
         try {
             String str = getJsonContent(IP_SERVICE + IP);
-//            System.out.println(str);
+            System.out.println(str);
 
-            JSONObject obj = JSONObject.fromObject(str);
-            JSONObject obj2 = (JSONObject) obj.get("data");
-            String code = String.valueOf(obj.get("code"));
-            if (code.equals("0")) {
-                resout = obj2.get("country") + "--" + obj2.get("area") + "--" + obj2.get("city") + "--" + obj2.get("isp");
-            } else {
-                resout = "IP地址有误";
-            }
+//            JSONObject obj = JSON.fromObject(str);
+//            JSONObject obj2 = (JSONObject) obj.get("data");
+//            String code = String.valueOf(obj.get("code"));
+//            if (code.equals("0")) {
+//                resout = obj2.get("country") + "--" + obj2.get("area") + "--" + obj2.get("city") + "--" + obj2.get("isp");
+//            } else {
+//                resout = "IP地址有误";
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             resout = "获取IP地址异常：" + e.getMessage();
