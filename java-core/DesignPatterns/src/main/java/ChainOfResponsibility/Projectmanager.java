@@ -4,11 +4,11 @@ package ChainOfResponsibility;
  *  The resposibility of PM is to design the project 
  */
 
-public class ProjectManager implements Chain {
+public class Projectmanager implements Chain {
     private Chain nextChain = null;
     private String responsibility = "Design";
     
-    public ProjectManager() {
+    public Projectmanager() {
     }
     public void addChain(Chain c) {
         nextChain = c;

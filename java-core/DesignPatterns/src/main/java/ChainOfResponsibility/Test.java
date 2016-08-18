@@ -6,9 +6,9 @@ package ChainOfResponsibility;
 public class Test  {
     public static void main(String[] args) {
         Manager aManager = new Manager();
-        ProjectManager aPM = new ProjectManager();
+        Projectmanager aPM = new Projectmanager();
         Programmer aProgrammer = new Programmer();
-        QA aQA = new QA();
+        Qa aQA = new Qa();
         Others others = new Others();
 
         aManager.addChain(aPM);

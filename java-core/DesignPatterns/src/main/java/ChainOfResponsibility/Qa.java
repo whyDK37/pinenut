@@ -4,11 +4,11 @@ package ChainOfResponsibility;
  *  The resposibility of QA is test 
  */
 
-public class QA implements Chain {
+public class Qa implements Chain {
     private Chain nextChain = null;
     private String responsibility = "Test";
     
-    public QA() {
+    public Qa() {
     }
     public void addChain(Chain c) {
         nextChain = c;
