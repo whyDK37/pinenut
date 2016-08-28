@@ -1,11 +1,15 @@
 package framework.c0;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 /**
  * Created by drug on 2016/3/18.
  */
 public class User implements ShowMe{
+
+    @JsonIgnore
     private String name;
     private int age;
 

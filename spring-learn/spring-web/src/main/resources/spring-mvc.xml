@@ -15,11 +15,17 @@
             http://www.springframework.org/schema/oxm/spring-oxm.xsd">
 
     <context:property-placeholder ignore-unresolvable="true" location="classpath:property/site.properties"/>
-    <mvc:annotation-driven content-negotiation-manager="cnManager"/>
+    <mvc:annotation-driven content-negotiation-manager="cnManager">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
     <!-- Configures a handler for serving static resources by forwarding to
             the Servlet container's default Servlet. -->
     <mvc:default-servlet-handler/>
 
+    <context:annotation-config/>
 
     <context:component-scan base-package="web.*" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -60,8 +66,6 @@
             </list>
         </property>
     </bean>
-
-
 
 
     <!-- 静态资源映射 -->
