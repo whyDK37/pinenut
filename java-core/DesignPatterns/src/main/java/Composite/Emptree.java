@@ -12,7 +12,7 @@ import java.util.Enumeration;
 //swing classes
 
 
-public class empTree extends JxFrame
+public class EmpTree extends JxFrame
    implements TreeSelectionListener
 {
    Employee boss, marketVP, prodVP;
@@ -25,7 +25,7 @@ public class empTree extends JxFrame
    DefaultMutableTreeNode troot;
    JLabel cost;
    
-   public empTree()
+   public EmpTree()
       {
          super("Employee tree");
          makeEmployees();
@@ -117,6 +117,6 @@ public class empTree extends JxFrame
       //--------------------------------------
       static public void main(String argv[])
       {
-         new empTree();
+         new EmpTree();
       }
 }

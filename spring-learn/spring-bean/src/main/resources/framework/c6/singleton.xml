@@ -31,5 +31,8 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
 http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd"
        default-lazy-init="false">
 
+    <bean class="framework.c6.MyBeanDefinitionRegistryPostProcessor"/>
 
+    <bean name="myTestBean" class="framework.c0.MyTestBean"/>
+    <bean class="framework.c0.MyTestBean"/>
 </beans>

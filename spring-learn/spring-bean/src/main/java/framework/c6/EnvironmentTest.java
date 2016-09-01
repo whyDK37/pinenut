@@ -10,9 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class EnvironmentTest {
 
     public static void main(String[] args) {
-        ApplicationContext ac = new MyClassPathXmlApplicationContext("c6/singleton.xml");
-
-
+        ApplicationContext ac = new MyClassPathXmlApplicationContext("framework/c6/singleton.xml");
     }
 
     public static class MyClassPathXmlApplicationContext extends ClassPathXmlApplicationContext{

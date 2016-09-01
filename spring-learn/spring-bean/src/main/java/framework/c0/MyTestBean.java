@@ -6,13 +6,16 @@ package framework.c0;
 public class MyTestBean {
 
     private MyTestBean2 myTestBean2;
-    public MyTestBean(){
+    private String teststr = "default string";
+
+    public MyTestBean() {
 
     }
-    public MyTestBean(String teststr){
+
+    public MyTestBean(String teststr) {
         this.teststr = teststr;
     }
-    private String teststr;
+
 
     public String getTeststr() {
         return teststr;
@@ -23,14 +26,14 @@ public class MyTestBean {
     }
 
 
-    public String test(){
+    public String test() {
         System.out.println(teststr);
         return teststr;
     }
 
     @LoggingRequired
-    public String logging(){
-        System.out.println(teststr+" logging(1)");
+    public String logging() {
+        System.out.println(teststr + " logging(1)");
         myTestBean2.logging();
         return teststr;
     }

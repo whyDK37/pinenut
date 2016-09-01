@@ -1,5 +1,5 @@
 package Visitor;
-public interface awtList
+public interface AwtList
 {
      public void add(String s);
      public void remove(String s);
