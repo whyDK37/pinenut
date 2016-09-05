@@ -67,6 +67,7 @@ project('java-core:jdk') {
     dependencies {
         compile fileTree(dir: 'libs', include: ['*.jar'])
         compile "com.alibaba:fastjson:1.2.7"
+        compile "commons-io:commons-io:2.4"
     }
 }
 
