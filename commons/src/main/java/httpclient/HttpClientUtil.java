@@ -2,14 +2,13 @@
  * Copyright (C) 2015 北京学信科技有限公司
  *
  * @className com.xuexin.stemcenter.util.HttpClientUtil
- * @version v1.0.0 
+ * @version v1.0.0
  * @author 何智勇
- * 
+ * <p>
  * Modification History:
  * Date         Author      Version     Description
  * -----------------------------------------------------------------
  * 2015年10月13日      何智勇      v1.0.0      create
- *
  */
 package httpclient;
 
@@ -23,11 +22,8 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/** 
+/**
  * httpClient工具类
- *
- * @author 何智勇
- * @date 2015年10月13日 下午4:20:47 
  */
 public class HttpClientUtil {
     private static Log log = LogFactory.getLog("netdata");
@@ -40,10 +36,10 @@ public class HttpClientUtil {
      * @param url       提交的URL
      * @param paramsMap 提交<参数，值>Map
      * @return 提交响应
-     * @throws Exception 
+     * @throws Exception
      */
     public static String post(String url, Map<String, Object> paramsMap)
-        throws Exception {
+            throws Exception {
         HttpClient client = new HttpClient();
         PostMethod method = new PostMethod(url);
         try {
