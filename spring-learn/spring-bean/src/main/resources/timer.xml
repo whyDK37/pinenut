@@ -4,48 +4,49 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-    <!-- 定时任务 -->
+    <!--&lt;!&ndash; 定时任务 &ndash;&gt;-->
 
-    <!-- 配置定时任务的Bean-->
-    <bean id="timeTask" class="com.hengbao.otp.task.TimeTask">
-        <property name="staticsSavePath" value="${statics.save.path}"/>
-    </bean>
+    <!--&lt;!&ndash; 配置定时任务的Bean&ndash;&gt;-->
+    <!--<bean id="timeTask" class="com.hengbao.otp.task.TimeTask">-->
+        <!--<property name="staticsSavePath" value="${statics.save.path}"/>-->
+    <!--</bean>-->
 
-    <!-- 配置定时任务具体执行的方法 -->
-
-
-    <bean id="deleteStatis"
-          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject">
-            <ref bean="timeTask"/>
-        </property>
-        <!-- 指定定时任务bean中的方法名 -->
-        <property name="targetMethod">
-            <value>deleteStatics</value>
-        </property>
-        <property name="concurrent">
-            <value>false</value>
-        </property>
-    </bean>
+    <!--&lt;!&ndash; 配置定时任务具体执行的方法 &ndash;&gt;-->
 
 
-    <!-- 配置定时任务具体方法的执行时间 -->
+    <!--<bean id="deleteStatis"-->
+          <!--class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+        <!--<property name="targetObject">-->
+            <!--<ref bean="timeTask"/>-->
+        <!--</property>-->
+        <!--&lt;!&ndash; 指定定时任务bean中的方法名 &ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="targetMethod">&ndash;&gt;-->
+        <!--&lt;!&ndash;<value>deleteStatics</value>&ndash;&gt;-->
+        <!--&lt;!&ndash;</property>&ndash;&gt;-->
+        <!--<property name="concurrent">-->
+            <!--<value>false</value>-->
+        <!--</property>-->
+    <!--</bean>-->
 
-    <bean id="deleteStatisStartupTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail">
-            <ref bean="deleteStatis"/>
-        </property>
-        <!-- 每天 00:00:00秒执行 -->
-        <property name="cronExpression" value=0 0 0 ? * *>
-    </property>
-</bean>
+
+    <!--&lt;!&ndash; 配置定时任务具体方法的执行时间 &ndash;&gt;-->
+
+    <!--<bean id="deleteStatisStartupTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+        <!--<property name="jobDetail">-->
+            <!--<ref bean="deleteStatis"/>-->
+        <!--</property>-->
+        <!--&lt;!&ndash; 每天 00:00:00秒执行 &ndash;&gt;-->
+        <!--<property name="cronExpression" value=0 0 0 ? * *>-->
+    <!--</property>-->
+
+<!--</beans>-->
 
 
-<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-<property name="triggers">
-    <list>
-        <ref local="deleteStatisStartupTrigger"/>
-    </list>
-</property>
-</bean>
-        </beans>
+    <!--<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">-->
+    <!--<property name="triggers">-->
+        <!--<list>-->
+            <!--<ref local="deleteStatisStartupTrigger"/>-->
+        <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+</beans>
