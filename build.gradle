@@ -149,6 +149,13 @@ project(':mq') {
     description = 'mq demo'
     dependencies {
         compile 'com.rabbitmq:amqp-client:3.6.4'
+
+        compile 'org.apache.activemq:activeio-core:3.1.4'
+        compile 'org.apache.activemq:activemq-client:5.14.0'
+        compile 'org.apache.activemq:activemq-broker:5.14.0'
+        compile 'org.apache.activemq.protobuf:activemq-protobuf:1.1'
+        compile 'org.jboss.javaee:jboss-jms-api-1.1_spec:5.0.2.GA'
+
         testCompile group: 'junit', name: 'junit', version: '4.11'
     }
 }

@@ -18,7 +18,6 @@ jdk/build/
 jdk/src/main/java/jdk/util/
 mc/build/
 mq/mq.iml
-mq/src/
 mybatis/build/
 redis/build/
 spring-learn/spring-learn.iml
