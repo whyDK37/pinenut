@@ -1,93 +1,160 @@
-/**
- * Copyright (C) 2015 北京学信科技有限公司
- *
- * @className com.xuexin.stemcenter.util.HttpClientUtil
- * @version v1.0.0
- * @author 何智勇
- * <p>
- * Modification History:
- * Date         Author      Version     Description
- * -----------------------------------------------------------------
- * 2015年10月13日      何智勇      v1.0.0      create
- */
 package httpclient;
 
-import java.util.Map;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * httpClient工具类
+ *
+ * @author why
+ * @date 2016-09-08
  */
 public class HttpClientUtil {
-    private static Log log = LogFactory.getLog("netdata");
+    private static Log log = LogFactory.getLog(HttpClientUtil.class);
     //编码格式。发送编码格式统一用UTF-8
     private static String ENCODING = "UTF-8";
 
-    /**
-     * 基于HttpClient 3.1的通用POST方法
-     *
-     * @param url       提交的URL
-     * @param paramsMap 提交<参数，值>Map
-     * @return 提交响应
-     * @throws Exception
-     */
-    public static String post(String url, Map<String, Object> paramsMap)
-            throws Exception {
-        HttpClient client = new HttpClient();
-        PostMethod method = new PostMethod(url);
+    public static String getString(String url, Map<String, String> params) throws URISyntaxException {
+        // 创建默认的httpClient实例.
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        URI puri = new URI(url);
+        // 创建httpget
+        URIBuilder uriBuilder = new URIBuilder()
+                .setScheme(puri.getScheme())
+                .setHost(puri.getHost())
+                .setPath(puri.getPath());
+
+        if (params != null)
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                uriBuilder.setParameter(entry.getKey(), entry.getValue());
+            }
+        HttpGet httpget = new HttpGet(uriBuilder.build());
         try {
-            if (paramsMap != null) {
-                NameValuePair[] namePairs = new NameValuePair[paramsMap.size()];
-                int i = 0;
-                for (Map.Entry<String, Object> param : paramsMap.entrySet()) {
-                    NameValuePair pair = new NameValuePair(param.getKey(),
-                            String.valueOf(param.getValue()));
-                    namePairs[i++] = pair;
-                }
-                method.setRequestBody(namePairs);
-                HttpMethodParams param = method.getParams();
-                param.setContentCharset(ENCODING);
-            }
-            client.executeMethod(method);
-            if (method.getStatusCode() == 200) {
-                return method.getResponseBodyAsString();
-            } else {
-                method.abort();
-                throw new RuntimeException(String.valueOf(method
-                        .getStatusCode()));
-            }
+            System.out.println("executing request " + httpget.getURI());
+            CloseableHttpResponse response = httpclient.execute(httpget);
+            printResponse(response);
         } catch (Exception e) {
-            method.abort();
-            log.error(e.getMessage(), e);
-            throw e;
+            e.printStackTrace();
+        } finally {
+            // 关闭连接,释放资源
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
+    public static byte[] getBytes(String url, Map<String, String> params) throws URISyntaxException {
+        // 创建默认的httpClient实例.
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        URI puri = new URI(url);
+        // 创建httpget
+        URIBuilder uriBuilder = new URIBuilder()
+                .setScheme(puri.getScheme())
+                .setHost(puri.getHost())
+                .setPath(puri.getPath());
+
+        if (params != null)
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                uriBuilder.setParameter(entry.getKey(), entry.getValue());
+            }
+        HttpGet httpget = new HttpGet(uriBuilder.build());
+        try {
+            System.out.println("executing request " + httpget.getURI());
+            CloseableHttpResponse response = httpclient.execute(httpget);
+            return byteResponse(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭连接,释放资源
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
+    }
+
+    public static void postString(String url, Map<String, String> params) {
+        // 创建默认的httpClient实例.
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        // 创建httppost
+        HttpPost httppost = new HttpPost(url);
+
+        // 创建参数队列
+        List<BasicNameValuePair> formparams = new ArrayList<BasicNameValuePair>();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+        }
+        UrlEncodedFormEntity uefEntity;
+        try {
+            uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");
+            httppost.setEntity(uefEntity);
+            System.out.println("executing request " + httppost.getURI());
+            CloseableHttpResponse response = httpclient.execute(httppost);
+            String responseString = printResponse(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭连接,释放资源
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static String get(String url) throws Exception {
-        HttpClient client = new HttpClient();
-        GetMethod method = new GetMethod("http://" + url);
+    private static byte[] byteResponse(CloseableHttpResponse response) throws IOException {
         try {
-            HttpMethodParams param = method.getParams();
-            param.setContentCharset(ENCODING);
-            client.executeMethod(method);
-            if (method.getStatusCode() == 200) {
-                return method.getResponseBodyAsString();
-            } else {
-                method.abort();
-                throw new RuntimeException(String.valueOf(method
-                        .getStatusCode()));
+            org.apache.http.HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                byte[] responsebyte = EntityUtils.toByteArray(entity);
+                System.out.println("--------------------------------------");
+                System.out.println("Response content: " + responsebyte);
+                System.out.println("--------------------------------------");
+                return responsebyte;
             }
-        } catch (Exception e) {
-            method.abort();
-            log.error(e.getMessage(), e);
-            throw e;
+        } finally {
+            response.close();
         }
+        return null;
+    }
+
+    private static String printResponse(CloseableHttpResponse response) throws IOException {
+        try {
+            org.apache.http.HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String responseString = EntityUtils.toString(entity, "UTF-8");
+                System.out.println("--------------------------------------");
+                System.out.println("Response content: " + responseString);
+                System.out.println("--------------------------------------");
+                return responseString;
+            }
+        } finally {
+            response.close();
+        }
+        return null;
     }
 }
