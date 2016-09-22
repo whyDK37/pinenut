@@ -153,6 +153,10 @@ project(':commons') {
         compile "commons-io:commons-io:2.4"
         // https://mvnrepository.com/artifact/com.google.guava/guava
         compile group: 'com.google.guava', name: 'guava', version: '19.0'
+
+        // qr code
+        compile 'com.swetake:Qrcode:1.0.0'
+        compile 'com.google.zxing:javase:3.3.0'
     }
 }
 

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class TestSlf4j {
 
     public static void main(String[] args) {
-        PropertyConfigurator.configure(TestSlf4j.class.getClassLoader().getResourceAsStream("log4j.properties"));
+//        PropertyConfigurator.configure(TestSlf4j.class.getClassLoader().getResourceAsStream("log4j.properties"));
 
         Logger logger = LoggerFactory.getLogger(TestSlf4j.class);
         System.out.println("logger : " + logger.getClass());
