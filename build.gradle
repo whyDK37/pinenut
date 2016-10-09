@@ -263,6 +263,10 @@ project(':spring-learn:spring-bean') {
         compile "com.fasterxml.jackson.core:jackson-annotations:${jackson}"
         compile "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:${jackson}"
         compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.6.3"
+
+        // qr code
+        compile 'com.swetake:Qrcode:1.0.0'
+        compile 'com.google.zxing:javase:3.3.0'
         // test lib
         testCompile "org.springframework:spring-test:${springVersion}"
 

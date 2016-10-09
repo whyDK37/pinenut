@@ -34,5 +34,4 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     <bean class="framework.c6.MyBeanDefinitionRegistryPostProcessor"/>
 
     <bean name="myTestBean" class="framework.c0.MyTestBean"/>
-    <bean class="framework.c0.MyTestBean"/>
 </beans>

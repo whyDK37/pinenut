@@ -1,4 +1,4 @@
-package qrcode;
+package util;
 
 import com.swetake.util.Qrcode;
 

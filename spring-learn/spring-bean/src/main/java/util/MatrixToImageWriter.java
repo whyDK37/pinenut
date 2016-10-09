@@ -1,4 +1,4 @@
-package qrcode;
+package util;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -141,9 +141,5 @@ public class MatrixToImageWriter {
         return (BufferedImage) destImage;
     }
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        // 依次为内容(不支持中文),宽,长,中间图标路径,储存路径 
-        MatrixToImageWriter.encode("http://www.baidu.com/", 512, 512, "D:\\tmp\\logo.png", "D:\\tmp\\2013-01.jpg");
 
-    }
 }
