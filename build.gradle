@@ -157,6 +157,15 @@ project(':commons') {
         // qr code
         compile 'com.swetake:Qrcode:1.0.0'
         compile 'com.google.zxing:javase:3.3.0'
+        // image
+        compile 'net.coobird:thumbnailator:0.4.8'
+
+
+        compile 'com.alexvasilkov:foldable-layout:1.2.0'
+        compile 'com.android.support:support-v4:21.0.2'
+        compile 'com.etsy.android.grid:library:1.0.5'
+        compile 'com.alexvasilkov:foldable-layout:1.0.1'
+        compile 'com.etsy.android.grid:library:1.0.5'
     }
 }
 
