@@ -1,6 +1,6 @@
 package mc.xmemcached;
 
-import mc.pojo.BigObject;
+import foo.BigObject;
 import net.rubyeye.xmemcached.MemcachedClient;
 import net.rubyeye.xmemcached.exception.MemcachedException;
 

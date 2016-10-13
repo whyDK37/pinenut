@@ -95,12 +95,7 @@ project(':logging') {
     test.useTestNG()
 }
 
-project('storage:h2') {
-    description = 'storage h2 demo'
-    dependencies {
-        compile 'com.h2database:h2:1.4.187'
-    }
-}
+
 
 project(':compress') {
     description = 'compress demo'
@@ -118,14 +113,6 @@ project(':web') {
     dependencies {
         compile 'javax.servlet:servlet-api:3.0-alpha-1'
         compile 'commons-fileupload:commons-fileupload:1.3.1'
-    }
-}
-
-project('storage:mybatis') {
-    description = 'mybatis demo'
-    dependencies {
-        compile "org.mybatis:mybatis:3.3.0"
-        compile "mysql:mysql-connector-java:5.1.34"
     }
 }
 
@@ -225,6 +212,28 @@ project('storage:mc') {
     }
 }
 
+
+project('storage:mybatis') {
+    description = 'mybatis demo'
+    dependencies {
+        compile "org.mybatis:mybatis:3.3.0"
+        compile "mysql:mysql-connector-java:5.1.34"
+    }
+}
+project('storage:h2') {
+    description = 'storage h2 demo'
+    dependencies {
+        compile 'com.h2database:h2:1.4.187'
+    }
+}
+
+project('storage:mongodb') {
+    description = 'storage mongodb demo'
+    dependencies {
+        compile 'org.mongodb:mongodb-driver:3.3.0'
+    }
+}
+
 project(':aliyun') {
     description = 'aliyun demo'
     dependencies {
@@ -276,6 +285,9 @@ project(':spring-learn:spring-bean') {
         // qr code
         compile 'com.swetake:Qrcode:1.0.0'
         compile 'com.google.zxing:javase:3.3.0'
+
+        // other
+
         // test lib
         testCompile "org.springframework:spring-test:${springVersion}"
 

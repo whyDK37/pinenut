@@ -1,4 +1,4 @@
-package mc.pojo;
+package foo;
 
 import java.io.Serializable;
 import java.util.List;
