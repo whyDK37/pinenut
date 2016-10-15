@@ -35,4 +35,3 @@ include 'storage:h2'
 include 'storage:mybatis'
 include 'storage:mongodb'
 
-include 'shell'
