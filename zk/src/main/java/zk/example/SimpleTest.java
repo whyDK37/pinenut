@@ -14,8 +14,17 @@ import java.util.concurrent.TimeUnit;
  * Created by drug on 2016/4/26.
  */
 public class SimpleTest {
+
+    private static String zkConnect = "127.0.0.1:2181,127.0.0.1:2182";
     public static void main(String[] args) {
         ZkClient zkClient = buildZkClient();
+
+        zkClient.createPersistent("/adsf/adf/adffdf",true);
+        try {
+            zkClient.getChildren("/zookeeper");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //
         subscribe(zkClient);
         //
@@ -40,7 +49,7 @@ public class SimpleTest {
 
     private static ZkClient buildZkClient() {
         ZkConfig zkc = new ZkConfig();
-        zkc.setZkConnect("127.0.0.1:2181,127.0.0.1:2182");
+        zkc.setZkConnect(zkConnect);
         zkc.zkSessionTimeoutMs = 30000;
         zkc.zkConnectionTimeoutMs = 40000;
         zkc.zkSyncTimeMs = 5000;
@@ -65,7 +74,7 @@ public class SimpleTest {
         zkClient.subscribeDataChanges("/root/data", new IZkDataListener() {
             @Override
             public void handleDataChange(String dataPath, Object data) throws Exception {
-                System.out.println("data change " + dataPath + " " + data);
+                System.out.println("data change " + dataPath + " " + data + ", data class "+data.getClass());
             }
 
             @Override
