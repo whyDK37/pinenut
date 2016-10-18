@@ -13,7 +13,10 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by drug on 2016/4/26.
  */
-public class SimpleTest {
+public class ZkClientTest {
+
+    private static String zkConnect = "127.0.0.1:2181,127.0.0.1:2182";
+
     public static void main(String[] args) {
         ZkClient zkClient = buildZkClient();
         //
@@ -40,7 +43,7 @@ public class SimpleTest {
 
     private static ZkClient buildZkClient() {
         ZkConfig zkc = new ZkConfig();
-        zkc.setZkConnect("127.0.0.1:2181,127.0.0.1:2182");
+        zkc.setZkConnect(zkConnect);
         zkc.zkSessionTimeoutMs = 30000;
         zkc.zkConnectionTimeoutMs = 40000;
         zkc.zkSyncTimeMs = 5000;
@@ -49,7 +52,7 @@ public class SimpleTest {
                 zkc.getZkConnectionTimeoutMs());
 
         if (!zkClient.exists("/root")) {
-            zkClient.createPersistent("/root");
+            zkClient.createPersistent("/root",true);
         }
         return zkClient;
     }
