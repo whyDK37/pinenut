@@ -4,6 +4,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * twitter snow flake
+ * https://github.com/twitter/snowflake
+ * https://github.com/erans/pysnowflake
  * <p>
  * Twitter给出了 64-bit 长的 Snowflake ，它的结构是：
  * <p>
