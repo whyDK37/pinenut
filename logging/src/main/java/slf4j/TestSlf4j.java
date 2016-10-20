@@ -1,20 +1,22 @@
 package slf4j;
 
 
-import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
+import java.util.concurrent.TimeUnit;
 
 public class TestSlf4j {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 //        PropertyConfigurator.configure(TestSlf4j.class.getClassLoader().getResourceAsStream("log4j.properties"));
-
+        MDC.put("first", "Dorothy");
         Logger logger = LoggerFactory.getLogger(TestSlf4j.class);
         System.out.println("logger : " + logger.getClass());
         logger.info("yes");
 
-        org.slf4j.Logger logger2 = LoggerFactory.getLogger(TestSlf4j.class);
+        Logger logger2 = LoggerFactory.getLogger(TestSlf4j.class);
 
         logger2.info("yes");
 
@@ -24,8 +26,10 @@ public class TestSlf4j {
 
         logger.debug("Processing trade with id: {}  and symbol : {} ", 123, "symbol");
 
-        logger.info("","");
-
+        MDC.put("last", "Parker");
+        Exception e = new IndexOutOfBoundsException(" index out of bound ");
+        logger.error(e.getMessage(),e);
+        TimeUnit.SECONDS.sleep(5);
 
     }
 

@@ -1,6 +1,5 @@
 package jdk.security;
 
-import org.testng.annotations.Test;
 
 import java.io.FilePermission;
 import java.security.AccessController;
@@ -22,7 +21,11 @@ import java.security.PrivilegedAction;
  */
 public class AccessControllerFirstStep {
 
-    @Test
+    public static void main(String[] args) {
+        AccessControllerFirstStep accessControllerFirstStep = new AccessControllerFirstStep();
+        accessControllerFirstStep.property();
+        accessControllerFirstStep.FilePermissionTest();
+    }
     public void property() {
         final String key = "user.dir";
         Object result = AccessController.doPrivileged(
@@ -41,7 +44,6 @@ public class AccessControllerFirstStep {
         return System.getProperty(key);
     }
 
-    @Test
     public void FilePermissionTest(){
         FilePermission perm = new FilePermission("/temp/testFile", "read");
         AccessController.checkPermission(perm);
