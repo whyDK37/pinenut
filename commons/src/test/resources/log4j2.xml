@@ -13,10 +13,11 @@
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} :%4p %t %c{1.} (%F:%L) - %X{first} %X{last} - %m %ex %n"/>
         </Console>0
     </appenders>
-
     <loggers>
         <logger name="de.fred4jupiter.log4j2.demo" level="error"/>
         <logger name="org.apache" level="error"/>
+        <logger name="com.dangdang" level="error"/>
+        <logger name="org.springframework" level="error"/>
 
         <root level="trace">
             <appender-ref ref="gelfAppender"/>

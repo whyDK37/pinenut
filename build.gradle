@@ -32,6 +32,7 @@ subprojects {
     ext.shiro = "1.2.3"
     ext.taglibs = "1.1.2"
     ext.slf4j = "1.7.21"
+    ext.elasticjob = "1.1.1"
 
     ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
 
@@ -165,6 +166,14 @@ project(':commons') {
         compile 'com.etsy.android.grid:library:1.0.5'
         compile 'com.alexvasilkov:foldable-layout:1.0.1'
         compile 'com.etsy.android.grid:library:1.0.5'
+
+        // job
+        //引入elastic-job-lite核心模块 -->  ${elasticjob}
+        compile 'com.dangdang:elastic-job-lite-core:2.0.0'
+        //使用springframework自定义命名空间时引入
+        compile 'com.dangdang:elastic-job-lite-spring:2.0.0'
+//        引入elastic-job-cloud执行器模块
+        compile 'com.dangdang:elastic-job-cloud-executor:2.0.0'
     }
 }
 
