@@ -17,6 +17,6 @@
     <!--<job:simple id="oneOffElasticJob" class="elasticjob.SimpleElasticJob" registry-center-ref="regCenter" cron="0/1 * * * * ?" sharding-total-count="3" sharding-item-parameters="0=A,1=B,2=C" />-->
 
     <!-- 配置数据流作业-->
-    <job:dataflow id="throughputDataflow" class="elasticjob.DataElasticJob" registry-center-ref="regCenter" cron="0/10 * * * * ?" sharding-total-count="1" sharding-item-parameters="0=A,1=B,2=C" />
+    <job:dataflow id="throughputDataflow" class="elasticjob.DataElasticJob" registry-center-ref="regCenter" cron="0/10 * * * * ?" sharding-total-count="1" sharding-item-parameters="0=A,1=B" />
 
 </beans>
