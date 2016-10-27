@@ -1,4 +1,4 @@
-package greedy;
+package buffer;
 
 import java.util.ArrayList;
 import java.util.Scanner;
