@@ -4,6 +4,7 @@ include 'java-core'
 include 'java-core:jdk'
 include 'java-core:DesignPatterns'
 include 'java-core:algorithm'
+include 'java-core:datastructure'
 
 //project('java-core:jdk').projectDir = "$rootDir/java-core/jdk" as File
 
