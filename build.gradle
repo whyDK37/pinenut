@@ -261,6 +261,8 @@ project(':aliyun') {
         compile "commons-beanutils:commons-beanutils:${commonsbeanutls}"
 //        compile 'com.aliyun.openservices:aliyun-openservices:OTS-2.0.4'
         compile 'com.aliyun.openservices:ots-public:2.2.4'
+
+        compile 'com.aliyun.mns:aliyun-sdk-mns:1.1.7'
     }
 }
 
