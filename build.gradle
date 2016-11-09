@@ -143,6 +143,9 @@ project(':commons') {
         compile "commons-codec:commons-codec:1.10"
         compile 'org.lucee:commons-io:2.4.0'
         compile "commons-io:commons-io:2.4"
+
+        // https://mvnrepository.com/artifact/commons-net/commons-net
+        compile group: 'commons-net', name: 'commons-net', version: '3.5'
         // https://mvnrepository.com/artifact/com.google.guava/guava
         compile group: 'com.google.guava', name: 'guava', version: '19.0'
 
