@@ -177,6 +177,11 @@ project(':commons') {
         compile 'com.dangdang:elastic-job-lite-spring:2.0.0'
 //        引入elastic-job-cloud执行器模块
         compile 'com.dangdang:elastic-job-cloud-executor:2.0.0'
+
+
+        //validator
+        compile 'javax.validation:validation-api:1.0.0.GA'
+        compile 'org.hibernate:hibernate-validator:4.1.0.Final'
     }
 }
 
@@ -319,9 +324,9 @@ project(':spring-learn:spring-bean') {
     }
 }
 project(':spring-learn:spring-boot') {
+//    apply plugin: 'spring-boot'
     description = 'spring boot'
 
-    apply plugin: 'spring-boot'
 
     dependencies {
         compile project(":spring-learn:spring-bean")

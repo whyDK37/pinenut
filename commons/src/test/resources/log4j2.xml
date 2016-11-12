@@ -20,8 +20,8 @@
         <logger name="org.springframework" level="error"/>
 
         <root level="trace">
-            <appender-ref ref="gelfAppender"/>
-            <appender-ref ref="fileAppender"/>
+            <!--<appender-ref ref="gelfAppender"/>-->
+            <!--<appender-ref ref="fileAppender"/>-->
             <appender-ref ref="ConsoleAppender"/>
         </root>
     </loggers>
