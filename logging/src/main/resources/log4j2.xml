@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- With status you can configure the log level for log4j internal logs -->
-<configuration status="warn" packages="org.graylog2.log4j2" monitorInterval="30">
+<configuration status="debug" packages="org.graylog2.log4j2" monitorInterval="30">
     <appenders>
         <GELF name="gelfAppender" server="192.168.56.101" port="12201" hostName="NLWGM1793" protocol="UDP"
               additionalFields="environment=DEV,application=log4j2-demo-app" />

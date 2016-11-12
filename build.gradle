@@ -318,6 +318,8 @@ project(':spring-learn:spring-bean') {
 project(':spring-learn:spring-boot') {
     description = 'spring boot'
 
+    apply plugin: 'spring-boot'
+
     dependencies {
         compile project(":spring-learn:spring-bean")
 //        compile "org.springframework:spring-core:${springVersion}"
