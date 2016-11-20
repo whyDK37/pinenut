@@ -24,7 +24,7 @@ include 'mq'
 
 include 'spring-learn'
 include 'spring-learn:spring-bean'
-include 'spring-learn:spring-boot'
+//include 'spring-learn:spring-boot'
 include 'spring-learn:spring-batch'
 include 'spring-learn:spring-web'
 
