@@ -325,42 +325,45 @@ project(':spring-learn:spring-bean') {
 
     }
 }
-project(':spring-learn:spring-boot') {
-//    apply plugin: 'spring-boot'
-    description = 'spring boot'
 
 
-    dependencies {
-        compile project(":spring-learn:spring-bean")
-//        compile "org.springframework:spring-core:${springVersion}"
-//        compile "org.springframework:spring-context:${springVersion}"
-//        compile "org.springframework:spring-context-support:${springVersion}"
-//        compile "org.springframework:spring-jdbc:${springVersion}"
-//        compile "org.springframework:spring-orm:${springVersion}"
-//        compile "org.springframework:spring-tx:${springVersion}"
+//project(':spring-learn:spring-boot') {
+////    apply plugin: 'spring-boot'
+//    description = 'spring boot'
+//
+//
+//    dependencies {
+//        compile project(":spring-learn:spring-bean")
+////        compile "org.springframework:spring-core:${springVersion}"
+////        compile "org.springframework:spring-context:${springVersion}"
+////        compile "org.springframework:spring-context-support:${springVersion}"
+////        compile "org.springframework:spring-jdbc:${springVersion}"
+////        compile "org.springframework:spring-orm:${springVersion}"
+////        compile "org.springframework:spring-tx:${springVersion}"
+//
+//        compile "org.springframework:spring-web:${springVersion}"
+//        // spring boot
+//        compile("org.springframework.boot:spring-boot-starter-web:1.2.7.RELEASE")
+//
+//        // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+//        compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.1'
+//        // https://mvnrepository.com/artifact/commons-collections/commons-collections
+//        compile group: 'commons-collections', name: 'commons-collections', version: '3.2.1'
+//
+//        compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.5.3"
+//        compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"
+//
+//        testCompile("org.springframework.boot:spring-boot-starter-test:1.3.6.RELEASE")
+//
+//    }
+//}
 
-        compile "org.springframework:spring-web:${springVersion}"
-        // spring boot
-        compile("org.springframework.boot:spring-boot-starter-web:1.2.7.RELEASE")
-
-        // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
-        compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.1'
-        // https://mvnrepository.com/artifact/commons-collections/commons-collections
-        compile group: 'commons-collections', name: 'commons-collections', version: '3.2.1'
-
-        compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.5.3"
-        compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"
-
-        testCompile("org.springframework.boot:spring-boot-starter-test:1.3.6.RELEASE")
-
-    }
-}
 project(':spring-learn:spring-batch') {
     description = 'spring batch'
 
     dependencies {
         compile project(":spring-learn:spring-bean")
-        compile project(":spring-learn:spring-boot")
+//        compile project(":spring-learn:spring-boot")
         compile 'org.springframework.batch:spring-batch-core:3.0.7.RELEASE'
     }
 }
@@ -371,7 +374,7 @@ project(':spring-learn:spring-web') {
 
     dependencies {
         compile project(":spring-learn:spring-bean")
-        compile project(":spring-learn:spring-boot")
+//        compile project(":spring-learn:spring-boot")
 
         // google protobuf
         compile 'com.google.protobuf:protobuf-java:2.5.0'
