@@ -70,5 +70,11 @@ public class DemoPinyin
             System.out.printf("%s,", pinyin.getHead());
         }
         System.out.println();
+
+        pinyinList = HanLP.convertToPinyinList("以後等妳當上皇后，就能買士多啤梨慶祝了");
+        for (Pinyin pinyin : pinyinList)
+        {
+            System.out.printf("%s,", pinyin.getPinyinWithoutTone());
+        }
     }
 }
