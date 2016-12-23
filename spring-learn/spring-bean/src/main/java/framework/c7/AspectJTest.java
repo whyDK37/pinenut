@@ -14,7 +14,7 @@ public class AspectJTest {
 //        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
 //        reader.loadBeanDefinitions(new ClassPathResource("framework.c7/aspect.xml"));
 
-        ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:framework/c7/aspect.xml");
+        ApplicationContext ac = new ClassPathXmlApplicationContext("framework/c7/aspect.xml");
 
         MyTestBean myTestBean = ac.getBean("testBean", MyTestBean.class);
         System.out.println(myTestBean);

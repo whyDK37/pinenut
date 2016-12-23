@@ -15,7 +15,7 @@ public class AspectJSchemaTest {
 //        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
 //        reader.loadBeanDefinitions(new ClassPathResource("framework.c7/aspect.xml"));
 
-        ApplicationContext ac = new ClassPathXmlApplicationContext("c7/aspect-schema.xml");
+        ApplicationContext ac = new ClassPathXmlApplicationContext("framework/c7/aspect-schema.xml");
 
         MyTestBean myTestBean = ac.getBean("testBean", MyTestBean.class);
         myTestBean.test();
