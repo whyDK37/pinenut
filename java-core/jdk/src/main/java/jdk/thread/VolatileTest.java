@@ -1,5 +1,6 @@
 package jdk.thread;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -7,37 +8,39 @@ import java.util.concurrent.TimeUnit;
  */
 public class VolatileTest {
 
-    static volatile int i;
+    static int i;
 
     public static void main(String[] args) throws InterruptedException {
+
         ThreadGroup tg = new ThreadGroup("increase");
-        Thread one = new Thread(tg ,new Increase(100));
-        Thread two = new Thread(tg ,new Increase(100));
+        CountDownLatch controller = new CountDownLatch(2);
+
+        Thread one = new Thread(tg, new Increase(10000, controller));
+        Thread two = new Thread(tg, new Increase(10000, controller));
         one.start();
         two.start();
 
-        while(tg.activeCount() >0){
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        controller.await();
 
         System.out.println(i);
 
     }
 
-    static class Increase implements Runnable{
+    static class Increase implements Runnable {
         private int loop;
-        Increase(int loop){
+        private CountDownLatch controller;
+
+        Increase(int loop, CountDownLatch controller) {
             this.loop = loop;
+            this.controller = controller;
         }
+
         @Override
         public void run() {
             for (int j = 0; j < loop; j++) {
-                System.out.println(Thread.currentThread().getName()+" - "+i++);
+                System.out.println(Thread.currentThread().getName() + " - " + i++);
             }
+            controller.countDown();
         }
     }
 }
