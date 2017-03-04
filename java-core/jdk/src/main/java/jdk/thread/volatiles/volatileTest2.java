@@ -1,4 +1,4 @@
-package jdk.thread;
+package jdk.thread.volatiles;
 
 /**
  * Created by why on 2/28/2017.

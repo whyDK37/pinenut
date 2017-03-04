@@ -1,4 +1,4 @@
-package jdk.thread;
+package jdk.thread.volatiles;
 
 import java.util.concurrent.TimeUnit;
 
