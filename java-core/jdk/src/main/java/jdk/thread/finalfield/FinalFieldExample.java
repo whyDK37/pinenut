@@ -6,7 +6,7 @@ package jdk.thread.finalfield;
  */
 public class FinalFieldExample {
     final int x;
-    int y;
+    int y = 0;
     static FinalFieldExample f;
 
     public FinalFieldExample() {
@@ -32,12 +32,12 @@ public class FinalFieldExample {
             FinalFieldExample.writer();
         });
         Thread two = new Thread(() -> {
-            while (true) {
+//            while (true) {
                 FinalFieldExample.reader();
-            }
+//            }
         });
-        one.setDaemon(true);
-        two.setDaemon(true);
+//        one.setDaemon(true);
+//        two.setDaemon(true);
         one.start();
         two.start();
     }
