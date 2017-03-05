@@ -10,7 +10,8 @@ import java.nio.channels.SocketChannel;
 public class SocketChannelTest {
     public static void main(String[] args) throws Exception {
         SocketChannel socketChannel = SocketChannel.open();
-        socketChannel.connect(new InetSocketAddress(1987));
+        socketChannel.configureBlocking(false);
+        socketChannel.connect(new InetSocketAddress(1997));
 
         ByteBuffer buf = ByteBuffer.allocate(1024);
         int bytesRead = socketChannel.read(buf);
