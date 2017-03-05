@@ -16,7 +16,7 @@ public class SelectorTest {
 //        RandomAccessFile fromFile = new RandomAccessFile(filename, "r");
 //        FileChannel channel = fromFile.getChannel();
         ServerSocketChannel channel =  ServerSocketChannel.open();
-        channel.bind(new InetSocketAddress(1987));
+        channel.bind(new InetSocketAddress(1997));
 
         Selector selector = Selector.open();
         channel.configureBlocking(false);
