@@ -11,9 +11,8 @@ import java.nio.channels.SocketChannel;
 public class ServerSocketChannelTest {
     public static void main(String[] args) throws Exception{
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-
-        serverSocketChannel.socket().bind(new InetSocketAddress(1987));
-        ByteBuffer buf = ByteBuffer.allocate(48);
+        serverSocketChannel.configureBlocking(false);
+        serverSocketChannel.socket().bind(new InetSocketAddress(1997));
         while(true){
             SocketChannel socketChannel = serverSocketChannel.accept();
             if(socketChannel != null){
