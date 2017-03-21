@@ -1,6 +1,7 @@
 package jdk.thread;
 
-import java.io.Serializable;
+import jdk.thread.task.ThreadPoolTaskMillisconds;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -27,8 +28,8 @@ public class ThreadPool {
         // 初始化线程池
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(COREPOOLSIZE, MAXINUMPOOLSIZE, KEEPALIVETIME, UNIT, WORKQUEUE, HANDLER);
         for (int i = 1; i < 11; i++) {
-            String task = "task@"+i;
-            System.out.println("put->"+task);
+            String task = "task@" + i;
+            System.out.println("put->" + task);
             //一个任务通过 execute(Runnable)方法被添加到线程池，任务就是一个 Runnable类型的对象，任务的执行方法就是 Runnable类型对象的run()方法
             //处理任务的优先级为：核心线程corePoolSize、任务队列workQueue、最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务
             //设此时线程池中的数量为currentPoolSize,若currentPoolSize>corePoolSize,则创建新的线程执行被添加的任务,
@@ -37,7 +38,7 @@ public class ThreadPool {
             //当currentPoolSize>=maximumPoolSize,通过 handler所指定的策略来处理新添加的任务
             //本例中可以同时可以被处理的任务最多为maximumPoolSize+WORKQUEUE=8个，其中最多5个在线程中正在处理，3个在缓冲队列中等待被处理
             //当currentPoolSize>corePoolSize时，如果某线程空闲时间超过keepAliveTime，线程将被终止。这样，线程池可以动态的调整池中的线程数
-            threadPool.execute(new ThreadPoolTask(task));
+            threadPool.execute(new ThreadPoolTaskMillisconds(task, 20));
 //            try {
 //                Thread.sleep(1000);
 //            } catch (InterruptedException e) {
@@ -47,31 +48,4 @@ public class ThreadPool {
         threadPool.shutdown();//关闭主线程，但线程池会继续运行，直到所有任务执行完才会停止。若不调用该方法线程池会一直保持下去，以便随时添加新的任务
     }
 
-    public static class ThreadPoolTask implements Runnable,Serializable{
-        private static final long serialVersionUID = -8568367025140842876L;
-
-        private Object threadPoolTaskData;
-        private static int produceTaskSleepTime = 10000;
-
-        public ThreadPoolTask(Object threadPoolTaskData) {
-            super();
-            this.threadPoolTaskData = threadPoolTaskData;
-        }
-
-        public void run() {
-            System.out.println("start..."+threadPoolTaskData);
-            try {
-                //模拟线程正在执行任务
-                Thread.sleep(produceTaskSleepTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("stop..."+threadPoolTaskData);
-            threadPoolTaskData = null;
-        }
-
-        public Object getTask(){
-            return this.threadPoolTaskData;
-        }
-    }
 }
