@@ -45,6 +45,14 @@ public class AbortTestClient {
             } catch (RejectedExecutionException e) {
                 System.out.println("第" + i + "次提交线程被拒绝!  当前活动线程数：" + executor.getActiveCount()
                         + " 队列长度：" + executor.getQueue().size());
+
+//                被拒绝休眠1秒钟，等待线程执行池空闲。
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+
             }
         }
     }
