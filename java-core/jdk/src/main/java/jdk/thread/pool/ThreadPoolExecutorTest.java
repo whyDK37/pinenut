@@ -6,13 +6,13 @@ import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 
 
 /**
- * jdk 自代线程池测试
+ * jdk 自代线程池测试，完整的参数构建线程池。
  */
 public class ThreadPoolExecutorTest {
     //线程池维护线程的最少数量    
-    private static final int COREPOOLSIZE = 2;
+    private static final int COREPOOLSIZE = 5;
     //线程池维护线程的最大数量    
-    private static final int MAXINUMPOOLSIZE = 5;
+    private static final int MAXINUMPOOLSIZE = 10;
     //线程池维护线程所允许的空闲时间    
     private static final long KEEPALIVETIME = 4;
     //线程池维护线程所允许的空闲时间的单位    

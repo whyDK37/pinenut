@@ -9,7 +9,9 @@ import java.util.concurrent.BlockingQueue;
 /** 
  * A class that calculates the optimal thread pool boundaries. It takes the desired target utilization and the desired 
  * work queue memory consumption as input and retuns thread count and work queue capacity. 
- * 
+ *
+ * 计算线程池的最佳边界，
+ *
  * @author Niklas Schlimm 
  */  
 public abstract class PoolSizeCalculator {  
