@@ -32,7 +32,7 @@ public class AbortTestClient {
 //                new LinkedBlockingQueue<Runnable>(5));
 
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             try {
                 executor.execute(() -> {
                     //doNothing
@@ -43,10 +43,9 @@ public class AbortTestClient {
                     }
                 });
             } catch (RejectedExecutionException e) {
-                System.out.println("第" + i + "次提交线程被拒绝!  当前活动线程数：" + executor.getActiveCount()
-                        + " 队列长度：" + executor.getQueue().size());
+                System.out.println("第" + i + "次提交线程被拒绝!  executor:" + executor);
 
-//                被拒绝休眠1秒钟，等待线程执行池空闲。
+//                被拒绝休眠1秒钟，等待线程执行池空闲。😀😬😆😇️🤔😶🤑😯🙁😻☠️😺😻🤒🏽🖐🏻‍🏻‍🔧🤷🏽‍♀️‍️‍
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e1) {
@@ -55,12 +54,16 @@ public class AbortTestClient {
 
             }
         }
+        System.out.println(executor);
+        executor.shutdown();
+        System.out.println(executor);
     }
 
     private static class MyThreadFactory implements ThreadFactory {
         String name;
+
         public MyThreadFactory(String name) {
-            this.name = name ;
+            this.name = name;
         }
 
         @Override
