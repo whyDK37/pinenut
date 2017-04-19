@@ -15,5 +15,9 @@ public class AtomicLongTest {
         atomicLong.addAndGet(1);
 
         System.out.println(atomicLong.get());
+
+        System.out.println(Long.MAX_VALUE);
+        System.out.println("90287354");
+        System.out.println((Long.MAX_VALUE-90287354)/50);
     }
 }
