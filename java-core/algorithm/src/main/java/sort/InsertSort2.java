@@ -4,7 +4,7 @@ package sort;
  * 插入排序
  * Created by whydk on 2016/9/5.
  */
-public class InsertSort {
+public class InsertSort2 {
 
 
     public void insertSort() {
@@ -15,10 +15,11 @@ public class InsertSort {
         int temp = 0;
 
         for (int i = 1; i < a.length; i++) {
-            int j = i - 1;
             temp = a[i];
-            for (; j >= 0 && temp < a[j]; j--) {
+            int j = i - 1;
+            while (j >= 0 && a[j] > temp) {
                 a[j + 1] = a[j];  //将大于temp 的值整体后移一个单位
+                j--;
             }
             a[j + 1] = temp;
         }
@@ -30,6 +31,6 @@ public class InsertSort {
     }
 
     public static void main(String[] args) {
-        new InsertSort().insertSort();
+        new InsertSort2().insertSort();
     }
 }

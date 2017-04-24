@@ -30,7 +30,7 @@ include 'spring-learn:spring-web'
 
 //存储
 include 'storage'
-include 'storage:mc'
+include 'storage:cache'
 include 'storage:redis'
 include 'storage:h2'
 include 'storage:mybatis'
