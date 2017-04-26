@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC
+        "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="mybatis-config.properties"/>
+    <!--<objectFactory type="my.jdk.me.ExampleObjectFactory">-->
+    <!--<property name="someProperty" value="100"/>-->
+    <!--</objectFactory>-->
+    <typeAliases>
+        <package name="jdk.me.mybatis"/>
+    </typeAliases>
+    <typeHandlers>
+        <typeHandler handler="jdk.me.mybatis.type.ExampleTypeHandler"/>
+    </typeHandlers>
+    <environments default="${evn}">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="SQL Server" value="sqlserver"/>
+        <property name="DB2" value="db2"/>
+        <property name="Oracle" value="oracle"/>
+    </databaseIdProvider>
+    <mappers>
+        <package name="jdk.me.mybatis"/>
+        <!--<mapper resource="com/icfcc/db/sys/SmMenuMapper.xml" />-->
+        <!--<mapper resource="com/icfcc/db/user/SmUserAuthMapper.xml" />-->
+        <!--<mapper resource="com/icfcc/db/user/SmUserbaseinfoMapper.xml" />-->
+    </mappers>
+    <!--<plugins>-->
+    <!--<plugin interceptor="com.icfcc.db.plugin.ExamplePlugin">-->
+    <!--<property name="someProperty" value="100"/>-->
+    <!--</plugin>-->
+    <!--</plugins>-->
+    <!--<plugins>-->
+    <!--<plugin interceptor="com.icfcc.db.plugin.ExamplePlugin"></plugin>-->
+    <!--</plugins>-->
+</configuration>

@@ -61,73 +61,6 @@ subprojects {
     }
 }
 
-//java core
-project('java-core:jdk') {
-    description = 'jdk sample code'
-
-    dependencies {
-        compile fileTree(dir: 'libs', include: ['*.jar'])
-        compile "com.alibaba:fastjson:1.2.7"
-        compile "commons-io:commons-io:2.4"
-    }
-}
-
-
-project(':logging') {
-    description = 'logging demo'
-    dependencies {
-        compile "commons-lang:commons-lang:2.3"
-
-        compile 'commons-logging:commons-logging:1.2'
-//        compile 'log4j:log4j:1.2.17'
-        compile "org.apache.logging.log4j:log4j-spi:2.4.1"
-        compile "org.apache.logging.log4j:log4j-core:2.4.1"
-//        compile "org.slf4j:slf4j-spi:${slf4j}"
-//        compile "org.slf4j:slf4j-log4j12:${slf4j}"
-//        compile "org.slf4j:slf4j-jdk14:${slf4j}"
-//        compile "org.slf4j:slf4j-simple:${slf4j}"
-        //桥接：告诉Slf4j使用Log4j2
-        compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.4.1'
-//        桥接：告诉commons logging使用Log4j2 -->
-        compile 'org.apache.logging.lsog4j:log4j-jcl:2.4.1'
-        // https://mvnrepository.com/artifact/com.google.inject/guice
-        compile 'com.google.inject:guice:3.0'
-
-        // other
-        // https://mvnrepository.com/artifact/org.perf4j/perf4j
-        compile group: 'org.perf4j', name: 'perf4j', version: '0.9.16'
-
-    }
-}
-
-
-
-project(':compress') {
-    description = 'compress demo'
-    dependencies {
-        compile 'org.apache.commons:commons-compress:1.9'
-    }
-    task forProject1 << {
-        println 'for project 1'
-    }
-}
-
-project(':web') {
-    apply plugin: 'war'
-    description = 'web demo'
-    dependencies {
-        compile 'javax.servlet:servlet-spi:3.0-alpha-1'
-        compile 'commons-fileupload:commons-fileupload:1.3.1'
-    }
-}
-
-
-project(':FreeMarker') {
-    description = 'FreeMarker demo'
-    dependencies {
-        compile 'org.freemarker:freemarker:2.3.23'
-    }
-}
 
 project(':commons') {
     description = 'commons demo'
@@ -192,50 +125,162 @@ project(':commons') {
         // lmax
         // https://mvnrepository.com/artifact/com.lmax/disruptor
         compile group: 'com.lmax', name: 'disruptor', version: '3.3.6'
-    }
-}
 
-project(':mq') {
-    description = 'mq demo'
-    dependencies {
-        compile 'com.rabbitmq:amqp-client:3.6.4'
+
+        // logging start
+        compile "commons-lang:commons-lang:2.3"
+
+        compile 'commons-logging:commons-logging:1.2'
+//        compile 'log4j:log4j:1.2.17'
+        compile "org.apache.logging.log4j:log4j-spi:2.4.1"
+        compile "org.apache.logging.log4j:log4j-core:2.4.1"
+//        compile "org.slf4j:slf4j-spi:${slf4j}"
+//        compile "org.slf4j:slf4j-log4j12:${slf4j}"
+//        compile "org.slf4j:slf4j-jdk14:${slf4j}"
+//        compile "org.slf4j:slf4j-simple:${slf4j}"
+        //桥接：告诉Slf4j使用Log4j2
+        compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.4.1'
+//        桥接：告诉commons logging使用Log4j2 -->
+        compile 'org.apache.logging.lsog4j:log4j-jcl:2.4.1'
+        // https://mvnrepository.com/artifact/com.google.inject/guice
+        compile 'com.google.inject:guice:3.0'
+
+        // other
+        // https://mvnrepository.com/artifact/org.perf4j/perf4j
+        compile group: 'org.perf4j', name: 'perf4j', version: '0.9.16'
+
+        // logging end
+
+        // compress start
+        compile 'org.apache.commons:commons-compress:1.9'
+        // compress end
+
+        // freemarker star
+        compile 'org.freemarker:freemarker:2.3.23'
+        // FreeMarker end 
+
+        // zookeeper start
+        compile "com.101tec:zkclient:0.4"
+        compile "org.apache.curator:curator-client:3.1.0"
+        compile "org.apache.curator:curator-framework:3.1.0"
+//        compile "org.apache.curator:curator-framework.recipes:3.1.0"
+        compile "commons-lang:commons-lang:2.3"
+        // zookeeper end
+
+        // mq start
+         compile 'com.rabbitmq:amqp-client:3.6.4'
 
         compile 'org.apache.activemq:activeio-core:3.1.4'
         compile 'org.apache.activemq:activemq-client:5.14.0'
         compile 'org.apache.activemq:activemq-broker:5.14.0'
         compile 'org.apache.activemq.protobuf:activemq-protobuf:1.1'
         compile 'org.jboss.javaee:jboss-jms-spi-1.1_spec:5.0.2.GA'
-
+        // mq end  
     }
 }
 
-project(':zk') {
-    description = 'zk demo'
+//java core
+project('java-core:jdk') {
+    description = 'jdk sample code'
+
     dependencies {
-        compile "com.101tec:zkclient:0.4"
-        compile "org.apache.curator:curator-client:3.1.0"
-        compile "org.apache.curator:curator-framework:3.1.0"
-//        compile "org.apache.curator:curator-framework.recipes:3.1.0"
-        compile "commons-lang:commons-lang:2.3"
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile "com.alibaba:fastjson:1.2.7"
+        compile "commons-io:commons-io:2.4"
     }
 }
 
-project('storage:redis') {
-    description = 'redis demo'
+
+// project(':logging') {
+//     description = 'logging demo'
+//     dependencies {
+// //         compile "commons-lang:commons-lang:2.3"
+
+// //         compile 'commons-logging:commons-logging:1.2'
+// // //        compile 'log4j:log4j:1.2.17'
+// //         compile "org.apache.logging.log4j:log4j-spi:2.4.1"
+// //         compile "org.apache.logging.log4j:log4j-core:2.4.1"
+// // //        compile "org.slf4j:slf4j-spi:${slf4j}"
+// // //        compile "org.slf4j:slf4j-log4j12:${slf4j}"
+// // //        compile "org.slf4j:slf4j-jdk14:${slf4j}"
+// // //        compile "org.slf4j:slf4j-simple:${slf4j}"
+// //         //桥接：告诉Slf4j使用Log4j2
+// //         compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.4.1'
+// // //        桥接：告诉commons logging使用Log4j2 -->
+// //         compile 'org.apache.logging.lsog4j:log4j-jcl:2.4.1'
+// //         // https://mvnrepository.com/artifact/com.google.inject/guice
+// //         compile 'com.google.inject:guice:3.0'
+
+// //         // other
+// //         // https://mvnrepository.com/artifact/org.perf4j/perf4j
+// //         compile group: 'org.perf4j', name: 'perf4j', version: '0.9.16'
+
+//     }
+// }
+
+
+
+// project(':compress') {
+//     description = 'compress demo'
+//     dependencies {
+//         // compile 'org.apache.commons:commons-compress:1.9'
+//     }
+//     task forProject1 << {
+//         println 'for project 1'
+//     }
+// }
+
+project(':web') {
+    apply plugin: 'war'
+    description = 'web demo'
     dependencies {
+        compile 'javax.servlet:servlet-spi:3.0-alpha-1'
+        compile 'commons-fileupload:commons-fileupload:1.3.1'
+    }
+}
+
+
+// project(':FreeMarker') {
+//     description = 'FreeMarker demo'
+//     dependencies {
+//         // compile 'org.freemarker:freemarker:2.3.23'
+//     }
+// }
+
+
+// project(':mq') {
+//     description = 'mq demo'
+//     dependencies {
+//         compile 'com.rabbitmq:amqp-client:3.6.4'
+
+//         compile 'org.apache.activemq:activeio-core:3.1.4'
+//         compile 'org.apache.activemq:activemq-client:5.14.0'
+//         compile 'org.apache.activemq:activemq-broker:5.14.0'
+//         compile 'org.apache.activemq.protobuf:activemq-protobuf:1.1'
+//         compile 'org.jboss.javaee:jboss-jms-spi-1.1_spec:5.0.2.GA'
+
+//     }
+// }
+
+// project(':zk') {
+//     description = 'zk demo'
+//     dependencies {
+// //         compile "com.101tec:zkclient:0.4"
+// //         compile "org.apache.curator:curator-client:3.1.0"
+// //         compile "org.apache.curator:curator-framework:3.1.0"
+// // //        compile "org.apache.curator:curator-framework.recipes:3.1.0"
+// //         compile "commons-lang:commons-lang:2.3"
+//     }
+// }
+
+project('storage') {
+    description = 'storage demo'
+    dependencies {
+        // redis start
         compile "redis.clients:jedis:2.8.0"
-//        compile "org.apache.curator:curator-client:3.1.0"
-//        compile "org.apache.curator:curator-framework:3.1.0"
-//        compile "org.apache.curator:curator-framework.recipes:3.1.0"
-    }
-}
+        // redis end
 
-project('storage:cache') {
-    description = 'mc.memcached demo'
-    dependencies {
-//        compile 'org.slf4j:slf4j-spi:1.7.7'
-//        compile 'log4j:log4j:1.2.17'
-
+        // cache start
         // Memcached client
         compile "com.googlecode.xmemcached:xmemcached:2.0.0"
         compile 'com.danga:memcached:2.6.6'
@@ -246,35 +291,80 @@ project('storage:cache') {
 
         // https://mvnrepository.com/artifact/net.sf.ehcache/ehcache
         compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.3'
-
-//        compile "mysql:mysql-connector-java:5.1.34"
-//        compile "org.apache.curator:curator-client:3.1.0"
-//        compile "org.apache.curator:curator-framework:3.1.0"
-//        compile "org.apache.curator:curator-framework.recipes:3.1.0"
-    }
-}
+        // cache end
 
 
-project('storage:mybatis') {
-    description = 'mybatis demo'
-    dependencies {
+        // h2 start
+        compile 'com.h2database:h2:1.4.187'
+        // h2 end
+
+        // mongodb start
+         compile 'org.mongodb:mongodb-driver:3.3.0'
+         // mongodb end
+
+        // mybatis start
         compile "org.mybatis:mybatis:3.3.0"
         compile "mysql:mysql-connector-java:5.1.34"
-    }
-}
-project('storage:h2') {
-    description = 'storage h2 demo'
-    dependencies {
-        compile 'com.h2database:h2:1.4.187'
+        // mybatis end
+
     }
 }
 
-project('storage:mongodb') {
-    description = 'storage mongodb demo'
-    dependencies {
-        compile 'org.mongodb:mongodb-driver:3.3.0'
-    }
-}
+// project('storage:redis') {
+//     description = 'redis demo'
+//     dependencies {
+//         compile "redis.clients:jedis:2.8.0"
+// //        compile "org.apache.curator:curator-client:3.1.0"
+// //        compile "org.apache.curator:curator-framework:3.1.0"
+// //        compile "org.apache.curator:curator-framework.recipes:3.1.0"
+//     }
+// }
+
+// project('storage:cache') {
+//     description = 'mc.memcached demo'
+//     dependencies {
+// //        compile 'org.slf4j:slf4j-spi:1.7.7'
+// //        compile 'log4j:log4j:1.2.17'
+
+//         // Memcached client
+//         compile "com.googlecode.xmemcached:xmemcached:2.0.0"
+//         compile 'com.danga:memcached:2.6.6'
+//         compile 'com.meetup:memcached:1.6'
+//         compile 'net.spy:spymemcached:2.12.1'
+
+//         compile "org.springframework:spring-context:3.2.15.RELEASE"
+
+//         // https://mvnrepository.com/artifact/net.sf.ehcache/ehcache
+//         compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.3'
+
+// //        compile "mysql:mysql-connector-java:5.1.34"
+// //        compile "org.apache.curator:curator-client:3.1.0"
+// //        compile "org.apache.curator:curator-framework:3.1.0"
+// //        compile "org.apache.curator:curator-framework.recipes:3.1.0"
+//     }
+// }
+
+
+// project('storage:mybatis') {
+//     description = 'mybatis demo'
+//     dependencies {
+//         compile "org.mybatis:mybatis:3.3.0"
+//         compile "mysql:mysql-connector-java:5.1.34"
+//     }
+// }
+// project('storage:h2') {
+//     description = 'storage h2 demo'
+//     dependencies {
+//         compile 'com.h2database:h2:1.4.187'
+//     }
+// }
+
+// project('storage:mongodb') {
+//     description = 'storage mongodb demo'
+//     dependencies {
+//         compile 'org.mongodb:mongodb-driver:3.3.0'
+//     }
+// }
 
 project(':aliyun') {
     description = 'aliyun demo'
@@ -291,107 +381,77 @@ project(':aliyun') {
 //**********************************************
 //              spring learn
 //**********************************************
-project(':spring-learn:spring-bean') {
-    description = 'spring bean 源码学习'
+// project(':spring-learn:spring-bean') {
+//     description = 'spring bean 源码学习'
 
-    dependencies {
-        // spring
-        compile "org.springframework:spring-core:${springVersion}"
-        compile "org.springframework:spring-context:${springVersion}"
-        compile "org.springframework:spring-context-support:${springVersion}"
-        compile "org.springframework:spring-jdbc:${springVersion}"
-        compile "org.springframework:spring-orm:${springVersion}"
-        compile "org.springframework:spring-tx:${springVersion}"
+//     dependencies {
+//         // spring
+//         compile "org.springframework:spring-core:${springVersion}"
+//         compile "org.springframework:spring-context:${springVersion}"
+//         compile "org.springframework:spring-context-support:${springVersion}"
+//         compile "org.springframework:spring-jdbc:${springVersion}"
+//         compile "org.springframework:spring-orm:${springVersion}"
+//         compile "org.springframework:spring-tx:${springVersion}"
 
-        // aop
-        compile "org.aspectj:aspectjrt:1.7.4"
-        compile "org.aspectj:aspectjweaver:1.8.5"
-        compile "cglib:cglib:3.1"
-        compile "org.springframework:spring-aop:${springVersion}"
+//         // aop
+//         compile "org.aspectj:aspectjrt:1.7.4"
+//         compile "org.aspectj:aspectjweaver:1.8.5"
+//         compile "cglib:cglib:3.1"
+//         compile "org.springframework:spring-aop:${springVersion}"
 
-        //db
-        compile "mysql:mysql-connector-java:5.1.34"
-        compile "org.hsqldb:hsqldb:2.3.3"
-        compile 'com.h2database:h2:1.4.187'
-        compile "commons-dbcp:commons-dbcp:1.3"
-        compile "c3p0:c3p0:0.9.1.2"
+//         //db
+//         compile "mysql:mysql-connector-java:5.1.34"
+//         compile "org.hsqldb:hsqldb:2.3.3"
+//         compile 'com.h2database:h2:1.4.187'
+//         compile "commons-dbcp:commons-dbcp:1.3"
+//         compile "c3p0:c3p0:0.9.1.2"
 
-        // protobuf
-        compile "com.google.protobuf:protobuf-java:2.6.1"
-        // json
-        compile "com.alibaba:fastjson:1.2.7"
-        compile "com.fasterxml.jackson.core:jackson-core:${jackson}"
-        compile "com.fasterxml.jackson.core:jackson-databind:${jackson}"
-        compile "com.fasterxml.jackson.core:jackson-annotations:${jackson}"
-        compile "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:${jackson}"
-        compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.6.3"
+//         // protobuf
+//         compile "com.google.protobuf:protobuf-java:2.6.1"
+//         // json
+//         compile "com.alibaba:fastjson:1.2.7"
+//         compile "com.fasterxml.jackson.core:jackson-core:${jackson}"
+//         compile "com.fasterxml.jackson.core:jackson-databind:${jackson}"
+//         compile "com.fasterxml.jackson.core:jackson-annotations:${jackson}"
+//         compile "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:${jackson}"
+//         compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.6.3"
 
-        // qr code
-        compile 'com.swetake:Qrcode:1.0.0'
-        compile 'com.google.zxing:javase:3.3.0'
+//         // qr code
+//         compile 'com.swetake:Qrcode:1.0.0'
+//         compile 'com.google.zxing:javase:3.3.0'
 
-        // other
+//         // other
 
-        // test lib
-        testCompile "org.springframework:spring-test:${springVersion}"
+//         // test lib
+//         testCompile "org.springframework:spring-test:${springVersion}"
 
-    }
-}
+//     }
+// }
 
 
-//project(':spring-learn:spring-boot') {
-////    apply plugin: 'spring-boot'
-//    description = 'spring boot'
-//
-//
-//    dependencies {
-//        compile project(":spring-learn:spring-bean")
-////        compile "org.springframework:spring-core:${springVersion}"
-////        compile "org.springframework:spring-context:${springVersion}"
-////        compile "org.springframework:spring-context-support:${springVersion}"
-////        compile "org.springframework:spring-jdbc:${springVersion}"
-////        compile "org.springframework:spring-orm:${springVersion}"
-////        compile "org.springframework:spring-tx:${springVersion}"
-//
-//        compile "org.springframework:spring-web:${springVersion}"
-//        // spring boot
-//        compile("org.springframework.boot:spring-boot-starter-web:1.2.7.RELEASE")
-//
-//        // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
-//        compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.1'
-//        // https://mvnrepository.com/artifact/commons-collections/commons-collections
-//        compile group: 'commons-collections', name: 'commons-collections', version: '3.2.1'
-//
-//        compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.5.3"
-//        compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"
-//
-//        testCompile("org.springframework.boot:spring-boot-starter-test:1.3.6.RELEASE")
-//
-//    }
-//}
 
-project(':spring-learn:spring-batch') {
-    description = 'spring batch'
+// project(':spring-learn:spring-batch') {
+//     description = 'spring batch'
 
-    dependencies {
-        compile project(":spring-learn:spring-bean")
-//        compile project(":spring-learn:spring-boot")
-        compile 'org.springframework.batch:spring-batch-core:3.0.7.RELEASE'
-    }
-}
+//     dependencies {
+//         compile project(":spring-learn:spring-bean")
+// //        compile project(":spring-learn:spring-boot")
+//         compile 'org.springframework.batch:spring-batch-core:3.0.7.RELEASE'
+//     }
+// }
 
-project(':spring-learn:spring-web') {
-    description = 'spring web'
-    apply plugin: 'war'
+// project(':spring-learn:spring-web') {
+//     description = 'spring web'
+//     apply plugin: 'war'
 
-    dependencies {
-        compile project(":spring-learn:spring-bean")
-//        compile project(":spring-learn:spring-boot")
+//     dependencies {
+//         compile project(":spring-learn:spring-bean")
+// //        compile project(":spring-learn:spring-boot")
 
-        // google protobuf
-        compile 'com.google.protobuf:protobuf-java:2.5.0'
-        compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.2'
+//         // google protobuf
+//         compile 'com.google.protobuf:protobuf-java:2.5.0'
+//         compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.2'
 
-        compile 'commons-fileupload:commons-fileupload:1.3.1'
-    }
-}
+//         compile 'commons-fileupload:commons-fileupload:1.3.1'
+//     }
+// }
