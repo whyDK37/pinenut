@@ -1,5 +1,7 @@
 package logging.jmx;
 
+import logging.jdk.jmx.Hello;
+
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
