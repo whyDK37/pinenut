@@ -1,5 +1,6 @@
 package data_structures;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
@@ -21,6 +22,8 @@ public class MyLinkedStackTest {
         System.out.println(stack.pop());
         System.out.println(stack.pop());
         System.out.println(stack.pop());
+
+        Assert.assertEquals(stack.size, 0);
     }
 
 }

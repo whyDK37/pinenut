@@ -24,7 +24,11 @@ public class MyLinkedStack<E> {
             return null;
 
         Object item = top.item;
-        top = top.next;
+        Node next = top.next;
+        top.item = null;
+        top.next = null;
+        top = next;
+
         modCount++;
         size--;
 

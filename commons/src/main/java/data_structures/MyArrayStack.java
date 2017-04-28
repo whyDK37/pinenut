@@ -31,9 +31,12 @@ public class MyArrayStack<E> {
         if (size == 0) {
             return null;
         }
+        Object element = elements[top];
+        elements[top--] = null;
+
         size--;
         modCount++;
-        return (E) elements[top--];
+        return (E) element;
     }
 
     public E peek() {
