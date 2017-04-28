@@ -3,6 +3,7 @@ package data_structures;
 import java.util.*;
 
 /**
+ * 链表的简单实现，代码并不是很严谨，有些地方缺少必要的校验。
  * Created by why on 4/28/2017.
  */
 public class MyArrayList<E> implements List<E> {

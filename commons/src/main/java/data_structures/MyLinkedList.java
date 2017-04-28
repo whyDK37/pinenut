@@ -1,14 +1,12 @@
 package data_structures;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
+ * 链表的简单实现，代码并不是很严谨，有些地方缺少必要的校验。
  * Created by why on 4/28/2017.
  */
-public class MyLinkedList<E> implements List<E>/*, Deque<E>*/ {
+public class MyLinkedList<E> implements List<E>, Deque<E> {
 
     private int size;
 
@@ -38,6 +36,11 @@ public class MyLinkedList<E> implements List<E>/*, Deque<E>*/ {
     @Override
     public Iterator<E> iterator() {
         return new Itr(head, size, modCount);
+    }
+
+    @Override
+    public Iterator<E> descendingIterator() {
+        return null;
     }
 
     private class Itr<E> implements Iterator<E> {
@@ -79,9 +82,114 @@ public class MyLinkedList<E> implements List<E>/*, Deque<E>*/ {
     }
 
     @Override
+    public void addFirst(E e) {
+        linkFirst(e);
+    }
+
+    @Override
+    public void addLast(E e) {
+        linkLast(e);
+    }
+
+    @Override
+    public boolean offerFirst(E e) {
+        return false;
+    }
+
+    @Override
+    public boolean offerLast(E e) {
+        return false;
+    }
+
+    @Override
+    public E removeFirst() {
+        return null;
+    }
+
+    @Override
+    public E removeLast() {
+        return null;
+    }
+
+    @Override
+    public E pollFirst() {
+        return null;
+    }
+
+    @Override
+    public E pollLast() {
+        return null;
+    }
+
+    @Override
+    public E getFirst() {
+        return null;
+    }
+
+    @Override
+    public E getLast() {
+        return null;
+    }
+
+    @Override
+    public E peekFirst() {
+        return null;
+    }
+
+    @Override
+    public E peekLast() {
+        return null;
+    }
+
+    @Override
+    public boolean removeFirstOccurrence(Object o) {
+        return false;
+    }
+
+    @Override
+    public boolean removeLastOccurrence(Object o) {
+        return false;
+    }
+
+    @Override
     public boolean add(E e) {
         linkLast(e);
         return true;
+    }
+
+    @Override
+    public boolean offer(E e) {
+        return false;
+    }
+
+    @Override
+    public E remove() {
+        return null;
+    }
+
+    @Override
+    public E poll() {
+        return null;
+    }
+
+    @Override
+    public E element() {
+        return null;
+    }
+
+    @Override
+    public E peek() {
+        return null;
+    }
+
+    @Override
+    public void push(E e) {
+
+    }
+
+    @Override
+    public E pop() {
+        return null;
     }
 
     void linkFirst(E e) {
@@ -310,4 +418,6 @@ public class MyLinkedList<E> implements List<E>/*, Deque<E>*/ {
         }
 
     }
+
+
 }
