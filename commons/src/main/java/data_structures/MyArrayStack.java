@@ -40,6 +40,7 @@ public class MyArrayStack<E> {
     }
 
     public E peek() {
+        if (top < 0) return null;
         return (E) elements[top];
     }
 
