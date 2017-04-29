@@ -8,19 +8,15 @@ import java.util.Queue;
  * 固定长度的队列
  * Created by why on 4/29/2017.
  */
-public class MyFixArrayQueue<E> implements Queue<E> {
+public class MyLinkedQueue<E> implements Queue<E> {
 
-    private Object[] elements;
     private int size;
     private int modCount;
 
-    private int head = 0;
-    private int tail = 0;
-    private int capacity;
+    private Node head;
+    private Node tail;
 
-    public MyFixArrayQueue(int size) {
-        elements = new Object[size];
-        capacity = size;
+    public MyLinkedQueue() {
     }
 
     @Override
@@ -56,13 +52,14 @@ public class MyFixArrayQueue<E> implements Queue<E> {
     @Override
     public boolean add(Object o) {
 
-        if (size == capacity) return false;
-
-        elements[tail] = o;
-
-//        tail = tail + 1 > capacity - 1 ? 0 : tail + 1;
-        if (++tail == elements.length)
-            tail = 0;
+        Node node = new Node(o);
+        Node oldTail = tail;
+        tail = node;
+        if (oldTail == null)
+            head = node;
+        else {
+            oldTail.next = node;
+        }
 
         size++;
         modCount++;
@@ -77,7 +74,7 @@ public class MyFixArrayQueue<E> implements Queue<E> {
     @Override
     public boolean addAll(Collection c) {
         for (Object o : c) {
-            elements[size++] = o;
+            add(o);
         }
         modCount++;
         return true;
@@ -86,8 +83,11 @@ public class MyFixArrayQueue<E> implements Queue<E> {
     @Override
     public void clear() {
 
-        for (int i = 0; i < size; i++) {
-            elements[i] = null;
+        Node x = head;
+        while (x != null) {
+            Node node = x.next;
+            x.item = null;
+            x = node;
         }
         size = 0;
         modCount++;
@@ -122,15 +122,14 @@ public class MyFixArrayQueue<E> implements Queue<E> {
     public E poll() {
         if (size == 0) return null;
 
-        Object element = elements[head];
-        elements[head] = null;
+        Node next = head.next;
+        Object item = head.item;
+        head.item = null;
+        head = next;
 
-//        head = head + 1 > capacity - 1 ? 0 : head + 1;
-        if (++head == elements.length)
-            head = 0;
         size--;
         modCount--;
-        return (E) element;
+        return (E) item;
     }
 
     @Override
@@ -143,8 +142,21 @@ public class MyFixArrayQueue<E> implements Queue<E> {
         if (size == 0)
             return null;
 
-        Object element = elements[head];
+        return (E) head.item;
+    }
 
-        return (E) element;
+    private class Node<E> {
+        E item;
+        Node next;
+
+        Node(E item, Node next) {
+            this.item = item;
+            this.next = next;
+        }
+
+        Node(E item) {
+            this.item = item;
+            this.next = next;
+        }
     }
 }
