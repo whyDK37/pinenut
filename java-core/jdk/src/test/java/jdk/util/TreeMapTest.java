@@ -13,6 +13,8 @@ public class TreeMapTest {
     public void test(){
         TreeMap treeMap = new TreeMap();
         treeMap.put(1, 1);
-        treeMap.put(1, 1);
+        treeMap.put(2, 2);
+        treeMap.put(3, 3);
+        treeMap.put(4, 4);
     }
 }
