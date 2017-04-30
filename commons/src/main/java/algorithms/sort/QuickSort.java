@@ -1,22 +1,18 @@
 package algorithms.sort;
 
+import java.util.Arrays;
+
 /**
  * Created by whydk on 2016/9/5.
  */
 public class QuickSort {
 
-    int a[] = {49, 38, 65, 97, 76, 13, 27, 49, 78, 34, 12, 64, 5, 4, 62, 99, 98, 54, 56, 17, 18, 23, 34
-            , 15, 35, 25, 53, 51};
 
-    public void quickSort() {
+    public void quickSort(int[] a) {
 
         quick(a);
 
-        for (int i = 0; i < a.length; i++) {
 
-            System.out.println(a[i]);
-
-        }
 
     }
 
@@ -74,6 +70,11 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        new QuickSort().quickSort();
+
+        int a[] = {49, 38, 65, 97, 76, 13, 27, 49, 78, 34, 12, 64, 5, 4, 62, 99, 98, 54, 56, 17, 18, 23, 34
+                , 15, 35, 25, 53, 51};
+        new QuickSort().quickSort(a);
+
+        System.out.println(Arrays.toString(a));
     }
 }
