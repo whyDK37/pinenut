@@ -1,17 +1,16 @@
-package sort;
+package algorithms.sort;
 
 import java.util.Arrays;
 
 /**
+ * 对排序
  * Created by whydk on 2016/9/5.
  */
 public class HeapSort {
 
 
-
     public void heapSort(int[] a) {
 
-        System.out.println("开始排序");
         int arrayLength = a.length;
 
         //循环建堆
@@ -36,7 +35,6 @@ public class HeapSort {
 
 
     //对data 数组从0到lastIndex 建大顶堆
-
     private void buildMaxHeap(int[] data, int lastIndex) {
 
         //从lastIndex 处节点（最后一个节点）的父节点开始
@@ -79,6 +77,7 @@ public class HeapSort {
                     34, 15, 35, 25, 53, 51};
     public static void main(String[] args) {
         new HeapSort().heapSort(a);
+        System.out.println(Arrays.toString(a));
     }
 }
 

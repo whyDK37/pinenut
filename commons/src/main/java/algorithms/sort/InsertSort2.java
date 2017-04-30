@@ -1,4 +1,4 @@
-package sort;
+package algorithms.sort;
 
 /**
  * 插入排序
@@ -7,10 +7,8 @@ package sort;
 public class InsertSort2 {
 
 
-    public void insertSort() {
+    public void insertSort(int[] a) {
 
-        int a[] = {49, 38, 65, 97, 76, 13, 27, 49, 78, 34, 12, 64, 5, 4, 62, 99, 98, 54, 56, 17, 18, 23,
-                34, 15, 35, 25, 53, 51};
 
         int temp = 0;
 
@@ -24,13 +22,17 @@ public class InsertSort2 {
             a[j + 1] = temp;
         }
 
-        for (int i = 0; i < a.length; i++) {
-            System.out.println(a[i]);
-        }
 
     }
 
     public static void main(String[] args) {
-        new InsertSort2().insertSort();
+        int a[] = {49, 38, 65, 97, 76, 13, 27, 49, 78, 34, 12, 64, 5, 4, 62, 99, 98, 54, 56, 17, 18, 23,
+                34, 15, 35, 25, 53, 51};
+
+        new InsertSort2().insertSort(a);
+
+        for (int i = 0; i < a.length; i++) {
+            System.out.print(a[i] + ", ");
+        }
     }
 }

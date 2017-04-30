@@ -1,4 +1,4 @@
-package sort;
+package algorithms.sort;
 
 /**
  * Created by whydk on 2016/9/5.

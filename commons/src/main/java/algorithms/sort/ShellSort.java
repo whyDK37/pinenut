@@ -1,15 +1,13 @@
-package sort;
+package algorithms.sort;
 
 /**
+ * 希尔排序
  * Created by whydk on 2016/9/5.
  */
 public class ShellSort {
 
-    public void shellSort() {
-        int a[] = {1, 54, 6, 3, 78, 34, 12, 45, 56, 100};
+    public void shellSort(int[] a) {
         double d1 = a.length;
-
-        int temp = 0;
 
         while (true) {
 
@@ -19,7 +17,7 @@ public class ShellSort {
             for (int x = 0; x < d; x++) {
                 for (int i = x + d; i < a.length; i += d) {
                     int j = i - d;
-                    temp = a[i];
+                    int temp = a[i];
                     for (; j >= 0 && temp < a[j]; j -= d) {
                         a[j + d] = a[j];
                     }
@@ -29,14 +27,15 @@ public class ShellSort {
             if (d == 1) {
                 break;
             }
-
-            for (int i = 0; i < a.length; i++) {
-                System.out.println(a[i]);
-            }
         }
     }
 
     public static void main(String[] args) {
-        new ShellSort().shellSort();
+        int a[] = {49, 38, 65, 97, 76, 13, 27, 49, 78, 34, 12, 64, 5, 4, 62, 99, 98, 54, 56, 17, 18, 23
+                , 34, 15, 35, 25, 53, 51};
+        new ShellSort().shellSort(a);
+        for (int i = 0; i < a.length; i++) {
+            System.out.print(a[i] + ", ");
+        }
     }
 }
