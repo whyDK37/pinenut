@@ -1,4 +1,4 @@
-package jdk.me.util;
+package jdk.util;
 
 import java.util.LinkedList;
 import java.util.Queue;

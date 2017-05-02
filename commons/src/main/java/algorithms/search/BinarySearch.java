@@ -13,7 +13,7 @@ public class BinarySearch {
         List<Integer> a = new ArrayList<Integer>();
         addIntegerInSequence(a, 1, 10);
         print(a);
-        int pos = binarySearch(a, 10);
+        int pos = binarySearch2(a, 10);
         if (pos != -1) {
             System.out.print("Element found: " + pos);
         } else {
@@ -34,6 +34,31 @@ public class BinarySearch {
         int mid;
         while (low <= high) {
             mid = (low + high) / 2;
+            if (a.get(mid) < value) {
+                low = low + 1;
+            } else if (a.get(mid) > value) {
+                high = high - 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 优化后的折半查找法
+     *
+     * @param a
+     * @param value
+     * @return
+     */
+    public static int binarySearch2(List<Integer> a, int value) {
+        int size = a.size();
+        int low = 0, high = size - 1;
+        int mid;
+        while (low <= high) {
+            //优化的关键一行代码
+            mid = low + (high - low) * (value - a.get(low)) / (a.get(high) - a.get(low));
             if (a.get(mid) < value) {
                 low = low + 1;
             } else if (a.get(mid) > value) {

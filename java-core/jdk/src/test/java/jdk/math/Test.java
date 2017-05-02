@@ -1,4 +1,4 @@
-package jdk.me.math;
+package jdk.math;
 
 import java.util.HashMap;
 

@@ -1,5 +1,6 @@
 package data_structures;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -7,6 +8,7 @@ import org.testng.annotations.Test;
  * Created by why on 4/29/2017.
  */
 public class MyBinaryTreeTest {
+
 
     private TreeNode<Integer> root;
 
@@ -21,6 +23,11 @@ public class MyBinaryTreeTest {
 
         root.left.left = new TreeNode<>();
         root.left.left.item = 3;
+        root.left.right = new TreeNode<>();
+        root.left.right.item = 26;
+
+        root.right.left = new TreeNode<>();
+        root.right.left.item = 70;
         root.right.right = new TreeNode<>();
         root.right.right.item = 99;
 
@@ -34,6 +41,53 @@ public class MyBinaryTreeTest {
         inOrderTraverse(root);
         System.out.println("postOrderTraverse------------");
         postOrderTraverse(root);
+    }
+
+
+    @Test
+    public void searchBSTTest() {
+        Assert.assertEquals(searchBST(root, 3), 3);
+        Assert.assertEquals(searchBST(root, 50), 50);
+        Assert.assertEquals(searchBST(root, 25), 25);
+        Assert.assertEquals(searchBST(root, 75), 75);
+        Assert.assertEquals(searchBST(root, 26), 26);
+        Assert.assertEquals(searchBST(root, 70), 70);
+        Assert.assertEquals(searchBST(root, 99), 99);
+        Assert.assertEquals(searchBST(root, 998), -1);
+    }
+
+    @Test
+    public void insertBSTTest() {
+
+    }
+
+
+    //*********************************************************
+    //  树的而一些方法
+    //*********************************************************
+
+
+    private class TreeNode<E> {
+        E item;
+        TreeNode left;
+        TreeNode right;
+        //红黑树属性
+        boolean black = false;
+    }
+
+    private int searchBST(TreeNode<Integer> root, int key) {
+        TreeNode<Integer> node = root;
+        if (node == null)
+            return -1;
+
+        if (node.item == key) {
+            return key;
+        }
+        if (key > (node.item)) {
+            return searchBST(node.right, key);
+        } else {
+            return searchBST(node.left, key);
+        }
     }
 
     public void preOrderTraverse(TreeNode<Integer> node) {
@@ -63,34 +117,6 @@ public class MyBinaryTreeTest {
         System.out.println(node.item + "->");//显示节点数据，可以更改为其他节点操作
     }
 
-    @Test
-    public void test() {
-        int i = find(root, 5);
-        System.out.println(i);
-    }
 
-    private int find(TreeNode<Integer> root, int i) {
-        TreeNode<Integer> node = root;
-        if (node == null)
-            return -1;
-
-        if (node.item.equals(i)) {
-            return i;
-        }
-        if (i > node.item) {
-            return find(node.right, i);
-        } else {
-            return find(node.left, i);
-        }
-
-    }
-
-
-    public class TreeNode<E> {
-        E item;
-        TreeNode<E> left;
-        TreeNode<E> right;
-
-    }
 
 }

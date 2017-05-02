@@ -1,9 +1,8 @@
-package jdk.me.net;
+package jdk.net;
 
 import junit.framework.Test;
-import junit.framework.TestSuite;
 import junit.framework.TestCase;
-import jdk.net.GetAddressByIp;
+import junit.framework.TestSuite;
 
 /**
  * GetAddressByIp Tester.

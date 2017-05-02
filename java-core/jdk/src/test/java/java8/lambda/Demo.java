@@ -1,4 +1,4 @@
-package jdk.lambda;
+package java8.lambda;
 
 import java.io.File;
 import java.io.FileFilter;

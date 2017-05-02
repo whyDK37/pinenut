@@ -1,4 +1,4 @@
-package jdk.me.util;//package jdk.me.util;
+package jdk.util;//package jdk.me.util;
 //
 //import net.sourceforge.sizeof.SizeOf;
 //

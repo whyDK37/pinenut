@@ -1,4 +1,4 @@
-package jdk.lambda;
+package java8.lambda;
 
 interface Formula {
     double calculate(int a);
