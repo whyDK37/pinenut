@@ -1,5 +1,7 @@
 package algorithms.sort;
 
+import java.util.Arrays;
+
 /**
  * 插入排序
  * Created by whydk on 2016/9/5.
@@ -31,8 +33,6 @@ public class InsertSort2 {
 
         new InsertSort2().insertSort(a);
 
-        for (int i = 0; i < a.length; i++) {
-            System.out.print(a[i] + ", ");
-        }
+        System.out.println(Arrays.toString(a));
     }
 }
