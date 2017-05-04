@@ -15,6 +15,7 @@ public class MyLinkedQueueTest {
         queue.add("b");
         queue.add("c");
 
+        Assert.assertFalse(queue.isEmpty());
         Assert.assertEquals(queue.peek(), "a");
         Assert.assertEquals(queue.poll(), "a");
         Assert.assertEquals(queue.poll(), "b");
@@ -24,6 +25,9 @@ public class MyLinkedQueueTest {
         }
 
         Assert.assertEquals(queue.size(), 1);
+        queue.clear();
+        Assert.assertTrue(queue.isEmpty());
+        Assert.assertNull(queue.peek());
     }
 
 }

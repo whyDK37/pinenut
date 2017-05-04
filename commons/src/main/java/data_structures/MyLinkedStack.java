@@ -5,12 +5,12 @@ package data_structures;
  */
 public class MyLinkedStack<E> {
 
-    Node top;
+    private Node top;
 
 
-    int modCount = 0;
+    private int modCount = 0;
 
-    int size;
+    private int size;
 
     public void push(E e) {
         Node<E> eNode = new Node<>(e, top);

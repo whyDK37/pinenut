@@ -15,7 +15,7 @@ public class MyLinkedStackTest {
         stack.push("b");
         stack.push("c");
 
-        System.out.println(stack.size);
+        System.out.println(stack.size());
 
         System.out.println(stack.peek());
         System.out.println(stack.pop());
@@ -23,7 +23,7 @@ public class MyLinkedStackTest {
         System.out.println(stack.pop());
         System.out.println(stack.pop());
 
-        Assert.assertEquals(stack.size, 0);
+        Assert.assertEquals(stack.size(), 0);
     }
 
 }

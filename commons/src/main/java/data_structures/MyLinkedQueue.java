@@ -149,11 +149,6 @@ public class MyLinkedQueue<E> implements Queue<E> {
         E item;
         Node next;
 
-        Node(E item, Node next) {
-            this.item = item;
-            this.next = next;
-        }
-
         Node(E item) {
             this.item = item;
             this.next = next;
