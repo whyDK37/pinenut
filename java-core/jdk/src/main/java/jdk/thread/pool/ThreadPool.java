@@ -1,4 +1,4 @@
-package jdk.thread;
+package jdk.thread.pool;
 
 import jdk.thread.task.ThreadPoolTaskMillisconds;
 

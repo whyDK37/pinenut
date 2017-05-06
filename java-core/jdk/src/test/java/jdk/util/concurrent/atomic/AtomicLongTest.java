@@ -13,6 +13,8 @@ public class AtomicLongTest {
     public void test(){
         AtomicLong atomicLong = new AtomicLong(1);
         atomicLong.addAndGet(1);
+        atomicLong.get();
+        atomicLong.incrementAndGet();
 
         System.out.println(atomicLong.get());
 
