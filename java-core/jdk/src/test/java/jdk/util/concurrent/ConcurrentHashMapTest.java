@@ -1,6 +1,8 @@
 package jdk.util.concurrent;
 
-import org.junit.Test;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,10 +12,21 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConcurrentHashMapTest {
 
     @Test
-    public void test(){
-        ConcurrentHashMap<String,String> concurrentHashMapTest = new ConcurrentHashMap<>(16);
+    public void test() {
+        ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 
-        concurrentHashMapTest.put("a", "a");
+        map.put("a", "a");
+        map.putIfAbsent("a", "a");
+        Assert.assertEquals(map.size(), 1);
+
+        map.replace("a", "aa");
+
+
+        map.merge("aaa", "b", (s, s2) -> s + s2);
+
+        map.forEach((s, s2) -> {
+            System.out.println("key:" + s + ", value:" + s2);
+        });
 
     }
 }
