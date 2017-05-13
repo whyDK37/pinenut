@@ -1,7 +1,5 @@
 package java8;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -10,7 +8,7 @@ import java.util.stream.Collectors;
  */
 public class Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ArrayList<String> strings = new ArrayList<String>();
         strings.add("Hello, World!");
         strings.add("Welcome to CoderPad.");
@@ -24,6 +22,10 @@ public class Test {
         // comment here
         for (String string : strings) {
             System.out.println(string);
+        }
+
+        for (; ; ) {
+            Thread.sleep(1);
         }
     }
 
