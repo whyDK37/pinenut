@@ -13,13 +13,13 @@ package jdk.util;//package jdk.me.util;
 ////        System.out.println(SizeOf.skipStaticField(true));
 ////        System.out.println(SizeOf.setMinSizeToLog(10);
 //
-//        System.out.println(SizeOf.sizeOf(new Integer(1)));
+//        System.out.println(SizeOf.sizeOf(new MyInteger(1)));
 //        System.out.println(SizeOf.sizeOf(1));
 //
 //        //collection
 //        System.out.println("collection & array size");
 //        int[] ia = new int[1];
-//        List<Integer> il = new ArrayList<>(1);
+//        List<MyInteger> il = new ArrayList<>(1);
 //        System.out.println(SizeOf.deepSizeOf(ia));
 //        System.out.println(SizeOf.deepSizeOf(il));
 //        //calculate object size

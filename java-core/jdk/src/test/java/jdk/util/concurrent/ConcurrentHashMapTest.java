@@ -28,5 +28,7 @@ public class ConcurrentHashMapTest {
             System.out.println("key:" + s + ", value:" + s2);
         });
 
+        System.out.println(map.size());
+
     }
 }

@@ -16,23 +16,23 @@ public class Test {
         hashMap.put(null,null);
         System.out.println(hashMap.size());
         System.out.println(3<<1);
-//        System.out.println(Integer.toBinaryString(-12));
-//        System.out.println(Integer.toBinaryString(-12>>>1));
+//        System.out.println(MyInteger.toBinaryString(-12));
+//        System.out.println(MyInteger.toBinaryString(-12>>>1));
 //
-//        System.out.println(Integer.toBinaryString(12));
-//        System.out.println(Integer.toBinaryString(12>>>1));
-//        System.out.println(Integer.toBinaryString(12>>>1));
+//        System.out.println(MyInteger.toBinaryString(12));
+//        System.out.println(MyInteger.toBinaryString(12>>>1));
+//        System.out.println(MyInteger.toBinaryString(12>>>1));
 //
-//        System.out.println(Integer.toBinaryString(1));
-//        System.out.println(Integer.toBinaryString(2));
-//        System.out.println(Integer.toBinaryString(3));
-//        System.out.println(Integer.toBinaryString(4));
-//        System.out.println(Integer.toBinaryString(5));
-//        System.out.println(Integer.toBinaryString(6));
-//        System.out.println(Integer.toBinaryString(7));
-//        System.out.println(Integer.toBinaryString(8));
-//        System.out.println(Integer.toBinaryString(9));
-//        System.out.println(Integer.toBinaryString(10));
+//        System.out.println(MyInteger.toBinaryString(1));
+//        System.out.println(MyInteger.toBinaryString(2));
+//        System.out.println(MyInteger.toBinaryString(3));
+//        System.out.println(MyInteger.toBinaryString(4));
+//        System.out.println(MyInteger.toBinaryString(5));
+//        System.out.println(MyInteger.toBinaryString(6));
+//        System.out.println(MyInteger.toBinaryString(7));
+//        System.out.println(MyInteger.toBinaryString(8));
+//        System.out.println(MyInteger.toBinaryString(9));
+//        System.out.println(MyInteger.toBinaryString(10));
 //
 //        int h = 0x7FFFFFFF;
 //        System.out.println(hash(h));

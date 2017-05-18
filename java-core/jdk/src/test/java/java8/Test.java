@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
  * @author zhangxu
  */
 public class Test {
+    public static void print() {
+        System.out.println("not null.");
+    }
 
     public static void main(String[] args) throws InterruptedException {
         ArrayList<String> strings = new ArrayList<String>();
@@ -24,9 +27,11 @@ public class Test {
             System.out.println(string);
         }
 
-        for (; ; ) {
-            Thread.sleep(1);
+        for (int i = 0; i < 10; ++i) {
+            System.out.println(i);
         }
+
+        ((Test) null).print();
     }
 
 }
