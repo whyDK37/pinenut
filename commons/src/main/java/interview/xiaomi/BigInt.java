@@ -1,7 +1,5 @@
 package interview.xiaomi;
 
-import java.util.Arrays;
-
 /**
  * 大整型封裝。
  * 目前只支持10进制。
@@ -63,10 +61,6 @@ public class BigInt {
         }
     }
 
-    BigInt(int[] val) {
-        this(val, 1);
-    }
-
     BigInt(int[] val, int signum) {
         this.mag = val;
         this.signum = signum;
@@ -89,23 +83,29 @@ public class BigInt {
         int[] resultMag = (cmp > 0 ? subtract(mag, val.mag)
                 : subtract(val.mag, mag));
 
-//        resultMag = trustedStripLeadingZeroInts(resultMag);
 //        创建新对象并返回*/
         return new BigInt(resultMag, cmp == signum ? 1 : -1);
     }
 
-    /**
-     * Returns the input array stripped of any leading zero bytes.
-     * Since the source is trusted the copying may be skipped.
-     */
-    public static int[] trustedStripLeadingZeroInts(int val[]) {
-        int vlen = val.length;
-        int keep;
+    public BigInt subtract(BigInt val) {
+        if (val.signum == 0)
+            return this;
+        if (signum == 0)
+            return val.negate();
+        if (val.signum != signum)
+            return new BigInt(add(mag, val.mag), signum);
 
-        // Find first nonzero byte
-        for (keep = 0; keep < vlen && val[keep] == 0; keep++)
-            ;
-        return keep == 0 ? val : java.util.Arrays.copyOfRange(val, keep, vlen);
+        int cmp = compareMagnitude(val);
+        if (cmp == 0)
+            return new BigInt("0");
+        int[] resultMag = (cmp > 0 ? subtract(mag, val.mag)
+                : subtract(val.mag, mag));
+
+        return new BigInt(resultMag, cmp == signum ? 1 : -1);
+    }
+
+    public BigInt negate() {
+        return new BigInt(this.mag, -this.signum);
     }
 
     public int[] add(int[] val1, int[] val2) {
@@ -156,13 +156,6 @@ public class BigInt {
             result[bigIndex] = (int) difference;
         }
 
-        // Subtract remainder of longer number while borrow propagates
-//        boolean borrow = (difference >> 32 != 0);
-//        boolean borrow = (difference != 0);
-//        while (bigIndex > 0)
-//            result[--bigIndex] = big[bigIndex];
-
-        // Copy remainder of longer number
         // 复制较长数组中剩余的分段数据
         while (bigIndex > 0)
             result[--bigIndex] = big[bigIndex];
@@ -179,32 +172,6 @@ public class BigInt {
         return result;
     }
 
-//    public static int[] subtract(int[] big, int[] little) {
-//        int bigIndex = big.length;
-//        int result[] = new int[bigIndex];
-//        int littleIndex = little.length;
-//        long difference = 0;
-//
-//        // Subtract common parts of both numbers
-//        while (littleIndex > 0) {
-//            difference = (big[--bigIndex] & LONG_MASK) -
-//                    (little[--littleIndex] & LONG_MASK) +
-//                    (difference >> 32);
-//            result[bigIndex] = (int)difference;
-//        }
-//
-//        // Subtract remainder of longer number while borrow propagates
-//        boolean borrow = (difference >> 32 != 0);
-//        while (bigIndex > 0 && borrow)
-//            borrow = ((result[--bigIndex] = big[bigIndex] - 1) == -1);
-//
-//        // Copy remainder of longer number
-//        while (bigIndex > 0)
-//            result[--bigIndex] = big[bigIndex];
-//
-//        return result;
-//    }
-
     private int compareMagnitude(BigInt val) {
         int[] m1 = mag;
         int[] m2 = val.mag;
@@ -220,13 +187,6 @@ public class BigInt {
                 return ((a) < (b)) ? -1 : 1;
         }
         return 0;
-    }
-
-    public String toInfoString() {
-        return "BigInt{" +
-                "signum=" + signum +
-                ", mag=" + Arrays.toString(mag) +
-                '}';
     }
 
     private static final String PLACE_HOLDER_ZERO = "000000000";

@@ -37,11 +37,25 @@ public class BigIntTest {
     public void addTest(){
 //        18927348347389543834934878
 //        18927348347389543834934878
-        BigInt a = new BigInt("-18927348347389543834934878");
-        System.out.println(a.toString());
-        BigInt b = new BigInt("2");
-        System.out.println(b);
-        System.out.println(a.add(b));
+        String value1 = "-18927348347389543834934878";
+        String value2 = "2";
+        BigInt a = new BigInt(value1);
+        assertEquals(a.toString(),value1);
+        BigInt b = new BigInt(value2);
+        assertEquals(b.toString(),value2);
+
+        assertEquals(a.add(b).toString(),"-18927348347389543834934876");
+    }
+
+    @Test
+    public void subtractTest(){
+        String value1 = "-18927348347389543834934878";
+        String value2 = "2";
+        BigInt a = new BigInt(value1);
+        BigInt b = new BigInt(value2);
+
+        assertEquals(a.subtract(b).toString(),"-18927348347389543834934880");
+        assertEquals(a.subtract(new BigInt("2")).toString(),"-18927348347389543834934880");
     }
 
 }
