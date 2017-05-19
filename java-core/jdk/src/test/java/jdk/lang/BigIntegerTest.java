@@ -12,10 +12,8 @@ public class BigIntegerTest {
 
     @Test
     public void test() {
-        System.out.println(Integer.MAX_VALUE);
-        BigInteger integer = new BigInteger(MyInteger.MAX_VALUE + "999999999999999999999999999");
-        System.out.println(integer.toString());
-        System.out.println(integer.add(new BigInteger("-1")));
-        new BigInteger("0");
+        BigInteger integer = new BigInteger("47389543034934881");
+        BigInteger integer2 = new BigInteger("47389543034934882");
+        System.out.println(integer.subtract(integer2));
     }
 }

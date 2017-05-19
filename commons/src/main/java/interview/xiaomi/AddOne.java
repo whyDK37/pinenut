@@ -19,6 +19,7 @@ public class AddOne {
                 break;
             }
         }
+
         if (array[0] == 0) {
             int[] result = new int[len + 1];
             result[0] = 1;
