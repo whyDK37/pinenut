@@ -11,7 +11,7 @@ public class MySkipListTest {
         MySkipList<String> list = new MySkipList<>();
         System.out.println(list);
         list.put(2, "yan");
-        list.put(1, "co");
+        list.put(1, "cao");
         list.put(3, "feng");
         list.put(1, "cao");//测试同一个key值
         list.put(4, "曹");
