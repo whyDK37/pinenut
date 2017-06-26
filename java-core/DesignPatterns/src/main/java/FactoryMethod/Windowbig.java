@@ -8,7 +8,7 @@ package FactoryMethod;
  * @version 0.5
  */
 
-public class WindowBig extends Window {
+public class Windowbig extends Window {
     public void func() {
         System.out.println("This is Big Window !");
     }

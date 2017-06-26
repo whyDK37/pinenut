@@ -4,10 +4,10 @@ package Interpreter;
  *  A terminal expression
  */
 
-public class VariableExp implements BooleanExp {
+public class Variableexp implements Booleanexp {
     private String name;
     
-    public VariableExp(String _name) {
+    public Variableexp(String _name) {
         name = _name;
     }
 
@@ -15,15 +15,15 @@ public class VariableExp implements BooleanExp {
         return c.LookUp(name);
     }
 
-    public BooleanExp Copy() {
-        return new VariableExp(name);
+    public Booleanexp Copy() {
+        return new Variableexp(name);
     }
 
-    public BooleanExp Replace(String var, BooleanExp exp) {
+    public Booleanexp Replace(String var, Booleanexp exp) {
         if(var.equals(name)) {
             return exp.Copy();
         } else {
-            return new VariableExp(name);
+            return new Variableexp(name);
         }
     }
     

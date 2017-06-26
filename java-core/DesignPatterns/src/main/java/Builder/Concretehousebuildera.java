@@ -1,8 +1,8 @@
 package Builder;
 
-public class ConcreteHouseBuilderA  extends HouseBuilder {
+public class Concretehousebuildera extends Housebuilder {
     private House house;  
-    public ConcreteHouseBuilderA() {
+    public Concretehousebuildera() {
         house = new House();
     }
     public void BuildRoom(int roomNo) {

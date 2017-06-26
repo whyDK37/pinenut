@@ -2,11 +2,11 @@ package Interpreter;
 /**
  *  A NonterminalExpression
  */
-public class OrExp implements BooleanExp {
-    private BooleanExp operor1;
-    private BooleanExp operor2;
+public class Orexp implements Booleanexp {
+    private Booleanexp operor1;
+    private Booleanexp operor2;
     
-    public OrExp(BooleanExp oper1, BooleanExp oper2) {
+    public Orexp(Booleanexp oper1, Booleanexp oper2) {
         operor1 = oper1;
         operor2 = oper2;
     }
@@ -16,12 +16,12 @@ public class OrExp implements BooleanExp {
                     operor2.Evaluate(c);
     }
 
-    public BooleanExp Copy() {
-        return new OrExp(operor1.Copy(), operor2.Copy());
+    public Booleanexp Copy() {
+        return new Orexp(operor1.Copy(), operor2.Copy());
     }
 
-    public BooleanExp Replace(String var, BooleanExp exp) {
-        return new OrExp(
+    public Booleanexp Replace(String var, Booleanexp exp) {
+        return new Orexp(
                     operor1.Replace(var, exp),
                     operor2.Replace(var, exp)
                     );

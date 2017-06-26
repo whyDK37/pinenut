@@ -3,12 +3,12 @@ package FlyWeight;
  *  A shared ConcreteFlyweight
  */
 
-public class ConcreteFont implements Font {
+public class Concretefont implements Font {
     private String color;
     private int size;
     private String str;
     
-    public ConcreteFont(String s) {
+    public Concretefont(String s) {
         str = s;
         //id = "The char is: " + s;
     }

@@ -11,11 +11,11 @@ package FactoryMethod;
 public class Factory {
     public Window CreateWindow (String type) {
         if(type.equals("Big")) {
-            return new WindowBig();
+            return new Windowbig();
         } else if(type.equals("Small")) {
-            return new WindowSmall();
+            return new Windowsmall();
         } else {
-            return new WindowBig();
+            return new Windowbig();
         }
     }
 

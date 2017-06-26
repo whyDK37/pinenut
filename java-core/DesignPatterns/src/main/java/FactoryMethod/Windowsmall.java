@@ -8,7 +8,7 @@ package FactoryMethod;
  * @version 0.5
  */
 
-public class WindowSmall extends Window {
+public class Windowsmall extends Window {
     public void func() {
         System.out.println("This is Small Window !");
     }

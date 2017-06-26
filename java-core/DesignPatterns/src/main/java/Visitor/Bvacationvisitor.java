@@ -1,9 +1,9 @@
 package Visitor;
-public class bVacationVisitor extends Visitor
+public class Bvacationvisitor extends Visitor
 {
   int total_days;
        
-  public bVacationVisitor()
+  public Bvacationvisitor()
   {
   total_days = 0;
   }

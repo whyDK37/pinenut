@@ -7,9 +7,9 @@ import java.awt.event.WindowEvent;
 //swing classes
 
 
-public class JxFrame extends JFrame
+public class Jxframe extends JFrame
 {
-   public JxFrame(String title)
+   public Jxframe(String title)
    {
       super(title);
       setCloseClick();

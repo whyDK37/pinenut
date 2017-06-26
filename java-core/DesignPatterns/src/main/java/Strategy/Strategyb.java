@@ -1,8 +1,6 @@
 package Strategy;
 
 public class StrategyB implements Strategy {
-    public StrategyB() {
-    }
     public void drawText(String text, int lineWidth, int lineCount) {
         if(lineCount > 0) {
             int len = text.length();

@@ -1,9 +1,9 @@
 package Visitor;
 
-public class VacationVisitor extends Visitor {
+public class Vacationvisitor extends Visitor {
     protected int total_days;
 
-    public VacationVisitor() {
+    public Vacationvisitor() {
         total_days = 0;
     }
 

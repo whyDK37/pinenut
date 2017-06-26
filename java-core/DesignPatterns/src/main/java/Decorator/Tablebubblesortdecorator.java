@@ -3,11 +3,11 @@ package Decorator;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableModel;
 
-public class TableBubbleSortDecorator extends TableSortDecorator {
+public class Tablebubblesortdecorator extends Decorator.Tablesortdecorator {
    // The lone constructor must be passed a reference to a
    // TableModel. This class decorates that model with additional
    // sorting functionality.
-   public TableBubbleSortDecorator(TableModel model) {
+   public Tablebubblesortdecorator(TableModel model) {
       super(model);
       allocate();
    }

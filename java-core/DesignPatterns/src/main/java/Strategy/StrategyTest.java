@@ -2,7 +2,7 @@ package Strategy;
 /**
  *  A test client
  */
-public class Test  {
+public class StrategyTest {
     public static void main(String[] args) {
         int lineCount = 4;
         int lineWidth = 12;
