@@ -3,6 +3,6 @@ package Mediator;
  *  An abstract colleague
  */
 public interface Colleague {
-    public void Change();
-    public void Action();
+    void Change();
+    void Action();
 }

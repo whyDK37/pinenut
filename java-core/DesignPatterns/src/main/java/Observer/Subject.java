@@ -9,10 +9,10 @@ package Observer;
 import java.util.Vector;
 
 public interface Subject  {
-    public abstract void attach(Observer o);
-    public abstract void detach(Observer o);
-    public abstract void sendNotify();
+    void attach(Observer o);
+    void detach(Observer o);
+    void sendNotify();
 
-    public abstract Vector getState();
-    public abstract void setState(String act, String str);
+    Vector getState();
+    void setState(String act, String str);
 }
