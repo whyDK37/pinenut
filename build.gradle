@@ -179,6 +179,7 @@ project(':commons') {
 
         // https://mvnrepository.com/artifact/org.msgpack/msgpack
         compile group: 'org.msgpack', name: 'msgpack', version: '0.6.12'
+        compile group: 'org.msgpack', name: 'msgpack-core', version: '0.8.13'
 
     }
 }
