@@ -45,12 +45,12 @@ public class StreamTest {
 
         Stream<String> uniqueWords
                 = Stream.of("merrily", "merrily", "merrily", "gently").distinct();
-        uniqueWords.forEach(s -> System.out.println(s));
+        uniqueWords.forEach(System.out::println);
 
 
         Stream<Integer> ints = Stream.of(1, 2, 3, 4, 5);
         Optional<Integer> reduce = ints.reduce(Integer::sum);
-        reduce.ifPresent(integer -> System.out.println(integer));
+        reduce.ifPresent(System.out::println);
 
         Stream<String> strings = Stream.of("1", "2", "31");
 //        Integer result = strings.mapToInt(String::length).sum();
