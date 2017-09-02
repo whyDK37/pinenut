@@ -79,7 +79,7 @@ project(':commons') {
         compile 'org.lucee:commons-io:2.4.0'
         compile "commons-io:commons-io:2.4"
         // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
-        compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
+        compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
 
 
         // https://mvnrepository.com/artifact/commons-net/commons-net
