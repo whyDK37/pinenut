@@ -9,7 +9,7 @@ public class Test  {
     public static void main(String[] args) {
         int[] size = {8, 9, 10, 11, 12};
         String[] color = {"FFFFFF", "000000", "FF00FF", "CCCCCC", "111111"};
-        FontFactory myFontFactory = new FontFactory();
+        Fontfactory myFontFactory = new Fontfactory();
         String aString = "A test string";
         for(int i = 0; i < aString.length(); i++) {
             int j = 0;

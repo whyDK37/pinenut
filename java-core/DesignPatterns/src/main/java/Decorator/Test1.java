@@ -4,9 +4,9 @@ package Decorator;
  */
 public class Test1  {
     public static void main(String[] args) {
-        Component myComponent = new ConcreteComponent();
+        Component myComponent = new Decorator.Concretecomponent();
         myComponent.PrintString("A test String");
-        Decorator myDecorator = new ConcreteDecoratorA(myComponent);
+        Decorator myDecorator = new Decorator.Concretedecoratora(myComponent);
         myDecorator.PrintString("A test String");
     }
 }

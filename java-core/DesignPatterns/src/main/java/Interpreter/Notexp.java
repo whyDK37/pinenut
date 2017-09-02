@@ -2,11 +2,11 @@ package Interpreter;
 /**
  *  A NonterminalExpression
  */
-public class NotExp implements BooleanExp {
-    private BooleanExp opernot1;
+public class Notexp implements Booleanexp {
+    private Booleanexp opernot1;
     //private BooleanExp operor2;
     
-    public NotExp(BooleanExp oper1) {
+    public Notexp(Booleanexp oper1) {
         opernot1 = oper1;
     }
 
@@ -14,11 +14,11 @@ public class NotExp implements BooleanExp {
         return !(opernot1.Evaluate(c));
     }
 
-    public BooleanExp Copy() {
-        return new NotExp(opernot1.Copy());
+    public Booleanexp Copy() {
+        return new Notexp(opernot1.Copy());
     }
 
-    public BooleanExp Replace(String var, BooleanExp exp) {
-        return new NotExp(opernot1.Replace(var, exp));
+    public Booleanexp Replace(String var, Booleanexp exp) {
+        return new Notexp(opernot1.Replace(var, exp));
     }
 }

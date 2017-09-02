@@ -4,6 +4,6 @@ package Proxy;
  *  so a proxy can proxy several real object
  */
 public interface Graphic  {
-    public abstract void Draw();
+    void Draw();
     
 }

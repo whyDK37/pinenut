@@ -1,13 +1,15 @@
 package lmax;
 
+import java.util.Date;
+
 public class Person {
     private String name;
     private int age;
     private String gender;
     private String mobile;
-    
+
     public Person(){}
-    
+
     public Person(String name, int age, String gender, String mobile){
         this.name = name;
         this.age = age;
@@ -39,6 +41,16 @@ public class Person {
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
-    
-    
+
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Person{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", age=").append(age);
+        sb.append(", gender='").append(gender).append('\'');
+        sb.append(", mobile='").append(mobile).append('\'');
+        sb.append('}').append(new Date());
+        return sb.toString();
+    }
 }

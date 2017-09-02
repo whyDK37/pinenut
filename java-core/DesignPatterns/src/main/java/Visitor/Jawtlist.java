@@ -11,7 +11,7 @@ import java.util.Vector;
 //convert List awt methods to Swing methods
 
 public class JawtList extends JScrollPane 
-   implements ListSelectionListener, Visitor.AwtList
+   implements ListSelectionListener, AwtList
 {
    private JList listWindow;
    private JListData listContents;

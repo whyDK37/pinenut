@@ -5,17 +5,17 @@ package FlyWeight;
 
 import java.util.Hashtable;
 
-public class FontFactory  {
+public class Fontfactory {
     private Hashtable charHashTable = new Hashtable();
     
-    public FontFactory() {
+    public Fontfactory() {
     }
 
     public Font GetFlyWeight(String s) {
         if(charHashTable.get(s) != null) {
             return (Font)charHashTable.get(s);
         } else {
-            Font tmp = new ConcreteFont(s);
+            Font tmp = new Concretefont(s);
             charHashTable.put(s, tmp);
             return tmp;
         }

@@ -8,9 +8,9 @@ import javax.swing.table.TableModel;
 // is called when the table model is changed. That method is
 // not implemented in this abstract class; it's left for
 // subclasses to implement.
-public abstract class TableModelDecorator 
+public abstract class Tablemodeldecorator
                         implements TableModel, TableModelListener {
-   public TableModelDecorator(TableModel model) {
+   public Tablemodeldecorator(TableModel model) {
       this.realModel = model;   
       realModel.addTableModelListener(this);
    }

@@ -180,7 +180,12 @@ project(':commons') {
         compile 'org.apache.activemq:activemq-broker:5.14.0'
         compile 'org.apache.activemq.protobuf:activemq-protobuf:1.1'
 //        compile 'org.jboss.javaee:jboss-jms-spi-1.1_spec:5.0.2.GA'
-        // mq end  
+        // mq end
+
+        // https://mvnrepository.com/artifact/org.msgpack/msgpack
+        compile group: 'org.msgpack', name: 'msgpack', version: '0.6.12'
+        compile group: 'org.msgpack', name: 'msgpack-core', version: '0.8.13'
+
     }
 }
 

@@ -4,5 +4,5 @@ package Decorator;
  *  should be derived from
  */
 public interface Component  {
-    public abstract void PrintString(String s);
+    void PrintString(String s);
 }

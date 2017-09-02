@@ -8,10 +8,8 @@ package Command;
  * @version 0.5
  */
 
-public class TestCommand {
+public class Testcommand {
 
-    public TestCommand() {
-    }
     public static void main(String[] args) {
            Light testLight = new Light();
            LightOnCommand testLOC = new LightOnCommand(testLight);

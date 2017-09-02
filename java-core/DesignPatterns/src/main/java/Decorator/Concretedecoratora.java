@@ -3,8 +3,8 @@ package Decorator;
  *  The Concrete Decorator
  */
 
-public class ConcreteDecoratorA extends Decorator {
-    public ConcreteDecoratorA(Component c) {
+public class Concretedecoratora extends Decorator {
+    public Concretedecoratora(Component c) {
         super(c);
     }
     public void PrintString(String s) {

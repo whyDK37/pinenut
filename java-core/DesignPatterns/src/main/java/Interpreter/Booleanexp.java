@@ -11,8 +11,8 @@ package Interpreter;
  *      VariableExp ::= 'A' | 'B' | ... | 'Z'
  */
 
-public interface BooleanExp {
+public interface Booleanexp {
     boolean Evaluate(Context c);
-    BooleanExp Replace(String var, BooleanExp exp);
-    BooleanExp Copy();
+    Booleanexp Replace(String var, Booleanexp exp);
+    Booleanexp Copy();
 }

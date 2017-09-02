@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 //swing classes
 
-public class VacationDisplay extends JxFrame
+public class Vacationdisplay extends JxFrame
    implements ActionListener
 {
    JawtList empList;
@@ -15,7 +15,7 @@ public class VacationDisplay extends JxFrame
    JButton Vac;
    Employee[] employees;
 //-----------------------------------------
-  public VacationDisplay()
+  public Vacationdisplay()
   {
      super("Vacation Display");
      JPanel jp = new JPanel();
@@ -70,8 +70,8 @@ public class VacationDisplay extends JxFrame
  //----------------------------------------- 
   public void actionPerformed(ActionEvent e)
   {
-    VacationVisitor vac = new VacationVisitor();
-    bVacationVisitor bvac = new bVacationVisitor();
+    Vacationvisitor vac = new Vacationvisitor();
+    Bvacationvisitor bvac = new Bvacationvisitor();
      for (int i = 0; i < employees.length; i++)
      {
       employees[i].accept(vac);
@@ -83,6 +83,6 @@ public class VacationDisplay extends JxFrame
   //-----------------------------------------
   static public void main(String argv[])
   {
-     new VacationDisplay();
+     new Vacationdisplay();
   }
 }

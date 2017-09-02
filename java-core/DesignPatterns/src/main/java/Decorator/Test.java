@@ -23,8 +23,8 @@ public class Test extends JFrame {
       // actually points to a TableBubbleSortDecorator--that
       // way, the mouse listener below will work with any type
       // of TableSortDecorator.
-      final TableSortDecorator decorator = 
-            new TableBubbleSortDecorator(table.getModel());
+      final Decorator.Tablesortdecorator decorator =
+            new Decorator.Tablebubblesortdecorator(table.getModel());
 
       // Set the table's model to the decorator. Because the
       // decorator implements TableModel, the table will never
