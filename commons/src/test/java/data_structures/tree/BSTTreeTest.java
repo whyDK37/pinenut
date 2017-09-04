@@ -1,5 +1,6 @@
-package data_structures;
+package data_structures.tree;
 
+import data_structures.tree.BSTTree;
 import org.testng.annotations.Test;
 
 /**

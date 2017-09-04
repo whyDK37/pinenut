@@ -32,6 +32,17 @@ public class Test {
         }
 
         ((Test) null).print();
+        int x, y, z, t;
+        x = y = z = 1;
+        t = ++x | ++y & ++z;
+        System.out.println(t);
     }
 
+    private String[] states = new String[]{"AK", "AL"};
+
+    public String[] getStates() {
+        String[] tmp = new String[states.length];
+        System.arraycopy(states, 0, tmp, 0, states.length);
+        return tmp;
+    }
 }

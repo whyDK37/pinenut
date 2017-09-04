@@ -1,4 +1,4 @@
-package data_structures;
+package data_structures.tree;
 
 public class BSTTree<E extends Comparable> {
     private TreeNode<E> root;
