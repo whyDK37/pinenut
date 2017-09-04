@@ -5,15 +5,15 @@ package compress;
  * Created by hOward on 2015/8/22.
  */
 public class CompressFileException extends Exception {
-    public CompressFileException(Exception e){
-        super(e);
-    }
+  public CompressFileException(Exception e) {
+    super(e);
+  }
 
-    public CompressFileException(String message){
-        super(message);
-    }
+  public CompressFileException(String message) {
+    super(message);
+  }
 
-    public CompressFileException(String message, Exception e){
-        super(message,e);
-    }
+  public CompressFileException(String message, Exception e) {
+    super(message, e);
+  }
 }

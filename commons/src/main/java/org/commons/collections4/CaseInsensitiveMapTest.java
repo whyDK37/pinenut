@@ -7,12 +7,12 @@ import org.apache.commons.collections4.map.CaseInsensitiveMap;
  */
 public class CaseInsensitiveMapTest {
 
-    public static void main(String[] args) {
-        CaseInsensitiveMap<String, String> map = new CaseInsensitiveMap();
+  public static void main(String[] args) {
+    CaseInsensitiveMap<String, String> map = new CaseInsensitiveMap();
 
-        map.put("one", "one");
-        map.put("ONE", "one");
+    map.put("one", "one");
+    map.put("ONE", "one");
 
-        System.out.println(map.size());
-    }
+    System.out.println(map.size());
+  }
 }

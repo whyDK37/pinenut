@@ -48,18 +48,19 @@
 package jvm.sim;
 
 /**
-* This class gives StackFrame something to throw when it
-* discovers an improper use of one of its methods. This
-* indicates a software bug in the JVM simulator, and
-* should therefore never be thrown in practice. It is
-* analogous to VirtualMachineError for real Java Virtual Machines.
-*
-* @author  Bill Venners
-*/
+ * This class gives StackFrame something to throw when it
+ * discovers an improper use of one of its methods. This
+ * indicates a software bug in the JVM simulator, and
+ * should therefore never be thrown in practice. It is
+ * analogous to VirtualMachineError for real Java Virtual Machines.
+ *
+ * @author Bill Venners
+ */
 class JVMSimError extends RuntimeException {
-    JVMSimError() {
-    }
-    JVMSimError(String s) {
-        super(s);
-    }
+  JVMSimError() {
+  }
+
+  JVMSimError(String s) {
+    super(s);
+  }
 }

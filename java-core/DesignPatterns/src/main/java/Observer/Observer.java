@@ -1,7 +1,8 @@
 package Observer;
+
 /**
- *  Observer interface
+ * Observer interface
  */
 public interface Observer {
-    void update(Subject s);
+  void update(Subject s);
 }

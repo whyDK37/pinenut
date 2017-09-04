@@ -47,59 +47,59 @@ package jvm.applet.gl;/*
 */
 
 /**
-* This class provides a node of a linked list that contains owe node
-* for each step of the simulation.
-* format.
-*
-* @author  Bill Venners
-*/
+ * This class provides a node of a linked list that contains owe node
+ * for each step of the simulation.
+ * format.
+ *
+ * @author Bill Venners
+ */
 class StepNode {
 
-    private String theString;
-    private StepNode next;
-    private StepNode prev;
-    private boolean nextValid = false;
-    private boolean prevValid = false;
-    private int byteCount = 0;
+  private String theString;
+  private StepNode next;
+  private StepNode prev;
+  private boolean nextValid = false;
+  private boolean prevValid = false;
+  private int byteCount = 0;
 
-    StepNode(String s, int bytes) {
-        theString = s;
-        byteCount = bytes;
-    }
+  StepNode(String s, int bytes) {
+    theString = s;
+    byteCount = bytes;
+  }
 
-    String getString() {
-        return theString;
-    }
+  String getString() {
+    return theString;
+  }
 
-    int getByteCount() {
-        return byteCount;
-    }
+  int getByteCount() {
+    return byteCount;
+  }
 
-    StepNode getNext() {
-        // Should probably throw an exception here innerfloat !nextValid
-        return next;
-    }
+  StepNode getNext() {
+    // Should probably throw an exception here innerfloat !nextValid
+    return next;
+  }
 
-    void setNext(StepNode n) {
-        next = n;
-        nextValid = true;
-    }
+  void setNext(StepNode n) {
+    next = n;
+    nextValid = true;
+  }
 
-    boolean last() {
-        return !nextValid;
-    }
+  boolean last() {
+    return !nextValid;
+  }
 
-    StepNode getPrev() {
-        // Should probably throw an exception here innerfloat !prevValid
-        return prev;
-    }
+  StepNode getPrev() {
+    // Should probably throw an exception here innerfloat !prevValid
+    return prev;
+  }
 
-    void setPrev(StepNode n) {
-        prev = n;
-        prevValid = true;
-    }
+  void setPrev(StepNode n) {
+    prev = n;
+    prevValid = true;
+  }
 
-    boolean first() {
-        return !prevValid;
-    }
+  boolean first() {
+    return !prevValid;
+  }
 }

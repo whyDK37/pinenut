@@ -1,7 +1,6 @@
 package validator.validator;
 
 import validator.pojo.GenderType;
-import validator.validator.GenderTypeValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -14,11 +13,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = GenderTypeValidator.class)
 public @interface GenderCase {
-    String message() default "genderType invalid";
+  String message() default "genderType invalid";
 
-    Class<?>[] groups() default {};
+  Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+  Class<? extends Payload>[] payload() default {};
 
-    GenderType value() default GenderType.FEMALE;
+  GenderType value() default GenderType.FEMALE;
 }

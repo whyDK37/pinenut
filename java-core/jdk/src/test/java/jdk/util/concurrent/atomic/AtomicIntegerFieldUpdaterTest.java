@@ -14,22 +14,22 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
  */
 public class AtomicIntegerFieldUpdaterTest {
 
-    @Test
-    public void test() throws InterruptedException {
-        AtomicIntegerFieldUpdater age = AtomicIntegerFieldUpdater.newUpdater(User.class, "age");
+  @Test
+  public void test() throws InterruptedException {
+    AtomicIntegerFieldUpdater age = AtomicIntegerFieldUpdater.newUpdater(User.class, "age");
 
-        User user = new User();
+    User user = new User();
 
 
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-        for (int i = 0; i < 100; i++) {
-            executorService.execute(() -> {
-                age.addAndGet(user, 1);
-            });
-        }
-
-        TimeUnit.MILLISECONDS.sleep(10);
-        System.out.println(user.getAge());
-
+    ExecutorService executorService = Executors.newFixedThreadPool(10);
+    for (int i = 0; i < 100; i++) {
+      executorService.execute(() -> {
+        age.addAndGet(user, 1);
+      });
     }
+
+    TimeUnit.MILLISECONDS.sleep(10);
+    System.out.println(user.getAge());
+
+  }
 }

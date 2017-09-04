@@ -3,10 +3,10 @@ package zk.le.le2;
 
 public interface LeaderSelector {
 
-    void takeLeaderShip();
+  void takeLeaderShip();
 
-    void requeue(boolean reCreate);
+  void requeue(boolean reCreate);
 
-    boolean isLeader();
+  boolean isLeader();
 
 }

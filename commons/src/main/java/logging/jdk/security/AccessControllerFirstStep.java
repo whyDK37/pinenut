@@ -21,32 +21,31 @@ import java.security.PrivilegedAction;
  */
 public class AccessControllerFirstStep {
 
-    public static void main(String[] args) {
-        AccessControllerFirstStep accessControllerFirstStep = new AccessControllerFirstStep();
-        accessControllerFirstStep.property();
-        accessControllerFirstStep.FilePermissionTest();
-    }
+  public static void main(String[] args) {
+    AccessControllerFirstStep accessControllerFirstStep = new AccessControllerFirstStep();
+    accessControllerFirstStep.property();
+    accessControllerFirstStep.FilePermissionTest();
+  }
 
-    public void property() {
-        final String key = "user.dir";
-        Object result = AccessController.doPrivileged(
-                new PrivilegedAction() {
-                    public Object run() {
-                        return getSystemProperty(key);
+  public static String getSystemProperty(String key) {
+    return System.getProperty(key);
+  }
+
+  public void property() {
+    final String key = "user.dir";
+    Object result = AccessController.doPrivileged(
+            new PrivilegedAction() {
+              public Object run() {
+                return getSystemProperty(key);
 //                        return createFactory(factoryClass, classLoader);
-                    }
-                });
+              }
+            });
 
-        System.out.println(result);
-    }
+    System.out.println(result);
+  }
 
-
-    public static String getSystemProperty(String key) {
-        return System.getProperty(key);
-    }
-
-    public void FilePermissionTest() {
-        FilePermission perm = new FilePermission("/temp/testFile", "read");
-        AccessController.checkPermission(perm);
-    }
+  public void FilePermissionTest() {
+    FilePermission perm = new FilePermission("/temp/testFile", "read");
+    AccessController.checkPermission(perm);
+  }
 }

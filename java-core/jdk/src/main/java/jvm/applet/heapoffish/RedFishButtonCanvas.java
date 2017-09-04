@@ -45,54 +45,55 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is the canvas upon which a red fish is drawn
-* that sits just above the "new RedFish()" button on the
-* allocate fish panel.
-*
-* @author  Bill Venners
-*/
+ * This class is the canvas upon which a red fish is drawn
+ * that sits just above the "new RedFish()" button on the
+ * allocate fish panel.
+ *
+ * @author Bill Venners
+ */
 class RedFishButtonCanvas extends Canvas {
 
-    private final int fishButtonInset = 5;
-    private BigRedFishIcon bigRedFishIcon = new BigRedFishIcon(false);
+  private final int fishButtonInset = 5;
+  private BigRedFishIcon bigRedFishIcon = new BigRedFishIcon(false);
 
-    RedFishButtonCanvas() {
-        //setBackground(Color.white);
+  RedFishButtonCanvas() {
+    //setBackground(Color.white);
+  }
+
+  public Dimension minimumSize() {
+    Dimension fishButtonDim = new Dimension(0, 0);
+    fishButtonDim.width = bigRedFishIcon.getFishWidth() + (2 * fishButtonInset);
+    fishButtonDim.height = bigRedFishIcon.getFishHeight() + (2 * fishButtonInset);
+    return fishButtonDim;
+  }
+
+  public Dimension preferredSize() {
+    return minimumSize();
+  }
+
+  public void paint(Graphics g) {
+
+    // First calculate the positions of the goodies on the canvas based on the width
+    // and height of the canvas.
+    Dimension dim = size();
+
+    int xFishStart = (dim.width - bigRedFishIcon.getFishWidth()) / 2;
+    if (xFishStart < 0) {
+      xFishStart = 0;
     }
 
-    public Dimension minimumSize() {
-        Dimension fishButtonDim = new Dimension(0, 0);
-        fishButtonDim.width = bigRedFishIcon.getFishWidth() + (2 * fishButtonInset);
-        fishButtonDim.height = bigRedFishIcon.getFishHeight() + (2 * fishButtonInset);
-        return fishButtonDim;
+    int yFishStart = (dim.height - bigRedFishIcon.getFishHeight()) / 2;
+    if (yFishStart < 0) {
+      yFishStart = 0;
     }
 
-    public Dimension preferredSize() {
-        return minimumSize();
-    }
+    bigRedFishIcon.moveFish(xFishStart, yFishStart);
 
-    public void paint(Graphics g) {
-
-        // First calculate the positions of the goodies on the canvas based on the width
-        // and height of the canvas.
-        Dimension dim = size();
-
-        int xFishStart = (dim.width - bigRedFishIcon.getFishWidth()) / 2;
-        if (xFishStart < 0) {
-            xFishStart = 0;
-        }
-
-        int yFishStart = (dim.height - bigRedFishIcon.getFishHeight()) / 2;
-        if (yFishStart < 0) {
-            yFishStart = 0;
-        }
-
-        bigRedFishIcon.moveFish(xFishStart, yFishStart);
-
-        bigRedFishIcon.paint(g);
-    }
+    bigRedFishIcon.paint(g);
+  }
 
 }

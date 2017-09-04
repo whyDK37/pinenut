@@ -4,24 +4,24 @@ import org.joda.time.DateTime;
 
 
 public class MonitorEvent {
-    public MonitorEvent(String message) {
-        this.timestamp = new DateTime();
-        this.message = message;
-    }
+  private String message;
+  private DateTime timestamp;
 
-    public String getMessage() {
-        return message;
-    }
+  public MonitorEvent(String message) {
+    this.timestamp = new DateTime();
+    this.message = message;
+  }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+  public String getMessage() {
+    return message;
+  }
 
-    public DateTime getTimestamp() {
-        return timestamp;
-    }
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
-    private String message;
-    private DateTime timestamp;
+  public DateTime getTimestamp() {
+    return timestamp;
+  }
 
 }

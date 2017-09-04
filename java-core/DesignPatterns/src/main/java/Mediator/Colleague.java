@@ -1,8 +1,10 @@
 package Mediator;
+
 /**
- *  An abstract colleague
+ * An abstract colleague
  */
 public interface Colleague {
-    void Change();
-    void Action();
+  void Change();
+
+  void Action();
 }

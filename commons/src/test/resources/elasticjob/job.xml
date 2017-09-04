@@ -11,12 +11,14 @@
                         http://www.dangdang.com/schema/ddframe/job/job.xsd
                         ">
     <!--配置作业注册中心 -->
-    <reg:zookeeper id="regCenter" server-lists="127.0.0.1:2181" namespace="dd-job" base-sleep-time-milliseconds="1000" max-sleep-time-milliseconds="3000" max-retries="3" />
+    <reg:zookeeper id="regCenter" server-lists="127.0.0.1:2181" namespace="dd-job" base-sleep-time-milliseconds="1000"
+                   max-sleep-time-milliseconds="3000" max-retries="3"/>
 
     <!-- 配置作业-->
     <!--<job:simple id="oneOffElasticJob" class="elasticjob.SimpleElasticJob" registry-center-ref="regCenter" cron="0/1 * * * * ?" sharding-total-count="3" sharding-item-parameters="0=A,1=B,2=C" />-->
 
     <!-- 配置数据流作业-->
-    <job:dataflow id="throughputDataflow" class="elasticjob.DataElasticJob" registry-center-ref="regCenter" cron="0/10 * * * * ?" sharding-total-count="1" sharding-item-parameters="0=A,1=B" />
+    <job:dataflow id="throughputDataflow" class="elasticjob.DataElasticJob" registry-center-ref="regCenter"
+                  cron="0/10 * * * * ?" sharding-total-count="1" sharding-item-parameters="0=A,1=B"/>
 
 </beans>

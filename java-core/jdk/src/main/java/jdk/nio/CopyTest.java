@@ -10,20 +10,20 @@ import java.nio.channels.FileChannel;
  * Created by drug on 2016/3/29.
  */
 public class CopyTest {
-    public static void main(String[] args) throws Exception {
-        String filename = "C:\\Windows\\System32\\drivers\\etc\\hosts";
-        RandomAccessFile fromFile = new RandomAccessFile(filename, "r");
-        FileChannel fromChannel = fromFile.getChannel();
+  public static void main(String[] args) throws Exception {
+    String filename = "C:\\Windows\\System32\\drivers\\etc\\hosts";
+    RandomAccessFile fromFile = new RandomAccessFile(filename, "r");
+    FileChannel fromChannel = fromFile.getChannel();
 
-        RandomAccessFile toFile = new RandomAccessFile("d:\\hosts", "rw");
-        FileChannel toChannel = toFile.getChannel();
+    RandomAccessFile toFile = new RandomAccessFile("d:\\hosts", "rw");
+    FileChannel toChannel = toFile.getChannel();
 
-        long position = 0;
-        long count = fromChannel.size();
+    long position = 0;
+    long count = fromChannel.size();
 
 //        FileChannel的transferFrom()方法可以将数据从源通道传输到FileChannel中
 //        toChannel.transferFrom(fromChannel, position, count);
 //        transferTo()方法将数据从FileChannel传输到其他的channel中。下面是一个简单的例子：
-        fromChannel.transferTo(position,count,toChannel);
-    }
+    fromChannel.transferTo(position, count, toChannel);
+  }
 }

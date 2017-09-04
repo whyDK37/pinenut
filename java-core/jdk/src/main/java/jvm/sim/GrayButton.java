@@ -46,19 +46,20 @@
 * DERIVATIVES.
 */
 package jvm.sim;
+
 import java.awt.*;
 
 /**
-* This class simply provides a button that is colored
-* gray.
-*
-* @author  Bill Venners
-*/
+ * This class simply provides a button that is colored
+ * gray.
+ *
+ * @author Bill Venners
+ */
 class GrayButton extends Button {
 
-    GrayButton(String label) {
+  GrayButton(String label) {
 
-        super(label);
-        setBackground(Color.lightGray);
-    }
+    super(label);
+    setBackground(Color.lightGray);
+  }
 }

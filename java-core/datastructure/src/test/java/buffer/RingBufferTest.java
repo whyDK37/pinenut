@@ -7,18 +7,18 @@ import org.testng.annotations.Test;
  */
 public class RingBufferTest {
 
-    @Test
-    public void test(){
-        RingBuffer<String> ringBuffer = new RingBuffer<String>();
+  @Test
+  public void test() {
+    RingBuffer<String> ringBuffer = new RingBuffer<String>();
 
-        ringBuffer.getAll();
-        ringBuffer.put("a");
-        ringBuffer.put("b");
+    ringBuffer.getAll();
+    ringBuffer.put("a");
+    ringBuffer.put("b");
 
-        ringBuffer.get();
-        ringBuffer.getAll();
+    ringBuffer.get();
+    ringBuffer.getAll();
 
-        System.out.println(1<<10);
+    System.out.println(1 << 10);
 
-    }
+  }
 }

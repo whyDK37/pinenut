@@ -8,22 +8,22 @@ import java.util.List;
  * Created by why on 4/19/2017.
  */
 public class ListCount {
-    public static void main(String[] args) {
-        List<String> words = new ArrayList<>();
-        words.add("a");
-        words.add("bd");
-        words.add("c");
+  public static void main(String[] args) {
+    List<String> words = new ArrayList<>();
+    words.add("a");
+    words.add("bd");
+    words.add("c");
 
-        words.parallelStream().forEach(string -> {
-            Date date = new Date();
-            long time = date.getTime();
-            System.out.println(string+"-"+time);
-        });
+    words.parallelStream().forEach(string -> {
+      Date date = new Date();
+      long time = date.getTime();
+      System.out.println(string + "-" + time);
+    });
 
-        System.out.println("==================");
-        long count = words.stream().filter(w -> w.length() > 1).count();
-        System.out.println(count);
-        count = words.parallelStream().filter(w -> w.length() > 1).count();
-        System.out.println(count);
-    }
+    System.out.println("==================");
+    long count = words.stream().filter(w -> w.length() > 1).count();
+    System.out.println(count);
+    count = words.parallelStream().filter(w -> w.length() > 1).count();
+    System.out.println(count);
+  }
 }

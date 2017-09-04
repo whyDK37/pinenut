@@ -12,142 +12,142 @@ import java.util.List;
 
 public class ZkHandler implements Closeable {
 
-    private ZkClient zkClient;
+  private ZkClient zkClient;
 
-    public ZkHandler(ZkConfig zkc) {
-        this.zkClient = new ZkClient(zkc.zkConnect, zkc.getZkSessionTimeoutMs(),
-                zkc.getZkConnectionTimeoutMs(), new StringSerializer());
+  public ZkHandler(ZkConfig zkc) {
+    this.zkClient = new ZkClient(zkc.zkConnect, zkc.getZkSessionTimeoutMs(),
+            zkc.getZkConnectionTimeoutMs(), new StringSerializer());
 
-    }
+  }
 
-    public void createParentPath(final String path) {
-        final String parentDir = path.substring(0, path.lastIndexOf('/'));
+  public void createParentPath(final String path) {
+    final String parentDir = path.substring(0, path.lastIndexOf('/'));
 //		final String parentDir2 = parentDir.substring(0, parentDir.lastIndexOf('/'));
-        if (!zkClient.exists(parentDir)) {
+    if (!zkClient.exists(parentDir)) {
 //			if(!zkClient.exists(parentDir2))
 //				zkClient.createPersistent(parentDir2);
-            zkClient.createPersistent(parentDir);
-        }
+      zkClient.createPersistent(parentDir);
     }
+  }
 
-    public void createEphemeralPath(final String path, final String data) {
-        try {
-            if (!zkClient.exists(path))
-                zkClient.createEphemeral(path, data);
-        } catch (final ZkNoNodeException e) {
-            createParentPath(path);
-            zkClient.createEphemeral(path, data);
-        }
+  public void createEphemeralPath(final String path, final String data) {
+    try {
+      if (!zkClient.exists(path))
+        zkClient.createEphemeral(path, data);
+    } catch (final ZkNoNodeException e) {
+      createParentPath(path);
+      zkClient.createEphemeral(path, data);
     }
+  }
 
-    public void createPersistentPath(final String path, final String data) {
-        try {
-            if (!zkClient.exists(path))
-                zkClient.createPersistent(path, data);
-        } catch (final ZkNoNodeException e) {
-            createParentPath(path);
-            zkClient.createPersistent(path, data);
-        }
+  public void createPersistentPath(final String path, final String data) {
+    try {
+      if (!zkClient.exists(path))
+        zkClient.createPersistent(path, data);
+    } catch (final ZkNoNodeException e) {
+      createParentPath(path);
+      zkClient.createPersistent(path, data);
     }
+  }
 
-    public void updatePersistentPath(final String path, final String data)
-            throws Exception {
-        try {
-            zkClient.writeData(path, data);
-        } catch (final ZkNoNodeException e) {
-            createParentPath(path);
-            zkClient.createPersistent(path, data);
-        } catch (Exception e) {
-        }
+  public void updatePersistentPath(final String path, final String data)
+          throws Exception {
+    try {
+      zkClient.writeData(path, data);
+    } catch (final ZkNoNodeException e) {
+      createParentPath(path);
+      zkClient.createPersistent(path, data);
+    } catch (Exception e) {
     }
+  }
 
-    public void updateEphemeralPath(final String path, final String data)
-            throws Exception {
-        try {
-            zkClient.writeData(path, data);
-        } catch (final ZkNoNodeException e) {
-            createParentPath(path);
-            zkClient.createEphemeral(path, data);
-        }
+  public void updateEphemeralPath(final String path, final String data)
+          throws Exception {
+    try {
+      zkClient.writeData(path, data);
+    } catch (final ZkNoNodeException e) {
+      createParentPath(path);
+      zkClient.createEphemeral(path, data);
     }
+  }
 
 
-    public void deletePath(final String path) throws Exception {
-        try {
-            zkClient.delete(path);
-        } catch (final ZkNoNodeException e) {
+  public void deletePath(final String path) throws Exception {
+    try {
+      zkClient.delete(path);
+    } catch (final ZkNoNodeException e) {
 //            logger.info(path + " deleted during connection loss; this is ok");
-        } catch (final Exception e) {
-            throw e;
-        }
+    } catch (final Exception e) {
+      throw e;
     }
+  }
 
 
-    public void deletePathRecursive(final String path) throws Exception {
-        try {
-            zkClient.deleteRecursive(path);
-        } catch (final ZkNoNodeException e) {
+  public void deletePathRecursive(final String path) throws Exception {
+    try {
+      zkClient.deleteRecursive(path);
+    } catch (final ZkNoNodeException e) {
 //            logger.info(path + " deleted during connection loss; this is ok");
 
-        } catch (final Exception e) {
-            throw e;
-        }
+    } catch (final Exception e) {
+      throw e;
     }
+  }
 
 
-    public List<String> getChildren(final String path) {
-        return zkClient.getChildren(path);
+  public List<String> getChildren(final String path) {
+    return zkClient.getChildren(path);
+  }
+
+
+  public List<String> getChildrenMaybeNull(final String path) {
+    try {
+      return zkClient.getChildren(path);
+    } catch (final ZkNoNodeException e) {
+      return null;
     }
+  }
 
+  public boolean createPathExists(final String path) {
+    return zkClient.exists(path);
+  }
 
-    public List<String> getChildrenMaybeNull(final String path) {
-        try {
-            return zkClient.getChildren(path);
-        } catch (final ZkNoNodeException e) {
-            return null;
-        }
+  public String readData(final String path) {
+    return zkClient.readData(path);
+  }
+
+  public String readDataMaybeNull(final String path) {
+    return zkClient.readData(path, true);
+  }
+
+  public String createEphemeralSequential(final String path, final String data) {
+    try {
+      return zkClient.createEphemeralSequential(path, data);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+    return "";
+  }
 
-    public boolean createPathExists(final String path) {
-        return zkClient.exists(path);
-    }
+  public ZkClient getZkClient() {
+    return this.zkClient;
+  }
 
-    public String readData(final String path) {
-        return zkClient.readData(path);
-    }
+  public void subscribeDataChanges(String path, IZkDataListener zkDataListener) {
+    zkClient.subscribeDataChanges(path, zkDataListener);
+  }
 
-    public String readDataMaybeNull(final String path) {
-        return zkClient.readData(path, true);
-    }
+  public void subscribeStateChanges(IZkStateListener zkStateListener) {
+    zkClient.subscribeStateChanges(zkStateListener);
+  }
 
-    public String createEphemeralSequential(final String path, final String data) {
-        try {
-            return zkClient.createEphemeralSequential(path, data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
+  public void subscribeChildChanges(String path, IZkChildListener zkChildListener) {
+    zkClient.subscribeChildChanges(path, zkChildListener);
+  }
 
-    public ZkClient getZkClient() {
-        return this.zkClient;
-    }
-
-    public void subscribeDataChanges(String path, IZkDataListener zkDataListener) {
-        zkClient.subscribeDataChanges(path, zkDataListener);
-    }
-
-    public void subscribeStateChanges(IZkStateListener zkStateListener) {
-        zkClient.subscribeStateChanges(zkStateListener);
-    }
-
-    public void subscribeChildChanges(String path, IZkChildListener zkChildListener) {
-        zkClient.subscribeChildChanges(path, zkChildListener);
-    }
-
-    @Override
-    public void close() throws IOException {
-        getZkClient().close();
-    }
+  @Override
+  public void close() throws IOException {
+    getZkClient().close();
+  }
 
 }

@@ -11,10 +11,10 @@ import net.jcip.annotations.ThreadSafe;
 
 @ThreadSafe
 public class Sequence {
-    @GuardedBy("this")
-    private volatile int nextValue;
+  @GuardedBy("this")
+  private volatile int nextValue;
 
-    public synchronized int getNext() {
-        return nextValue++;
-    }
+  public synchronized int getNext() {
+    return nextValue++;
+  }
 }

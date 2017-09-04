@@ -11,14 +11,14 @@ import java.lang.management.ManagementFactory;
  */
 public class HelloMBeanServerTest {
 
-    public static void main(String[] args) throws Exception {
+  public static void main(String[] args) throws Exception {
 
-        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        ObjectName name = new ObjectName("jdk.jdk.jmx:type=HelloMBean");
-        Hello mbean = new Hello();
-        mbs.registerMBean(mbean, name);
+    MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+    ObjectName name = new ObjectName("jdk.jdk.jmx:type=HelloMBean");
+    Hello mbean = new Hello();
+    mbs.registerMBean(mbean, name);
 
-        System.out.println("Waiting forever...");
-        Thread.sleep(Long.MAX_VALUE);
-    }
+    System.out.println("Waiting forever...");
+    Thread.sleep(Long.MAX_VALUE);
+  }
 }

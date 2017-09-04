@@ -46,19 +46,18 @@ package jvm.applet.ii;/*
 * DERIVATIVES.
 */
 
-import java.awt.Button;
-import java.awt.Color;
+import java.awt.*;
 
 /**
-* This class simply gives you a button colored gray.
-*
-* @author  Bill Venners
-*/
+ * This class simply gives you a button colored gray.
+ *
+ * @author Bill Venners
+ */
 class GrayButton extends Button {
 
-    GrayButton(String label) {
+  GrayButton(String label) {
 
-        super(label);
-        setBackground(Color.lightGray);
-    }
+    super(label);
+    setBackground(Color.lightGray);
+  }
 }

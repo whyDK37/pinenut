@@ -45,143 +45,143 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is the canvas on which is drawn the images
-* of the object and handle pools on the compact heap
-* canvas. All of this drawing is done by the paint()
-* method of this class.
-*
-* @author  Bill Venners
-*/
+ * This class is the canvas on which is drawn the images
+ * of the object and handle pools on the compact heap
+ * canvas. All of this drawing is done by the paint()
+ * method of this class.
+ *
+ * @author Bill Venners
+ */
 public class CompactHeapCanvas extends Canvas {
 
-    private GCHeap gcHeap;
-    private final int poolImageInsets = 5;
+  private final int poolImageInsets = 5;
+  private GCHeap gcHeap;
 
-    CompactHeapCanvas(GCHeap heap) {
-        gcHeap = heap;
+  CompactHeapCanvas(GCHeap heap) {
+    gcHeap = heap;
+  }
+
+  public void paint(Graphics g) {
+
+    // First calculate the positions of the goodies on the canvas based on the width
+    // and height of the canvas.
+    Dimension dim = size();
+
+    // Divide width into three equal portions. The left portion will hold the handle pool.
+    // The right portion will hold the object pool. The middle portion will have arrows
+    // that go from valid handles to their respective objects.
+    int xHandlePoolPortion = 0;
+    int xArrowPortion = dim.width / 3;
+    int xObjectPoolPortion = 2 * xArrowPortion;
+
+    Font font = getFont();
+    FontMetrics fm = getFontMetrics(font);
+
+    int labelHeight = fm.getAscent() + fm.getDescent() + (2 * poolImageInsets);
+
+    int heightAvailableForPools = dim.height - labelHeight - poolImageInsets;
+    int objectPoolIntsCount = gcHeap.getObjectPoolSize();
+    int handlePoolIntsCount = gcHeap.getHandlePoolSize() * 2;
+
+    int maxIntsCount = objectPoolIntsCount;
+    if (maxIntsCount < handlePoolIntsCount) {
+      maxIntsCount = handlePoolIntsCount;
     }
 
-    public void paint(Graphics g) {
+    int yPixelsPerInt = heightAvailableForPools / maxIntsCount;
 
-        // First calculate the positions of the goodies on the canvas based on the width
-        // and height of the canvas.
-        Dimension dim = size();
+    int handlePoolHeight = handlePoolIntsCount * yPixelsPerInt;
+    int objectPoolHeight = objectPoolIntsCount * yPixelsPerInt;
 
-        // Divide width into three equal portions. The left portion will hold the handle pool.
-        // The right portion will hold the object pool. The middle portion will have arrows
-        // that go from valid handles to their respective objects.
-        int xHandlePoolPortion = 0;
-        int xArrowPortion = dim.width / 3;
-        int xObjectPoolPortion = 2 * xArrowPortion;
+    int poolsWidth = xArrowPortion - poolImageInsets;
 
-        Font font = getFont();
-        FontMetrics fm = getFontMetrics(font);
-
-        int labelHeight = fm.getAscent() + fm.getDescent() + (2 * poolImageInsets);
-
-        int heightAvailableForPools = dim.height - labelHeight - poolImageInsets;
-        int objectPoolIntsCount = gcHeap.getObjectPoolSize();
-        int handlePoolIntsCount = gcHeap.getHandlePoolSize() * 2;
-
-        int maxIntsCount = objectPoolIntsCount;
-        if (maxIntsCount < handlePoolIntsCount) {
-            maxIntsCount = handlePoolIntsCount;
-        }
-
-        int yPixelsPerInt = heightAvailableForPools / maxIntsCount;
-
-        int handlePoolHeight = handlePoolIntsCount * yPixelsPerInt;
-        int objectPoolHeight = objectPoolIntsCount * yPixelsPerInt;
-
-        int poolsWidth = xArrowPortion - poolImageInsets;
-
-        int xTextStart = poolsWidth - fm.stringWidth(HeapOfFishStrings.handlePool);
-        if (xTextStart < 0) {
-            xTextStart = 0;
-        }
-        xTextStart /= 2;
-
-        int yStart = (dim.height - handlePoolHeight - labelHeight - (2 * poolImageInsets)) / 2;
-        if (yStart < 0) {
-            yStart = 0;
-        }
-        g.setColor(Color.white);
-        g.drawString(HeapOfFishStrings.handlePool, poolImageInsets + xTextStart, poolImageInsets + yStart + fm.getAscent());
-        int yHandlePoolRect = yStart + labelHeight;
-        g.fillRect(xHandlePoolPortion + poolImageInsets, yHandlePoolRect, poolsWidth, handlePoolHeight);
-
-        xTextStart = poolsWidth - fm.stringWidth(HeapOfFishStrings.objectPool);
-        if (xTextStart < 0) {
-            xTextStart = 0;
-        }
-        xTextStart /= 2;
-
-        yStart = (dim.height - objectPoolHeight - labelHeight - (2 * poolImageInsets)) / 2;
-        if (yStart < 0) {
-            yStart = 0;
-        }
-
-        //g.setColor(Color.white);
-        g.drawString(HeapOfFishStrings.objectPool, xObjectPoolPortion + xTextStart, poolImageInsets + yStart + fm.getAscent());
-        int yObjectPoolRect = yStart + labelHeight;
-        //g.setColor(Color.white);
-        g.fillRect(xObjectPoolPortion, yObjectPoolRect, poolsWidth, objectPoolHeight);
-
-        // Draw the headers in the object pool
-        g.setColor(Color.black);
-        int i = 0;
-        while (i < objectPoolIntsCount) {
-
-            for (int j = 0; j < yPixelsPerInt; ++j) {
-                int yLinePos = yObjectPoolRect + (i * yPixelsPerInt) + j;
-                g.drawLine(xObjectPoolPortion, yLinePos, xObjectPoolPortion + poolsWidth - 1, yLinePos);
-            }
-            int header = gcHeap.getObjectPool(i);
-            int length = gcHeap.getMemBlockLength(header);
-            if (length <= 0) { // In case object pool gets corrupted, don't hang up.
-                break;
-            }
-            i += length;
-        }
-
-        for (i = 0; i < gcHeap.getHandlePoolSize(); ++i) {
-            ObjectHandle oh = gcHeap.getObjectHandle(i + 1);
-            if (!oh.free) {
-
-                Color color = Color.red;
-                int objectSizeInInts = 3;
-                if (oh.fish.getFishColor() == Color.cyan) {
-                    color = Color.cyan;
-                    objectSizeInInts = 2;
-                }
-                else if (oh.fish.getFishColor() == Color.yellow) {
-                    color = Color.yellow;
-                    objectSizeInInts = 1;
-                }
-                g.setColor(color);
-
-                // Draw bar across handle pool
-                for (int j = 0; j < yPixelsPerInt * 2; ++j) {
-                    int yLinePos = yHandlePoolRect + (i * yPixelsPerInt * 2) + j;
-                    g.drawLine(xHandlePoolPortion + poolImageInsets, yLinePos, xHandlePoolPortion + poolImageInsets + poolsWidth - 1, yLinePos);
-                }
-
-                // Draw colored bars to represent object in the object pool
-                for (int j = 0; j < yPixelsPerInt * objectSizeInInts; ++j) {
-                    int yLinePos = yObjectPoolRect + (oh.objectPos * yPixelsPerInt) + j;
-                    g.drawLine(xObjectPoolPortion, yLinePos, xObjectPoolPortion + poolsWidth - 1, yLinePos);
-                }
-
-                // Draw a line from the handle to the object to show that the handle
-                // points to the object.
-                int yArrowStart = yHandlePoolRect + (i * yPixelsPerInt * 2) + yPixelsPerInt;
-                int yArrowEnd = yObjectPoolRect + (oh.objectPos * yPixelsPerInt) + ((yPixelsPerInt * objectSizeInInts) / 2);
-                g.drawLine(xHandlePoolPortion + poolImageInsets + poolsWidth + 2, yArrowStart,
-                    xObjectPoolPortion - 3, yArrowEnd);
-            }
-        }
+    int xTextStart = poolsWidth - fm.stringWidth(HeapOfFishStrings.handlePool);
+    if (xTextStart < 0) {
+      xTextStart = 0;
     }
+    xTextStart /= 2;
+
+    int yStart = (dim.height - handlePoolHeight - labelHeight - (2 * poolImageInsets)) / 2;
+    if (yStart < 0) {
+      yStart = 0;
+    }
+    g.setColor(Color.white);
+    g.drawString(HeapOfFishStrings.handlePool, poolImageInsets + xTextStart, poolImageInsets + yStart + fm.getAscent());
+    int yHandlePoolRect = yStart + labelHeight;
+    g.fillRect(xHandlePoolPortion + poolImageInsets, yHandlePoolRect, poolsWidth, handlePoolHeight);
+
+    xTextStart = poolsWidth - fm.stringWidth(HeapOfFishStrings.objectPool);
+    if (xTextStart < 0) {
+      xTextStart = 0;
+    }
+    xTextStart /= 2;
+
+    yStart = (dim.height - objectPoolHeight - labelHeight - (2 * poolImageInsets)) / 2;
+    if (yStart < 0) {
+      yStart = 0;
+    }
+
+    //g.setColor(Color.white);
+    g.drawString(HeapOfFishStrings.objectPool, xObjectPoolPortion + xTextStart, poolImageInsets + yStart + fm.getAscent());
+    int yObjectPoolRect = yStart + labelHeight;
+    //g.setColor(Color.white);
+    g.fillRect(xObjectPoolPortion, yObjectPoolRect, poolsWidth, objectPoolHeight);
+
+    // Draw the headers in the object pool
+    g.setColor(Color.black);
+    int i = 0;
+    while (i < objectPoolIntsCount) {
+
+      for (int j = 0; j < yPixelsPerInt; ++j) {
+        int yLinePos = yObjectPoolRect + (i * yPixelsPerInt) + j;
+        g.drawLine(xObjectPoolPortion, yLinePos, xObjectPoolPortion + poolsWidth - 1, yLinePos);
+      }
+      int header = gcHeap.getObjectPool(i);
+      int length = gcHeap.getMemBlockLength(header);
+      if (length <= 0) { // In case object pool gets corrupted, don't hang up.
+        break;
+      }
+      i += length;
+    }
+
+    for (i = 0; i < gcHeap.getHandlePoolSize(); ++i) {
+      ObjectHandle oh = gcHeap.getObjectHandle(i + 1);
+      if (!oh.free) {
+
+        Color color = Color.red;
+        int objectSizeInInts = 3;
+        if (oh.fish.getFishColor() == Color.cyan) {
+          color = Color.cyan;
+          objectSizeInInts = 2;
+        } else if (oh.fish.getFishColor() == Color.yellow) {
+          color = Color.yellow;
+          objectSizeInInts = 1;
+        }
+        g.setColor(color);
+
+        // Draw bar across handle pool
+        for (int j = 0; j < yPixelsPerInt * 2; ++j) {
+          int yLinePos = yHandlePoolRect + (i * yPixelsPerInt * 2) + j;
+          g.drawLine(xHandlePoolPortion + poolImageInsets, yLinePos, xHandlePoolPortion + poolImageInsets + poolsWidth - 1, yLinePos);
+        }
+
+        // Draw colored bars to represent object in the object pool
+        for (int j = 0; j < yPixelsPerInt * objectSizeInInts; ++j) {
+          int yLinePos = yObjectPoolRect + (oh.objectPos * yPixelsPerInt) + j;
+          g.drawLine(xObjectPoolPortion, yLinePos, xObjectPoolPortion + poolsWidth - 1, yLinePos);
+        }
+
+        // Draw a line from the handle to the object to show that the handle
+        // points to the object.
+        int yArrowStart = yHandlePoolRect + (i * yPixelsPerInt * 2) + yPixelsPerInt;
+        int yArrowEnd = yObjectPoolRect + (oh.objectPos * yPixelsPerInt) + ((yPixelsPerInt * objectSizeInInts) / 2);
+        g.drawLine(xHandlePoolPortion + poolImageInsets + poolsWidth + 2, yArrowStart,
+                xObjectPoolPortion - 3, yArrowEnd);
+      }
+    }
+  }
 }

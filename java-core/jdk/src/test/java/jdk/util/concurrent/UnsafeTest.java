@@ -8,54 +8,54 @@ import sun.misc.Unsafe;
  */
 public class UnsafeTest {
 
-    public static void main(String[] args) {
-        AtomicInt atomicInt = new AtomicInt();
-        System.out.println(atomicInt.getValueOffset());
-        System.out.println(atomicInt.incrementAndGet());
-    }
+  public static void main(String[] args) {
+    AtomicInt atomicInt = new AtomicInt();
+    System.out.println(atomicInt.getValueOffset());
+    System.out.println(atomicInt.incrementAndGet());
+  }
 
-    @Test
-    public void test() {
-        AtomicInt atomicInt = new AtomicInt();
-        System.out.println(atomicInt.getValueOffset());
-        System.out.println(atomicInt.incrementAndGet());
-    }
+  @Test
+  public void test() {
+    AtomicInt atomicInt = new AtomicInt();
+    System.out.println(atomicInt.getValueOffset());
+    System.out.println(atomicInt.incrementAndGet());
+  }
 
 }
 
 class AtomicInt {
 
-    public AtomicInt(int value) {
-        this.value = value;
+  private static final Unsafe unsafe = Unsafe.getUnsafe();
+  private static final long valueOffset;
+
+  static {
+    try {
+      valueOffset = unsafe.objectFieldOffset
+              (AtomicInt.class.getDeclaredField("value"));
+    } catch (Exception ex) {
+      throw new Error(ex);
     }
+  }
 
-    public AtomicInt() {
-        this.value = 0;
-    }
+  private volatile int value;
 
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final long valueOffset;
+  public AtomicInt(int value) {
+    this.value = value;
+  }
 
-    static {
-        try {
-            valueOffset = unsafe.objectFieldOffset
-                    (AtomicInt.class.getDeclaredField("value"));
-        } catch (Exception ex) {
-            throw new Error(ex);
-        }
-    }
+  public AtomicInt() {
+    this.value = 0;
+  }
 
-    private volatile int value;
+  public final long incrementAndGet() {
+    return unsafe.getAndAddLong(this, valueOffset, 1L) + 1L;
+  }
 
-    public final long incrementAndGet() {
-        return unsafe.getAndAddLong(this, valueOffset, 1L) + 1L;
-    }
+  public final long get() {
+    return value;
+  }
 
-    public final long get() {
-        return value;
-    }
-
-    public long getValueOffset() {
-        return valueOffset;
-    }
+  public long getValueOffset() {
+    return valueOffset;
+  }
 }

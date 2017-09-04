@@ -2,13 +2,13 @@ package logging.jdk.jmx;
 
 public interface HelloMBean {
 
-    void sayHello();
+  void sayHello();
 
-    int add(int x, int y);
+  int add(int x, int y);
 
-    String getName();
+  String getName();
 
-    int getCacheSize();
+  int getCacheSize();
 
-    void setCacheSize(int size);
+  void setCacheSize(int size);
 }

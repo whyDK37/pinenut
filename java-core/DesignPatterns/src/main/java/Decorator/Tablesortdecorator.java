@@ -1,15 +1,16 @@
 package Decorator;
+
 import javax.swing.table.TableModel;
 
 public abstract class Tablesortdecorator extends
         Tablemodeldecorator {
-   // Extensions of TableSortDecorator must implement the
-   // abstract sort method, in addition to tableChanged. The
-   // latter is required because TableModelDecorator
-   // implements the TableModelListener interface.
-   abstract public void sort(int column);
+  public Tablesortdecorator(TableModel realModel) {
+    super(realModel);
+  }
 
-   public Tablesortdecorator(TableModel realModel) {
-      super(realModel);
-   }
+  // Extensions of TableSortDecorator must implement the
+  // abstract sort method, in addition to tableChanged. The
+  // latter is required because TableModelDecorator
+  // implements the TableModelListener interface.
+  abstract public void sort(int column);
 }

@@ -1,9 +1,10 @@
 package Bridge;
+
 /**
- *  The ConcreteImplementor
+ * The ConcreteImplementor
  */
 public class TextLinuxImpl implements TextImp {
-    public void DrawTextImp() {
-        System.out.println("The text has a Linux style !");
-    }
+  public void DrawTextImp() {
+    System.out.println("The text has a Linux style !");
+  }
 }

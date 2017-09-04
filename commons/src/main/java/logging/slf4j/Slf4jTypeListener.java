@@ -9,13 +9,13 @@ import java.lang.reflect.Field;
 
 public class Slf4jTypeListener implements TypeListener {
 
-    public <I> void hear(TypeLiteral<I> aTypeLiteral, TypeEncounter<I> aTypeEncounter) {
+  public <I> void hear(TypeLiteral<I> aTypeLiteral, TypeEncounter<I> aTypeEncounter) {
 
-        for (Field field : aTypeLiteral.getRawType().getDeclaredFields()) {
-            if (field.getType() == Logger.class
-                    && field.isAnnotationPresent(InjectLogger.class)) {
-                aTypeEncounter.register(new Slf4jMembersInjector<I>(field));
-            }
-        }
+    for (Field field : aTypeLiteral.getRawType().getDeclaredFields()) {
+      if (field.getType() == Logger.class
+              && field.isAnnotationPresent(InjectLogger.class)) {
+        aTypeEncounter.register(new Slf4jMembersInjector<I>(field));
+      }
     }
+  }
 }

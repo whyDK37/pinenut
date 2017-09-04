@@ -15,93 +15,93 @@ import java.util.concurrent.TimeUnit;
  */
 public class ZkClientTest {
 
-    public static final int INT = 39;
-    private static String zkConnect = "127.0.0.1:2181,127.0.0.1:2182";
+  public static final int INT = 39;
+  private static String zkConnect = "127.0.0.1:2181,127.0.0.1:2182";
 
-    public static void main(String[] args) {
-        ZkClient zkClient = buildZkClient();
+  public static void main(String[] args) {
+    ZkClient zkClient = buildZkClient();
 
-        subscribeDataChange(zkClient, "/seqlocal/election/SeqGeneratorManager-pid-24484.0000000017");
-        zkClient.updateDataSerialized("/seqlocal/election/SeqGeneratorManager-pid-24484.0000000017", new DataUpdater<String>() {
-            @Override
-            public String update(String currentData) {
-                return "order";
-            }
-        });
+    subscribeDataChange(zkClient, "/seqlocal/election/SeqGeneratorManager-pid-24484.0000000017");
+    zkClient.updateDataSerialized("/seqlocal/election/SeqGeneratorManager-pid-24484.0000000017", new DataUpdater<String>() {
+      @Override
+      public String update(String currentData) {
+        return "order";
+      }
+    });
 
-        subscribe(zkClient);
+    subscribe(zkClient);
 
-        //
-        if (zkClient.exists("/root/data")) {
-            zkClient.delete("/root/data");
-        }
-        zkClient.createPersistent("/root/data", "my data");
-        subscribeDataChange(zkClient, "/root/data");
-        zkClient.updateDataSerialized("/root/data", new DataUpdater<String>() {
-            @Override
-            public String update(String currentData) {
-                return "my data updated";
-            }
-        });
-        Stat stat = zkClient.writeDataReturnStat("/root/data", "return with stat", 1);
-        System.out.println("stat : " + stat);
-        try {
-            TimeUnit.SECONDS.sleep(5);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    //
+    if (zkClient.exists("/root/data")) {
+      zkClient.delete("/root/data");
     }
-
-    private static ZkClient buildZkClient() {
-        ZkConfig zkc = new ZkConfig();
-        zkc.setZkConnect(zkConnect);
-        zkc.zkSessionTimeoutMs = 30000;
-        zkc.zkConnectionTimeoutMs = 40000;
-        zkc.zkSyncTimeMs = 5000;
-
-        ZkClient zkClient = new ZkClient(zkc.getZkConnect(), zkc.getZkSessionTimeoutMs(),
-                zkc.getZkConnectionTimeoutMs());
-
-        if (!zkClient.exists("/root")) {
-            zkClient.createPersistent("/root", true);
-        }
-        return zkClient;
+    zkClient.createPersistent("/root/data", "my data");
+    subscribeDataChange(zkClient, "/root/data");
+    zkClient.updateDataSerialized("/root/data", new DataUpdater<String>() {
+      @Override
+      public String update(String currentData) {
+        return "my data updated";
+      }
+    });
+    Stat stat = zkClient.writeDataReturnStat("/root/data", "return with stat", 1);
+    System.out.println("stat : " + stat);
+    try {
+      TimeUnit.SECONDS.sleep(5);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
+  }
 
-    private static void subscribe(ZkClient zkClient) {
-        zkClient.subscribeChildChanges("/root", new IZkChildListener() {
-            @Override
-            public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
-                System.out.println("child changes : " + parentPath + " " + currentChilds.toString());
-            }
-        });
+  private static ZkClient buildZkClient() {
+    ZkConfig zkc = new ZkConfig();
+    zkc.setZkConnect(zkConnect);
+    zkc.zkSessionTimeoutMs = 30000;
+    zkc.zkConnectionTimeoutMs = 40000;
+    zkc.zkSyncTimeMs = 5000;
 
-        zkClient.subscribeDataChanges("/root/data", new IZkDataListener() {
-            @Override
-            public void handleDataChange(String dataPath, Object data) throws Exception {
-                System.out.println("data change " + dataPath + " " + data);
-            }
+    ZkClient zkClient = new ZkClient(zkc.getZkConnect(), zkc.getZkSessionTimeoutMs(),
+            zkc.getZkConnectionTimeoutMs());
 
-            @Override
-            public void handleDataDeleted(String dataPath) throws Exception {
-                System.out.println("handleDataDeleted " + dataPath + " ");
-            }
-        });
+    if (!zkClient.exists("/root")) {
+      zkClient.createPersistent("/root", true);
     }
+    return zkClient;
+  }
 
-    private static void subscribeDataChange(ZkClient zkClient, String znode) {
-        zkClient.subscribeDataChanges(znode, new IZkDataListener() {
+  private static void subscribe(ZkClient zkClient) {
+    zkClient.subscribeChildChanges("/root", new IZkChildListener() {
+      @Override
+      public void handleChildChange(String parentPath, List<String> currentChilds) throws Exception {
+        System.out.println("child changes : " + parentPath + " " + currentChilds.toString());
+      }
+    });
 
-            public void handleDataDeleted(String dataPath) throws Exception {
-                System.out.println("the node 'dataPath'===>");
-            }
+    zkClient.subscribeDataChanges("/root/data", new IZkDataListener() {
+      @Override
+      public void handleDataChange(String dataPath, Object data) throws Exception {
+        System.out.println("data change " + dataPath + " " + data);
+      }
 
-            public void handleDataChange(String dataPath, Object data) throws Exception {
-                System.out.println("the node 'dataPath'===>" + dataPath + ", data has changed.it's data is :" + String.valueOf(data));
+      @Override
+      public void handleDataDeleted(String dataPath) throws Exception {
+        System.out.println("handleDataDeleted " + dataPath + " ");
+      }
+    });
+  }
 
-            }
-        });
+  private static void subscribeDataChange(ZkClient zkClient, String znode) {
+    zkClient.subscribeDataChanges(znode, new IZkDataListener() {
+
+      public void handleDataDeleted(String dataPath) throws Exception {
+        System.out.println("the node 'dataPath'===>");
+      }
+
+      public void handleDataChange(String dataPath, Object data) throws Exception {
+        System.out.println("the node 'dataPath'===>" + dataPath + ", data has changed.it's data is :" + String.valueOf(data));
+
+      }
+    });
 
 
-    }
+  }
 }

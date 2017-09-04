@@ -1,8 +1,10 @@
 package abstractfactory;
+
 /*
  * AbstractFactory
  */
-public abstract  class Room  {
-    public abstract Wall makeWall();
-    public abstract Door makeDoor();
+public abstract class Room {
+  public abstract Wall makeWall();
+
+  public abstract Door makeDoor();
 }

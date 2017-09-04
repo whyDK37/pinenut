@@ -52,23 +52,23 @@ import java.util.Scanner;
  * Created by why on 4/26/2017.
  */
 public class Arrays_DS {
-    public static void main(String[] args) {
+  public static void main(String[] args) {
         /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
-        Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
 
-        int n = scanner.nextInt();
-        scanner.nextLine();//跳过第一行结尾的回车
-        String elements = scanner.nextLine();
-        String[] split = elements.split("[ ]");
+    int n = scanner.nextInt();
+    scanner.nextLine();//跳过第一行结尾的回车
+    String elements = scanner.nextLine();
+    String[] split = elements.split("[ ]");
 
-        int[] out = new int[n];
-        for (int i = 0; i < n && i < split.length; i++) {
-            out[i] = Integer.parseInt(split[i]);
-        }
-
-        for (int i = out.length - 1; i >= 0; i--) {
-            System.out.print(out[i] + " ");
-        }
-
+    int[] out = new int[n];
+    for (int i = 0; i < n && i < split.length; i++) {
+      out[i] = Integer.parseInt(split[i]);
     }
+
+    for (int i = out.length - 1; i >= 0; i--) {
+      System.out.print(out[i] + " ");
+    }
+
+  }
 }

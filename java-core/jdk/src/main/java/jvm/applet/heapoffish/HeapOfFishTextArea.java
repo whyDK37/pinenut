@@ -45,19 +45,20 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is the text area that sits at the bottom of the
-* HeapOfFish applet upon which messages are printed that help
-* the user keep track of what's going on with the heap.
-*
-* @author  Bill Venners
-*/
+ * This class is the text area that sits at the bottom of the
+ * HeapOfFish applet upon which messages are printed that help
+ * the user keep track of what's going on with the heap.
+ *
+ * @author Bill Venners
+ */
 public class HeapOfFishTextArea extends TextArea {
 
-    HeapOfFishTextArea() {
-        setBackground(Color.white);
-        setEditable(false);
-    }
+  HeapOfFishTextArea() {
+    setBackground(Color.white);
+    setEditable(false);
+  }
 }

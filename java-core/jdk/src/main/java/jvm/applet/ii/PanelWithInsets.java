@@ -49,32 +49,32 @@ package jvm.applet.ii;/*
 import java.awt.*;
 
 /**
-* This class simply allows you to easily set a panel's insets.
-*
-* @author  Bill Venners
-*/
+ * This class simply allows you to easily set a panel's insets.
+ *
+ * @author Bill Venners
+ */
 class PanelWithInsets extends Panel {
 
-    private int top;
-    private int left;
-    private int bottom;
-    private int right;
+  private int top;
+  private int left;
+  private int bottom;
+  private int right;
 
-    PanelWithInsets(int t, int l, int b, int r) {
-        top = t;
-        left = l;
-        bottom = b;
-        right = r;
-    }
+  PanelWithInsets(int t, int l, int b, int r) {
+    top = t;
+    left = l;
+    bottom = b;
+    right = r;
+  }
 
-    PanelWithInsets() {
-        top = 5;
-        left = 5;
-        bottom = 5;
-        right = 5;
-    }
+  PanelWithInsets() {
+    top = 5;
+    left = 5;
+    bottom = 5;
+    right = 5;
+  }
 
-    public Insets insets() {
-        return new Insets(top, left, bottom, right);
-    }
+  public Insets insets() {
+    return new Insets(top, left, bottom, right);
+  }
 }

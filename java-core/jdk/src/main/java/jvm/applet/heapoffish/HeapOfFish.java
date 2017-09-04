@@ -45,82 +45,79 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
+import java.applet.Applet;
 import java.awt.*;
-import java.applet.*;
 
 /**
-* This applet simulates a compacting, mark-and-sweep
-* garbage-collected heap inside a Java Virtual Machine.
-*
-* @author  Bill Venners
-*/
+ * This applet simulates a compacting, mark-and-sweep
+ * garbage-collected heap inside a Java Virtual Machine.
+ *
+ * @author Bill Venners
+ */
 public class HeapOfFish extends Applet {
 
-    private GCHeap gcHeap = new GCHeap(15, 50);
-    private LocalVariables localVars = new LocalVariables();
+  private GCHeap gcHeap = new GCHeap(15, 50);
+  private LocalVariables localVars = new LocalVariables();
 
-    private HeapOfFishControlPanel controlPanel = new HeapOfFishControlPanel();
-    private HeapOfFishCanvases canvases = new HeapOfFishCanvases(gcHeap, localVars, controlPanel.getTextArea());
-    private String currentHeapOfFishMode = HeapOfFishStrings.swim;
+  private HeapOfFishControlPanel controlPanel = new HeapOfFishControlPanel();
+  private HeapOfFishCanvases canvases = new HeapOfFishCanvases(gcHeap, localVars, controlPanel.getTextArea());
+  private String currentHeapOfFishMode = HeapOfFishStrings.swim;
 
-    public void init() {
+  public void init() {
 
-        super.init();
-        setBackground(Color.cyan);
+    super.init();
+    setBackground(Color.cyan);
 
-        setLayout(new BorderLayout(5, 5));
-        add("North", new ColoredLabel("HEAP OF FISH", Label.CENTER, Color.white));
-        add("South", controlPanel);
-        add("Center", canvases);
-    }
+    setLayout(new BorderLayout(5, 5));
+    add("North", new ColoredLabel("HEAP OF FISH", Label.CENTER, Color.white));
+    add("South", controlPanel);
+    add("Center", canvases);
+  }
 
-    public void start() {
-        canvases.start();
-    }
+  public void start() {
+    canvases.start();
+  }
 
-    public void stop() {
-        canvases.stop();
-    }
+  public void stop() {
+    canvases.stop();
+  }
 
-    public Insets insets() {
-        return new Insets(5, 5, 5, 5);
-    }
+  public Insets insets() {
+    return new Insets(5, 5, 5, 5);
+  }
 
-    public boolean action(Event evt, Object arg) {
-        if (evt.target instanceof Checkbox) {
-            Checkbox cb = (Checkbox) evt.target;
-            String cbname = cb.getLabel();
-            if (cbname.equals(HeapOfFishStrings.allocateFish)) {
-                if (!currentHeapOfFishMode.equals(HeapOfFishStrings.allocateFish)) {
-                    controlPanel.getTextArea().setText(HeapOfFishStrings.allocateFishInstructions);
-                    canvases.setMode(HeapOfFishStrings.allocateFish);
-                }
-            }
-            else if (cbname.equals(HeapOfFishStrings.assignReferences)) {
-                if (!currentHeapOfFishMode.equals(HeapOfFishStrings.assignReferences)) {
-                    canvases.setMode(HeapOfFishStrings.assignReferences);
-                }
-            }
-            else if (cbname.equals(HeapOfFishStrings.garbageCollect)) {
-                if (!currentHeapOfFishMode.equals(HeapOfFishStrings.garbageCollect)) {
-                    canvases.setMode(HeapOfFishStrings.garbageCollect);
-                }
-            }
-            else if (cbname.equals(HeapOfFishStrings.compactHeap)) {
-                if (!currentHeapOfFishMode.equals(HeapOfFishStrings.compactHeap)) {
-                    controlPanel.getTextArea().setText(HeapOfFishStrings.compactHeapInstructions);
-                    canvases.setMode(HeapOfFishStrings.compactHeap);
-                }
-            }
-            else if (cbname.equals(HeapOfFishStrings.swim)) {
-                if (!currentHeapOfFishMode.equals(HeapOfFishStrings.swim)) {
-                    controlPanel.getTextArea().setText("");
-                    canvases.setMode(HeapOfFishStrings.swim);
-                }
-            }
-            currentHeapOfFishMode = cbname;
-            canvases.repaint();
+  public boolean action(Event evt, Object arg) {
+    if (evt.target instanceof Checkbox) {
+      Checkbox cb = (Checkbox) evt.target;
+      String cbname = cb.getLabel();
+      if (cbname.equals(HeapOfFishStrings.allocateFish)) {
+        if (!currentHeapOfFishMode.equals(HeapOfFishStrings.allocateFish)) {
+          controlPanel.getTextArea().setText(HeapOfFishStrings.allocateFishInstructions);
+          canvases.setMode(HeapOfFishStrings.allocateFish);
         }
-        return true;
+      } else if (cbname.equals(HeapOfFishStrings.assignReferences)) {
+        if (!currentHeapOfFishMode.equals(HeapOfFishStrings.assignReferences)) {
+          canvases.setMode(HeapOfFishStrings.assignReferences);
+        }
+      } else if (cbname.equals(HeapOfFishStrings.garbageCollect)) {
+        if (!currentHeapOfFishMode.equals(HeapOfFishStrings.garbageCollect)) {
+          canvases.setMode(HeapOfFishStrings.garbageCollect);
+        }
+      } else if (cbname.equals(HeapOfFishStrings.compactHeap)) {
+        if (!currentHeapOfFishMode.equals(HeapOfFishStrings.compactHeap)) {
+          controlPanel.getTextArea().setText(HeapOfFishStrings.compactHeapInstructions);
+          canvases.setMode(HeapOfFishStrings.compactHeap);
+        }
+      } else if (cbname.equals(HeapOfFishStrings.swim)) {
+        if (!currentHeapOfFishMode.equals(HeapOfFishStrings.swim)) {
+          controlPanel.getTextArea().setText("");
+          canvases.setMode(HeapOfFishStrings.swim);
+        }
+      }
+      currentHeapOfFishMode = cbname;
+      canvases.repaint();
     }
+    return true;
+  }
 }

@@ -45,31 +45,32 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class serves as a container panel for the three sub-modes of the assign references
-* mode: move fish, link fish, and unlink fish. The canvases that represent the user
-* interface of these three sub-modes are placed in here via a CardLayout.
-*
-* @author  Bill Venners
-*/
+ * This class serves as a container panel for the three sub-modes of the assign references
+ * mode: move fish, link fish, and unlink fish. The canvases that represent the user
+ * interface of these three sub-modes are placed in here via a CardLayout.
+ *
+ * @author Bill Venners
+ */
 class AssignReferencesCanvases extends Panel {
 
-    private CardLayout cl = new CardLayout();
-    private String currentMode = HeapOfFishStrings.linkFish;
+  private CardLayout cl = new CardLayout();
+  private String currentMode = HeapOfFishStrings.linkFish;
 
-    AssignReferencesCanvases(GCHeap gcHeap, LocalVariables localVars, HeapOfFishTextArea ta) {
+  AssignReferencesCanvases(GCHeap gcHeap, LocalVariables localVars, HeapOfFishTextArea ta) {
 
-        setLayout(cl);
-        add(HeapOfFishStrings.moveFish, new MoveFishCanvas(gcHeap, localVars, ta));
-        add(HeapOfFishStrings.linkFish, new LinkFishCanvas(gcHeap, localVars, ta));
-        add(HeapOfFishStrings.unlinkFish, new UnlinkFishCanvas(gcHeap, localVars, ta));
-        cl.show(this, currentMode);
-    }
+    setLayout(cl);
+    add(HeapOfFishStrings.moveFish, new MoveFishCanvas(gcHeap, localVars, ta));
+    add(HeapOfFishStrings.linkFish, new LinkFishCanvas(gcHeap, localVars, ta));
+    add(HeapOfFishStrings.unlinkFish, new UnlinkFishCanvas(gcHeap, localVars, ta));
+    cl.show(this, currentMode);
+  }
 
-    public void setMode(String mode) {
-        cl.show(this, mode);
-        currentMode = mode;
-    }
+  public void setMode(String mode) {
+    cl.show(this, mode);
+    currentMode = mode;
+  }
 }

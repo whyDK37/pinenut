@@ -26,135 +26,135 @@ import java.util.Map;
  * @date 2016-09-08
  */
 public class HttpClientUtil {
-    private static Log log = LogFactory.getLog(HttpClientUtil.class);
-    //编码格式。发送编码格式统一用UTF-8
-    private static String ENCODING = "UTF-8";
+  private static Log log = LogFactory.getLog(HttpClientUtil.class);
+  //编码格式。发送编码格式统一用UTF-8
+  private static String ENCODING = "UTF-8";
 
-    public static String getString(String url, Map<String, String> params) throws URISyntaxException {
-        // 创建默认的httpClient实例.
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        URI puri = new URI(url);
-        // 创建httpget
-        URIBuilder uriBuilder = new URIBuilder()
-                .setScheme(puri.getScheme())
-                .setHost(puri.getHost())
-                .setPath(puri.getPath());
+  public static String getString(String url, Map<String, String> params) throws URISyntaxException {
+    // 创建默认的httpClient实例.
+    CloseableHttpClient httpclient = HttpClients.createDefault();
+    URI puri = new URI(url);
+    // 创建httpget
+    URIBuilder uriBuilder = new URIBuilder()
+            .setScheme(puri.getScheme())
+            .setHost(puri.getHost())
+            .setPath(puri.getPath());
 
-        if (params != null)
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                uriBuilder.setParameter(entry.getKey(), entry.getValue());
-            }
-        HttpGet httpget = new HttpGet(uriBuilder.build());
-        try {
-            System.out.println("executing request " + httpget.getURI());
-            CloseableHttpResponse response = httpclient.execute(httpget);
-            printResponse(response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // 关闭连接,释放资源
-            try {
-                httpclient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
+    if (params != null)
+      for (Map.Entry<String, String> entry : params.entrySet()) {
+        uriBuilder.setParameter(entry.getKey(), entry.getValue());
+      }
+    HttpGet httpget = new HttpGet(uriBuilder.build());
+    try {
+      System.out.println("executing request " + httpget.getURI());
+      CloseableHttpResponse response = httpclient.execute(httpget);
+      printResponse(response);
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      // 关闭连接,释放资源
+      try {
+        httpclient.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
 
-    public static byte[] getBytes(String url, Map<String, String> params) throws URISyntaxException {
-        // 创建默认的httpClient实例.
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        URI puri = new URI(url);
-        // 创建httpget
-        URIBuilder uriBuilder = new URIBuilder()
-                .setScheme(puri.getScheme())
-                .setHost(puri.getHost())
-                .setPath(puri.getPath());
+    return null;
+  }
 
-        if (params != null)
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                uriBuilder.setParameter(entry.getKey(), entry.getValue());
-            }
-        HttpGet httpget = new HttpGet(uriBuilder.build());
-        try {
-            System.out.println("executing request " + httpget.getURI());
-            CloseableHttpResponse response = httpclient.execute(httpget);
-            return byteResponse(response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // 关闭连接,释放资源
-            try {
-                httpclient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+  public static byte[] getBytes(String url, Map<String, String> params) throws URISyntaxException {
+    // 创建默认的httpClient实例.
+    CloseableHttpClient httpclient = HttpClients.createDefault();
+    URI puri = new URI(url);
+    // 创建httpget
+    URIBuilder uriBuilder = new URIBuilder()
+            .setScheme(puri.getScheme())
+            .setHost(puri.getHost())
+            .setPath(puri.getPath());
 
-        return null;
+    if (params != null)
+      for (Map.Entry<String, String> entry : params.entrySet()) {
+        uriBuilder.setParameter(entry.getKey(), entry.getValue());
+      }
+    HttpGet httpget = new HttpGet(uriBuilder.build());
+    try {
+      System.out.println("executing request " + httpget.getURI());
+      CloseableHttpResponse response = httpclient.execute(httpget);
+      return byteResponse(response);
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      // 关闭连接,释放资源
+      try {
+        httpclient.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
 
-    public static void postString(String url, Map<String, String> params) {
-        // 创建默认的httpClient实例.
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        // 创建httppost
-        HttpPost httppost = new HttpPost(url);
+    return null;
+  }
 
-        // 创建参数队列
-        List<BasicNameValuePair> formparams = new ArrayList<BasicNameValuePair>();
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-        }
-        UrlEncodedFormEntity uefEntity;
-        try {
-            uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");
-            httppost.setEntity(uefEntity);
-            System.out.println("executing request " + httppost.getURI());
-            CloseableHttpResponse response = httpclient.execute(httppost);
-            String responseString = printResponse(response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // 关闭连接,释放资源
-            try {
-                httpclient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+  public static void postString(String url, Map<String, String> params) {
+    // 创建默认的httpClient实例.
+    CloseableHttpClient httpclient = HttpClients.createDefault();
+    // 创建httppost
+    HttpPost httppost = new HttpPost(url);
 
-    private static byte[] byteResponse(CloseableHttpResponse response) throws IOException {
-        try {
-            org.apache.http.HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                byte[] responsebyte = EntityUtils.toByteArray(entity);
-                System.out.println("--------------------------------------");
-                System.out.println("Response content: " + responsebyte);
-                System.out.println("--------------------------------------");
-                return responsebyte;
-            }
-        } finally {
-            response.close();
-        }
-        return null;
+    // 创建参数队列
+    List<BasicNameValuePair> formparams = new ArrayList<BasicNameValuePair>();
+    for (Map.Entry<String, String> entry : params.entrySet()) {
+      formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
     }
+    UrlEncodedFormEntity uefEntity;
+    try {
+      uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");
+      httppost.setEntity(uefEntity);
+      System.out.println("executing request " + httppost.getURI());
+      CloseableHttpResponse response = httpclient.execute(httppost);
+      String responseString = printResponse(response);
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      // 关闭连接,释放资源
+      try {
+        httpclient.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
 
-    private static String printResponse(CloseableHttpResponse response) throws IOException {
-        try {
-            org.apache.http.HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                String responseString = EntityUtils.toString(entity, "UTF-8");
-                System.out.println("--------------------------------------");
-                System.out.println("Response content: " + responseString);
-                System.out.println("--------------------------------------");
-                return responseString;
-            }
-        } finally {
-            response.close();
-        }
-        return null;
+  private static byte[] byteResponse(CloseableHttpResponse response) throws IOException {
+    try {
+      org.apache.http.HttpEntity entity = response.getEntity();
+      if (entity != null) {
+        byte[] responsebyte = EntityUtils.toByteArray(entity);
+        System.out.println("--------------------------------------");
+        System.out.println("Response content: " + responsebyte);
+        System.out.println("--------------------------------------");
+        return responsebyte;
+      }
+    } finally {
+      response.close();
     }
+    return null;
+  }
+
+  private static String printResponse(CloseableHttpResponse response) throws IOException {
+    try {
+      org.apache.http.HttpEntity entity = response.getEntity();
+      if (entity != null) {
+        String responseString = EntityUtils.toString(entity, "UTF-8");
+        System.out.println("--------------------------------------");
+        System.out.println("Response content: " + responseString);
+        System.out.println("--------------------------------------");
+        return responseString;
+      }
+    } finally {
+      response.close();
+    }
+    return null;
+  }
 }

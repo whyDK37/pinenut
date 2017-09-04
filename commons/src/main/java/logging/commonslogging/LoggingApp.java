@@ -11,12 +11,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class LoggingApp {
 
-    public static void main(String[] args) throws InterruptedException {
-        Log logger = LogFactory.getFactory().getInstance("#LoggingApp");
+  public static void main(String[] args) throws InterruptedException {
+    Log logger = LogFactory.getFactory().getInstance("#LoggingApp");
 
-        logger.info("init..................");
+    logger.info("init..................");
 
-        logger.trace("trace..........");
-        TimeUnit.SECONDS.sleep(5);
-    }
+    logger.trace("trace..........");
+    TimeUnit.SECONDS.sleep(5);
+  }
 }

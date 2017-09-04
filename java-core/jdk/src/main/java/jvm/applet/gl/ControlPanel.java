@@ -49,29 +49,29 @@ package jvm.applet.gl;/*
 import java.awt.*;
 
 /**
-* This class provides the control panel at the bottom of the applet
-* that includes the buttons and the picture of a JVM consuming
-* a streaming class file.
-*
-* @author  Bill Venners
-*/
+ * This class provides the control panel at the bottom of the applet
+ * that includes the buttons and the picture of a JVM consuming
+ * a streaming class file.
+ *
+ * @author Bill Venners
+ */
 class ControlPanel extends Panel {
 
-    JVMPacman jvmPacman = new JVMPacman();
+  JVMPacman jvmPacman = new JVMPacman();
 
-    ControlPanel() {
-        setLayout(new BorderLayout(5, 5));
-        setBackground(Color.blue);
-        add("West", new ButtonPanel());
-        add("Center", jvmPacman);
-    }
+  ControlPanel() {
+    setLayout(new BorderLayout(5, 5));
+    setBackground(Color.blue);
+    add("West", new ButtonPanel());
+    add("Center", jvmPacman);
+  }
 
-    public JVMPacman getJVMPacman() {
-        return jvmPacman;
-    }
+  public JVMPacman getJVMPacman() {
+    return jvmPacman;
+  }
 
-    public Insets insets() {
-        // top, left, bottom, right
-        return new Insets(0, 0, 0, 0);
-    }
+  public Insets insets() {
+    // top, left, bottom, right
+    return new Insets(0, 0, 0, 0);
+  }
 }

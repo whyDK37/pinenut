@@ -9,15 +9,15 @@ import java.util.Vector;
  */
 public class VectorTest {
 
-    @Test
-    public void test() {
-        Vector<String> vector = new Vector();
+  @Test
+  public void test() {
+    Vector<String> vector = new Vector();
 
-        vector.add("a");
-        vector.add(0, "bb");
+    vector.add("a");
+    vector.add(0, "bb");
 
-        for (String s : vector) {
-            System.out.print(s + ", ");
-        }
+    for (String s : vector) {
+      System.out.print(s + ", ");
     }
+  }
 }

@@ -6,11 +6,12 @@ package compress;
  */
 public interface CompressFile {
 
-    /**
-     * 压缩方法
-     * @param compressPath 压缩文件
-     * @param sourcePath 待压缩文件路径数组
-     * @throws CompressFileException
-     */
-    void compress(String compressPath, String[] sourcePath) throws CompressFileException;
+  /**
+   * 压缩方法
+   *
+   * @param compressPath 压缩文件
+   * @param sourcePath   待压缩文件路径数组
+   * @throws CompressFileException
+   */
+  void compress(String compressPath, String[] sourcePath) throws CompressFileException;
 }

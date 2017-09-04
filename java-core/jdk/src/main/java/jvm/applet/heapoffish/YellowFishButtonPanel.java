@@ -45,25 +45,26 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is the panel on which resides both the "new YellowFish()"
-* button and the painting of a yellow fish that sits just
-* above the button in the allocate fish mode.
-*
-* @author  Bill Venners
-*/
+ * This class is the panel on which resides both the "new YellowFish()"
+ * button and the painting of a yellow fish that sits just
+ * above the button in the allocate fish mode.
+ *
+ * @author Bill Venners
+ */
 class YellowFishButtonPanel extends Panel {
 
-    YellowFishButtonPanel() {
-        setLayout(new BorderLayout());
-        Button b = new Button(HeapOfFishStrings.newYellowFish);
-        b.setBackground(Color.lightGray);
-        Panel p = new Panel();
-        p.setLayout(new FlowLayout());
-        p.add(b);
-        add("South", p);
-        add("Center", new YellowFishButtonCanvas());
-    }
+  YellowFishButtonPanel() {
+    setLayout(new BorderLayout());
+    Button b = new Button(HeapOfFishStrings.newYellowFish);
+    b.setBackground(Color.lightGray);
+    Panel p = new Panel();
+    p.setLayout(new FlowLayout());
+    p.add(b);
+    add("South", p);
+    add("Center", new YellowFishButtonCanvas());
+  }
 }

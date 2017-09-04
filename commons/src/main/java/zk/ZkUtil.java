@@ -7,87 +7,87 @@ import java.util.Properties;
 
 public class ZkUtil {
 
-    public static ZkConfig loadZkConfig() {
-        Properties properties;
-        final ZkConfig zkConfig = new ZkConfig();
-        try {
-            properties = ZkUtil.getResourceAsProperties("config.properties",
-                    "UTF-8");
-            if (StringUtils.isNotBlank(properties.getProperty("zk.zkConnect"))) {
-                zkConfig.zkConnect = properties.getProperty("zk.zkConnect");
-            }
+  public static ZkConfig loadZkConfig() {
+    Properties properties;
+    final ZkConfig zkConfig = new ZkConfig();
+    try {
+      properties = ZkUtil.getResourceAsProperties("config.properties",
+              "UTF-8");
+      if (StringUtils.isNotBlank(properties.getProperty("zk.zkConnect"))) {
+        zkConfig.zkConnect = properties.getProperty("zk.zkConnect");
+      }
 
-            if (StringUtils.isNotBlank(properties
-                    .getProperty("zk.zkSessionTimeoutMs"))) {
-                zkConfig.zkSessionTimeoutMs = Integer.parseInt(properties
-                        .getProperty("zk.zkSessionTimeoutMs"));
-            }
+      if (StringUtils.isNotBlank(properties
+              .getProperty("zk.zkSessionTimeoutMs"))) {
+        zkConfig.zkSessionTimeoutMs = Integer.parseInt(properties
+                .getProperty("zk.zkSessionTimeoutMs"));
+      }
 
-            if (StringUtils.isNotBlank(properties
-                    .getProperty("zk.zkConnectionTimeoutMs"))) {
-                zkConfig.zkConnectionTimeoutMs = Integer.parseInt(properties
-                        .getProperty("zk.zkConnectionTimeoutMs"));
-            }
+      if (StringUtils.isNotBlank(properties
+              .getProperty("zk.zkConnectionTimeoutMs"))) {
+        zkConfig.zkConnectionTimeoutMs = Integer.parseInt(properties
+                .getProperty("zk.zkConnectionTimeoutMs"));
+      }
 
-            if (StringUtils.isNotBlank(properties
-                    .getProperty("zk.zkSyncTimeMs"))) {
-                zkConfig.zkSyncTimeMs = Integer.parseInt(properties
-                        .getProperty("zk.zkSyncTimeMs"));
-            }
+      if (StringUtils.isNotBlank(properties
+              .getProperty("zk.zkSyncTimeMs"))) {
+        zkConfig.zkSyncTimeMs = Integer.parseInt(properties
+                .getProperty("zk.zkSyncTimeMs"));
+      }
 
 
-        } catch (final IOException e) {
+    } catch (final IOException e) {
 //			 log.error("zk failure", e);
-            return returnMock(zkConfig);
-        }
-
-        return zkConfig;
+      return returnMock(zkConfig);
     }
 
-    private static ZkConfig returnMock(ZkConfig zkConfig) {
-        zkConfig.setZkConnect("127.0.0.1:2181");
-        zkConfig.zkSessionTimeoutMs = 30000;
-        zkConfig.zkConnectionTimeoutMs = 40000;
-        zkConfig.zkSyncTimeMs = 5000;
-        return zkConfig;
+    return zkConfig;
+  }
+
+  private static ZkConfig returnMock(ZkConfig zkConfig) {
+    zkConfig.setZkConnect("127.0.0.1:2181");
+    zkConfig.zkSessionTimeoutMs = 30000;
+    zkConfig.zkConnectionTimeoutMs = 40000;
+    zkConfig.zkSyncTimeMs = 5000;
+    return zkConfig;
+  }
+
+  public static Properties getResourceAsProperties(String resource,
+                                                   String encoding) throws IOException {
+    InputStream in = null;
+    try {
+      in = getResourceAsStream(resource);
+    } catch (IOException e) {
+      File file = new File(resource);
+      if (!file.exists()) {
+        throw e;
+      }
+      in = new FileInputStream(file);
     }
 
-    public static Properties getResourceAsProperties(String resource,
-                                                     String encoding) throws IOException {
-        InputStream in = null;
-        try {
-            in = getResourceAsStream(resource);
-        } catch (IOException e) {
-            File file = new File(resource);
-            if (!file.exists()) {
-                throw e;
-            }
-            in = new FileInputStream(file);
-        }
+    Reader reader = new InputStreamReader(in, encoding);
+    Properties props = new Properties();
+    props.load(reader);
+    in.close();
+    reader.close();
 
-        Reader reader = new InputStreamReader(in, encoding);
-        Properties props = new Properties();
-        props.load(reader);
-        in.close();
-        reader.close();
+    return props;
 
-        return props;
+  }
 
+  public static InputStream getResourceAsStream(String resource)
+          throws IOException {
+    InputStream in = null;
+    ClassLoader loader = ZkUtil.class.getClassLoader();
+    if (loader != null) {
+      in = loader.getResourceAsStream(resource);
     }
-
-    public static InputStream getResourceAsStream(String resource)
-            throws IOException {
-        InputStream in = null;
-        ClassLoader loader = ZkUtil.class.getClassLoader();
-        if (loader != null) {
-            in = loader.getResourceAsStream(resource);
-        }
-        if (in == null) {
-            in = ClassLoader.getSystemResourceAsStream(resource);
-        }
-        if (in == null) {
-            throw new IOException("Could not find resource " + resource);
-        }
-        return in;
+    if (in == null) {
+      in = ClassLoader.getSystemResourceAsStream(resource);
     }
+    if (in == null) {
+      throw new IOException("Could not find resource " + resource);
+    }
+    return in;
+  }
 }

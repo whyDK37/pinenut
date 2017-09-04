@@ -1,4 +1,3 @@
-
 package com.google.gson;
 
 import com.alibaba.fastjson.Person;

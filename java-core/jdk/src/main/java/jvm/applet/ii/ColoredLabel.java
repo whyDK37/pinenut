@@ -49,32 +49,32 @@ package jvm.applet.ii;/*
 import java.awt.*;
 
 /**
-* This class provides a Label that allows its background color
-* to be set.
-*
-* @author  Bill Venners
-*/
+ * This class provides a Label that allows its background color
+ * to be set.
+ *
+ * @author Bill Venners
+ */
 class ColoredLabel extends Panel {
 
-    private Label theLabel;
+  private Label theLabel;
 
-    ColoredLabel(String label, int alignment, Color color) {
+  ColoredLabel(String label, int alignment, Color color) {
 
-        setLayout(new GridLayout(1,1));
+    setLayout(new GridLayout(1, 1));
 
-        setBackground(color);
+    setBackground(color);
 
-        theLabel = new Label(label, alignment);
+    theLabel = new Label(label, alignment);
 
-        add(theLabel);
-    }
+    add(theLabel);
+  }
 
-    public void setLabelText(String s) {
+  public void setLabelText(String s) {
 
-        theLabel.setText(s);
-    }
+    theLabel.setText(s);
+  }
 
-    public Insets insets() {
-        return new Insets(0, 0, 0, 0);
-    }
+  public Insets insets() {
+    return new Insets(0, 0, 0, 0);
+  }
 }

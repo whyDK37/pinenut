@@ -45,75 +45,72 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class serves as the outermost panel upon which all
-* the user interface goodies for the assign references
-* mode is placed.
-*
-* @author  Bill Venners
-*/
+ * This class serves as the outermost panel upon which all
+ * the user interface goodies for the assign references
+ * mode is placed.
+ *
+ * @author Bill Venners
+ */
 class AssignReferencesPanel extends Panel {
 
-    HeapOfFishTextArea controlPanelTextArea;
-    String currentAssignRefsMode = HeapOfFishStrings.linkFish;
+  HeapOfFishTextArea controlPanelTextArea;
+  String currentAssignRefsMode = HeapOfFishStrings.linkFish;
 
-    AssignReferencesCanvases assignRefsCanvases;
+  AssignReferencesCanvases assignRefsCanvases;
 
-    AssignReferencesPanel(GCHeap gcHeap, LocalVariables localVars, HeapOfFishTextArea ta) {
+  AssignReferencesPanel(GCHeap gcHeap, LocalVariables localVars, HeapOfFishTextArea ta) {
 
-        controlPanelTextArea = ta;
+    controlPanelTextArea = ta;
 
-        setBackground(Color.blue);
+    setBackground(Color.blue);
 
-        setLayout(new BorderLayout());
+    setLayout(new BorderLayout());
 
-        assignRefsCanvases = new AssignReferencesCanvases(gcHeap, localVars, ta);
+    assignRefsCanvases = new AssignReferencesCanvases(gcHeap, localVars, ta);
 
-        add("South", new AssignReferencesCheckboxPanel());
-        add("Center", assignRefsCanvases);
+    add("South", new AssignReferencesCheckboxPanel());
+    add("Center", assignRefsCanvases);
+  }
+
+  public void refreshInstructions() {
+    if (currentAssignRefsMode.equals(HeapOfFishStrings.moveFish)) {
+      controlPanelTextArea.setText(HeapOfFishStrings.moveFishInstructions);
+    } else if (currentAssignRefsMode.equals(HeapOfFishStrings.linkFish)) {
+      controlPanelTextArea.setText(HeapOfFishStrings.linkFishInstructions);
+    } else if (currentAssignRefsMode.equals(HeapOfFishStrings.unlinkFish)) {
+      controlPanelTextArea.setText(HeapOfFishStrings.unlinkFishInstructions);
     }
+  }
 
-    public void refreshInstructions() {
-        if (currentAssignRefsMode.equals(HeapOfFishStrings.moveFish)) {
-            controlPanelTextArea.setText(HeapOfFishStrings.moveFishInstructions);
+  public boolean action(Event evt, Object arg) {
+    if (evt.target instanceof Checkbox) {
+      Checkbox cb = (Checkbox) evt.target;
+      String cbname = cb.getLabel();
+      if (cbname.equals(HeapOfFishStrings.moveFish)) {
+        if (!currentAssignRefsMode.equals(HeapOfFishStrings.moveFish)) {
+          controlPanelTextArea.setText(HeapOfFishStrings.moveFish);
+          assignRefsCanvases.setMode(HeapOfFishStrings.moveFish);
+          controlPanelTextArea.setText(HeapOfFishStrings.moveFishInstructions);
         }
-        else if (currentAssignRefsMode.equals(HeapOfFishStrings.linkFish)) {
-            controlPanelTextArea.setText(HeapOfFishStrings.linkFishInstructions);
+      } else if (cbname.equals(HeapOfFishStrings.linkFish)) {
+        if (!currentAssignRefsMode.equals(HeapOfFishStrings.linkFish)) {
+          controlPanelTextArea.setText(HeapOfFishStrings.linkFish);
+          assignRefsCanvases.setMode(HeapOfFishStrings.linkFish);
+          controlPanelTextArea.setText(HeapOfFishStrings.linkFishInstructions);
         }
-        else if (currentAssignRefsMode.equals(HeapOfFishStrings.unlinkFish)) {
-            controlPanelTextArea.setText(HeapOfFishStrings.unlinkFishInstructions);
+      } else if (cbname.equals(HeapOfFishStrings.unlinkFish)) {
+        if (!currentAssignRefsMode.equals(HeapOfFishStrings.unlinkFish)) {
+          controlPanelTextArea.setText(HeapOfFishStrings.unlinkFish);
+          assignRefsCanvases.setMode(HeapOfFishStrings.unlinkFish);
+          controlPanelTextArea.setText(HeapOfFishStrings.unlinkFishInstructions);
         }
+      }
+      currentAssignRefsMode = cbname;
     }
-
-    public boolean action(Event evt, Object arg) {
-        if (evt.target instanceof Checkbox) {
-            Checkbox cb = (Checkbox) evt.target;
-            String cbname = cb.getLabel();
-            if (cbname.equals(HeapOfFishStrings.moveFish)) {
-                if (!currentAssignRefsMode.equals(HeapOfFishStrings.moveFish)) {
-                    controlPanelTextArea.setText(HeapOfFishStrings.moveFish);
-                    assignRefsCanvases.setMode(HeapOfFishStrings.moveFish);
-                    controlPanelTextArea.setText(HeapOfFishStrings.moveFishInstructions);
-                }
-            }
-            else if (cbname.equals(HeapOfFishStrings.linkFish)) {
-                if (!currentAssignRefsMode.equals(HeapOfFishStrings.linkFish)) {
-                    controlPanelTextArea.setText(HeapOfFishStrings.linkFish);
-                    assignRefsCanvases.setMode(HeapOfFishStrings.linkFish);
-                    controlPanelTextArea.setText(HeapOfFishStrings.linkFishInstructions);
-                }
-            }
-            else if (cbname.equals(HeapOfFishStrings.unlinkFish)) {
-                if (!currentAssignRefsMode.equals(HeapOfFishStrings.unlinkFish)) {
-                    controlPanelTextArea.setText(HeapOfFishStrings.unlinkFish);
-                    assignRefsCanvases.setMode(HeapOfFishStrings.unlinkFish);
-                    controlPanelTextArea.setText(HeapOfFishStrings.unlinkFishInstructions);
-                }
-            }
-            currentAssignRefsMode = cbname;
-        }
-        return true;
-    }
+    return true;
+  }
 }

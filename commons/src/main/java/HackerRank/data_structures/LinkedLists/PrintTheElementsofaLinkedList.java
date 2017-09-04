@@ -5,10 +5,10 @@ package HackerRank.data_structures.LinkedLists;
  */
 public class PrintTheElementsofaLinkedList {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
 
-    }
+  }
 
     /*
   Print elements of a linked list on console
@@ -23,21 +23,21 @@ public class PrintTheElementsofaLinkedList {
 // This is a "method-only" submission.
 // You only need to complete this method.
 
-    void Print(Node head) {
-        Node currentNode = head;
-        for (; ; ) {
-            if (currentNode != null) {
-                System.out.println(head.data);
-                currentNode = currentNode.next;
-            } else {
-                break;
-            }
-        }
-
+  void Print(Node head) {
+    Node currentNode = head;
+    for (; ; ) {
+      if (currentNode != null) {
+        System.out.println(head.data);
+        currentNode = currentNode.next;
+      } else {
+        break;
+      }
     }
 
-    class Node {
-        int data;
-        Node next;
-    }
+  }
+
+  class Node {
+    int data;
+    Node next;
+  }
 }

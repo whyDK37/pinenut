@@ -45,22 +45,23 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class represents that portion of the user interface
-* that holds the three buttons at bottom of the allocate fish
-* panel.
-*
-* @author  Bill Venners
-*/
+ * This class represents that portion of the user interface
+ * that holds the three buttons at bottom of the allocate fish
+ * panel.
+ *
+ * @author Bill Venners
+ */
 class AllocateFishButtonPanel extends Panel {
 
-    AllocateFishButtonPanel() {
+  AllocateFishButtonPanel() {
 
-        setLayout(new GridLayout(1, 3));
-        add(new RedFishButtonPanel());
-        add(new BlueFishButtonPanel());
-        add(new YellowFishButtonPanel());
-    }
+    setLayout(new GridLayout(1, 3));
+    add(new RedFishButtonPanel());
+    add(new BlueFishButtonPanel());
+    add(new YellowFishButtonPanel());
+  }
 }

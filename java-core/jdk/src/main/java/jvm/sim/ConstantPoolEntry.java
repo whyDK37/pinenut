@@ -48,22 +48,22 @@
 package jvm.sim;
 
 /**
-* This class provides a hard-coded constant pool entry
-* for a static field that is needed by the Play Ball!
-* applet.
-*
-* @author  Bill Venners
-*/
+ * This class provides a hard-coded constant pool entry
+ * for a static field that is needed by the Play Ball!
+ * applet.
+ *
+ * @author Bill Venners
+ */
 public class ConstantPoolEntry {
 
-    private Object staticField;
+  private Object staticField;
 
-	public ConstantPoolEntry(Object staticField) {
+  public ConstantPoolEntry(Object staticField) {
 
-		this.staticField = staticField;
-	}
+    this.staticField = staticField;
+  }
 
-	public Object getStaticField() {
-		return staticField;
-	}
+  public Object getStaticField() {
+    return staticField;
+  }
 }

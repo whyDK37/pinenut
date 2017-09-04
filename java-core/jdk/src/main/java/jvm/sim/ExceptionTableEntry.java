@@ -48,39 +48,39 @@
 package jvm.sim;
 
 /**
-* This class represents one entry in a method's exception
-* table.
-*
-* @author  Bill Venners
-*/
+ * This class represents one entry in a method's exception
+ * table.
+ *
+ * @author Bill Venners
+ */
 public class ExceptionTableEntry {
 
-    private int from;
-    private int to;
-    private int target;
-    private String type;
+  private int from;
+  private int to;
+  private int target;
+  private String type;
 
-	public ExceptionTableEntry(int from, int to, int target, String type) {
+  public ExceptionTableEntry(int from, int to, int target, String type) {
 
-		this.from = from;
-		this.to = to;
-		this.target = target;
-		this.type = type;
-	}
+    this.from = from;
+    this.to = to;
+    this.target = target;
+    this.type = type;
+  }
 
-	public int getFrom() {
-		return from;
-	}
+  public int getFrom() {
+    return from;
+  }
 
-	public int getTo() {
-		return to;
-	}
+  public int getTo() {
+    return to;
+  }
 
-	public int getTarget() {
-		return target;
-	}
+  public int getTarget() {
+    return target;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public String getType() {
+    return type;
+  }
 }

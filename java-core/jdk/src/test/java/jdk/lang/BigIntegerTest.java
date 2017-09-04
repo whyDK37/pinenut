@@ -10,10 +10,10 @@ import java.math.BigInteger;
  */
 public class BigIntegerTest {
 
-    @Test
-    public void test() {
-        BigInteger integer = new BigInteger("47389543034934881");
-        BigInteger integer2 = new BigInteger("47389543034934882");
-        System.out.println(integer.subtract(integer2));
-    }
+  @Test
+  public void test() {
+    BigInteger integer = new BigInteger("47389543034934881");
+    BigInteger integer2 = new BigInteger("47389543034934882");
+    System.out.println(integer.subtract(integer2));
+  }
 }

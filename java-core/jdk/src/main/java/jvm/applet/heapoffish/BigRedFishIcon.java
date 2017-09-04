@@ -45,11 +45,8 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Dimension;
-import java.awt.Polygon;
-import java.awt.Color;
+
+import java.awt.*;
 
 // Fish Icon
 //
@@ -65,88 +62,89 @@ import java.awt.Color;
 //       |/              \/
 // bottomTail
 //
+
 /**
-* This class serves as a personality module for the red
-* fish icon. It assigns proper values to the protected
-* instance variables of its superclass, FishIcon.
-*
-* @author  Bill Venners
-*/
+ * This class serves as a personality module for the red
+ * fish icon. It assigns proper values to the protected
+ * instance variables of its superclass, FishIcon.
+ *
+ * @author Bill Venners
+ */
 class BigRedFishIcon extends FishIcon {
 
-    BigRedFishIcon(boolean swim) {
+  BigRedFishIcon(boolean swim) {
 
-        fishPosition = new Point(0, 0);
-        fishIsSwimming = swim;
-        fishHasBeenInitiallyPositioned = false;
+    fishPosition = new Point(0, 0);
+    fishIsSwimming = swim;
+    fishHasBeenInitiallyPositioned = false;
 
-        fishColor = Color.red;
+    fishColor = Color.red;
 
-        topTail = new Point(0, 0);
-        backTail = new Point(12, 16);
-        bottomTail = new Point(0, 32);
-        frontTail = new Point(20, 16);
+    topTail = new Point(0, 0);
+    backTail = new Point(12, 16);
+    bottomTail = new Point(0, 32);
+    frontTail = new Point(20, 16);
 
-        maxPaintsToHoldTailInOnePosition = 4;
-        ovalPos = new Point(20,4);
-        ovalDim = new Dimension(40, 24);
+    maxPaintsToHoldTailInOnePosition = 4;
+    ovalPos = new Point(20, 4);
+    ovalDim = new Dimension(40, 24);
 
-        eyePos = new Point(52, 10);
-        eyeDim = new Dimension(4, 4);
+    eyePos = new Point(52, 10);
+    eyeDim = new Dimension(4, 4);
 
-        staticTail.addPoint(frontTail.x, frontTail.y);
-        staticTail.addPoint(topTail.x, topTail.y);
-        staticTail.addPoint(backTail.x, backTail.y);
-        staticTail.addPoint(bottomTail.x, bottomTail.y);
-        staticTail.addPoint(frontTail.x, frontTail.y);
+    staticTail.addPoint(frontTail.x, frontTail.y);
+    staticTail.addPoint(topTail.x, topTail.y);
+    staticTail.addPoint(backTail.x, backTail.y);
+    staticTail.addPoint(bottomTail.x, bottomTail.y);
+    staticTail.addPoint(frontTail.x, frontTail.y);
 
-        if (fishIsSwimming) {
-            swimmingTail[0] = new Polygon();
-            swimmingTail[0].addPoint(frontTail.x, frontTail.y);
-            swimmingTail[0].addPoint(topTail.x, topTail.y);
-            swimmingTail[0].addPoint(backTail.x, backTail.y);
-            swimmingTail[0].addPoint(bottomTail.x, bottomTail.y - 6);
-            swimmingTail[0].addPoint(frontTail.x, frontTail.y);
+    if (fishIsSwimming) {
+      swimmingTail[0] = new Polygon();
+      swimmingTail[0].addPoint(frontTail.x, frontTail.y);
+      swimmingTail[0].addPoint(topTail.x, topTail.y);
+      swimmingTail[0].addPoint(backTail.x, backTail.y);
+      swimmingTail[0].addPoint(bottomTail.x, bottomTail.y - 6);
+      swimmingTail[0].addPoint(frontTail.x, frontTail.y);
 
-            swimmingTail[1] = swimmingTail[0];
+      swimmingTail[1] = swimmingTail[0];
 
-            swimmingTail[2] = new Polygon();
-            swimmingTail[2].addPoint(frontTail.x, frontTail.y);
-            swimmingTail[2].addPoint(topTail.x + 3, topTail.y + 1);
-            swimmingTail[2].addPoint(backTail.x, backTail.y);
-            swimmingTail[2].addPoint(bottomTail.x + 3, bottomTail.y - 5);
-            swimmingTail[2].addPoint(frontTail.x, frontTail.y);
+      swimmingTail[2] = new Polygon();
+      swimmingTail[2].addPoint(frontTail.x, frontTail.y);
+      swimmingTail[2].addPoint(topTail.x + 3, topTail.y + 1);
+      swimmingTail[2].addPoint(backTail.x, backTail.y);
+      swimmingTail[2].addPoint(bottomTail.x + 3, bottomTail.y - 5);
+      swimmingTail[2].addPoint(frontTail.x, frontTail.y);
 
-            swimmingTail[3] = new Polygon();
-            swimmingTail[3].addPoint(frontTail.x, frontTail.y);
-            swimmingTail[3].addPoint(topTail.x + 7, topTail.y + 3);
-            swimmingTail[3].addPoint(backTail.x - 1, backTail.y);
-            swimmingTail[3].addPoint(bottomTail.x + 7, bottomTail.y - 3);
-            swimmingTail[3].addPoint(frontTail.x, frontTail.y);
+      swimmingTail[3] = new Polygon();
+      swimmingTail[3].addPoint(frontTail.x, frontTail.y);
+      swimmingTail[3].addPoint(topTail.x + 7, topTail.y + 3);
+      swimmingTail[3].addPoint(backTail.x - 1, backTail.y);
+      swimmingTail[3].addPoint(bottomTail.x + 7, bottomTail.y - 3);
+      swimmingTail[3].addPoint(frontTail.x, frontTail.y);
 
-            swimmingTail[4] = new Polygon();
-            swimmingTail[4].addPoint(frontTail.x, frontTail.y);
-            swimmingTail[4].addPoint(topTail.x + 3, topTail.y + 5);
-            swimmingTail[4].addPoint(backTail.x, backTail.y);
-            swimmingTail[4].addPoint(bottomTail.x + 3, bottomTail.y - 1);
-            swimmingTail[4].addPoint(frontTail.x, frontTail.y);
+      swimmingTail[4] = new Polygon();
+      swimmingTail[4].addPoint(frontTail.x, frontTail.y);
+      swimmingTail[4].addPoint(topTail.x + 3, topTail.y + 5);
+      swimmingTail[4].addPoint(backTail.x, backTail.y);
+      swimmingTail[4].addPoint(bottomTail.x + 3, bottomTail.y - 1);
+      swimmingTail[4].addPoint(frontTail.x, frontTail.y);
 
-            swimmingTail[5] = new Polygon();
-            swimmingTail[5].addPoint(frontTail.x, frontTail.y);
-            swimmingTail[5].addPoint(topTail.x, topTail.y + 6);
-            swimmingTail[5].addPoint(backTail.x, backTail.y);
-            swimmingTail[5].addPoint(bottomTail.x, bottomTail.y);
-            swimmingTail[5].addPoint(frontTail.x, frontTail.y);
+      swimmingTail[5] = new Polygon();
+      swimmingTail[5].addPoint(frontTail.x, frontTail.y);
+      swimmingTail[5].addPoint(topTail.x, topTail.y + 6);
+      swimmingTail[5].addPoint(backTail.x, backTail.y);
+      swimmingTail[5].addPoint(bottomTail.x, bottomTail.y);
+      swimmingTail[5].addPoint(frontTail.x, frontTail.y);
 
-            swimmingTail[6] = swimmingTail[5];
+      swimmingTail[6] = swimmingTail[5];
 
-            swimmingTail[7] = swimmingTail[5];
-            swimmingTail[8] = swimmingTail[4];
-            swimmingTail[9] = swimmingTail[3];
-        }
+      swimmingTail[7] = swimmingTail[5];
+      swimmingTail[8] = swimmingTail[4];
+      swimmingTail[9] = swimmingTail[3];
     }
+  }
 
-    public Color getFishColor() {
-        return Color.red;
-    }
+  public Color getFishColor() {
+    return Color.red;
+  }
 }

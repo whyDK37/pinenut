@@ -1,9 +1,9 @@
 package jdk.classloader.example;
 
 public class Sample {
-	private Sample instance;
-	
-	public void setSample(Object instance) {
-		this.instance = (Sample) instance;
-	}
+  private Sample instance;
+
+  public void setSample(Object instance) {
+    this.instance = (Sample) instance;
+  }
 }

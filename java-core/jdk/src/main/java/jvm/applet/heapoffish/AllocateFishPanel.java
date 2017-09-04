@@ -45,85 +45,81 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is the panel that holds the entire allocate
-* fish user interface, including the buttons at the bottom
-* and the canvas on which the handle and object pools are
-* drawn.
-*
-* @author  Bill Venners
-*/
+ * This class is the panel that holds the entire allocate
+ * fish user interface, including the buttons at the bottom
+ * and the canvas on which the handle and object pools are
+ * drawn.
+ *
+ * @author Bill Venners
+ */
 class AllocateFishPanel extends Panel {
 
-    GCHeap gcHeap;
-    HeapOfFishTextArea controlPanelTextArea;
+  GCHeap gcHeap;
+  HeapOfFishTextArea controlPanelTextArea;
 
-    PoolsCanvas poolsCanvas;
+  PoolsCanvas poolsCanvas;
 
-    AllocateFishPanel(GCHeap heap, HeapOfFishTextArea ta) {
+  AllocateFishPanel(GCHeap heap, HeapOfFishTextArea ta) {
 
-        gcHeap = heap;
-        controlPanelTextArea = ta;
+    gcHeap = heap;
+    controlPanelTextArea = ta;
 
-        setBackground(Color.blue);
+    setBackground(Color.blue);
 
-        setLayout(new BorderLayout());
+    setLayout(new BorderLayout());
 
-        poolsCanvas = new PoolsCanvas(gcHeap);
+    poolsCanvas = new PoolsCanvas(gcHeap);
 
-        add("South", new AllocateFishButtonPanel());
-        add("Center", poolsCanvas);
-    }
+    add("South", new AllocateFishButtonPanel());
+    add("Center", poolsCanvas);
+  }
 
-    public boolean action(Event evt, Object arg) {
-        if (evt.target instanceof Button) {
-            String bname = (String) arg;
-            Dimension canvasDim = poolsCanvas.size();
-            if (bname.equals(HeapOfFishStrings.newRedFish)) {
-                FishIcon fish = new BigRedFishIcon(false);
-                int newFish = gcHeap.allocateObject(12, fish);
-                if (newFish > 0) {
-                    ObjectHandle oh = gcHeap.getObjectHandle(newFish);
-                    gcHeap.setObjectPool(oh.objectPos, 0);
-                    gcHeap.setObjectPool(oh.objectPos + 1, 0);
-                    gcHeap.setObjectPool(oh.objectPos + 2, 0);
-                    controlPanelTextArea.setText(HeapOfFishStrings.newRedFishAllocated);
-                }
-                else {
-                    controlPanelTextArea.setText(HeapOfFishStrings.newRedFishNotAllocated);
-                }
-                poolsCanvas.repaint();
-            }
-            else if (bname.equals(HeapOfFishStrings.newBlueFish)) {
-                FishIcon fish = new MediumBlueFishIcon(false);
-                int newFish = gcHeap.allocateObject(8, fish);
-                if (newFish > 0) {
-                    ObjectHandle oh = gcHeap.getObjectHandle(newFish);
-                    gcHeap.setObjectPool(oh.objectPos, 0);
-                    gcHeap.setObjectPool(oh.objectPos + 1, 0);
-                    controlPanelTextArea.setText(HeapOfFishStrings.newBlueFishAllocated);
-                }
-                else {
-                    controlPanelTextArea.setText(HeapOfFishStrings.newBlueFishNotAllocated);
-                }
-                poolsCanvas.repaint();
-            }
-            else if (bname.equals(HeapOfFishStrings.newYellowFish)) {
-                FishIcon fish = new LittleYellowFishIcon(false);
-                int newFish = gcHeap.allocateObject(4, fish);
-                if (newFish > 0) {
-                    ObjectHandle oh = gcHeap.getObjectHandle(newFish);
-                    gcHeap.setObjectPool(oh.objectPos, 0);
-                    controlPanelTextArea.setText(HeapOfFishStrings.newYellowFishAllocated);
-                }
-                else {
-                    controlPanelTextArea.setText(HeapOfFishStrings.newYellowFishNotAllocated);
-                }
-                poolsCanvas.repaint();
-            }
+  public boolean action(Event evt, Object arg) {
+    if (evt.target instanceof Button) {
+      String bname = (String) arg;
+      Dimension canvasDim = poolsCanvas.size();
+      if (bname.equals(HeapOfFishStrings.newRedFish)) {
+        FishIcon fish = new BigRedFishIcon(false);
+        int newFish = gcHeap.allocateObject(12, fish);
+        if (newFish > 0) {
+          ObjectHandle oh = gcHeap.getObjectHandle(newFish);
+          gcHeap.setObjectPool(oh.objectPos, 0);
+          gcHeap.setObjectPool(oh.objectPos + 1, 0);
+          gcHeap.setObjectPool(oh.objectPos + 2, 0);
+          controlPanelTextArea.setText(HeapOfFishStrings.newRedFishAllocated);
+        } else {
+          controlPanelTextArea.setText(HeapOfFishStrings.newRedFishNotAllocated);
         }
-        return true;
+        poolsCanvas.repaint();
+      } else if (bname.equals(HeapOfFishStrings.newBlueFish)) {
+        FishIcon fish = new MediumBlueFishIcon(false);
+        int newFish = gcHeap.allocateObject(8, fish);
+        if (newFish > 0) {
+          ObjectHandle oh = gcHeap.getObjectHandle(newFish);
+          gcHeap.setObjectPool(oh.objectPos, 0);
+          gcHeap.setObjectPool(oh.objectPos + 1, 0);
+          controlPanelTextArea.setText(HeapOfFishStrings.newBlueFishAllocated);
+        } else {
+          controlPanelTextArea.setText(HeapOfFishStrings.newBlueFishNotAllocated);
+        }
+        poolsCanvas.repaint();
+      } else if (bname.equals(HeapOfFishStrings.newYellowFish)) {
+        FishIcon fish = new LittleYellowFishIcon(false);
+        int newFish = gcHeap.allocateObject(4, fish);
+        if (newFish > 0) {
+          ObjectHandle oh = gcHeap.getObjectHandle(newFish);
+          gcHeap.setObjectPool(oh.objectPos, 0);
+          controlPanelTextArea.setText(HeapOfFishStrings.newYellowFishAllocated);
+        } else {
+          controlPanelTextArea.setText(HeapOfFishStrings.newYellowFishNotAllocated);
+        }
+        poolsCanvas.repaint();
+      }
     }
+    return true;
+  }
 }

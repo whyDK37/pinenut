@@ -1,8 +1,10 @@
 package Adapter;
+
 /**
- *  A interface
+ * A interface
  */
-public interface Shape  {
-    void Draw();
-    void Border();
+public interface Shape {
+  void Draw();
+
+  void Border();
 }

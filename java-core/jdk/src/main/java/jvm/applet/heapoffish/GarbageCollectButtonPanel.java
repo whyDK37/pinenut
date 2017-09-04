@@ -45,26 +45,27 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is a panel that contains the Step and Reset
-* buttons that sit at the bottom of the garbage collect
-* mode's panel.
-*
-* @author  Bill Venners
-*/
+ * This class is a panel that contains the Step and Reset
+ * buttons that sit at the bottom of the garbage collect
+ * mode's panel.
+ *
+ * @author Bill Venners
+ */
 class GarbageCollectButtonPanel extends Panel {
 
-    GarbageCollectButtonPanel() {
+  GarbageCollectButtonPanel() {
 
-        setLayout(new GridLayout(1, 2));
-        Panel p = new Panel();
-        p.add(new Button(HeapOfFishStrings.step));
-        add(p);
+    setLayout(new GridLayout(1, 2));
+    Panel p = new Panel();
+    p.add(new Button(HeapOfFishStrings.step));
+    add(p);
 
-        p = new Panel();
-        p.add(new Button(HeapOfFishStrings.reset));
-        add(p);
-    }
+    p = new Panel();
+    p.add(new Button(HeapOfFishStrings.reset));
+    add(p);
+  }
 }

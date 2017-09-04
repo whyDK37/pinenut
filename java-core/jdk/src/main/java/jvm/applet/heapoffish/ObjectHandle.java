@@ -45,53 +45,54 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
-import java.awt.Point;
-import java.awt.Color;
+
+import java.awt.*;
 
 /**
-* The object pool of the garbage-collected heap simulated
-* by the HeapOfFish applet is made up of references to
-* instances of this class.
-*
-* ObjectHandle contains:
-*
-*      free -- indicates whether this handle is currently being used.
-*      objectPos -- the index into the objectPool array of bytes at which the object
-*          data is located
-*      fish -- an object which contains information about this object. Normally this
-*          object would hold constant pool info, methods, etc....
-* @author  Bill Venners
-*/
+ * The object pool of the garbage-collected heap simulated
+ * by the HeapOfFish applet is made up of references to
+ * instances of this class.
+ * <p>
+ * ObjectHandle contains:
+ * <p>
+ * free -- indicates whether this handle is currently being used.
+ * objectPos -- the index into the objectPool array of bytes at which the object
+ * data is located
+ * fish -- an object which contains information about this object. Normally this
+ * object would hold constant pool info, methods, etc....
+ *
+ * @author Bill Venners
+ */
 public class ObjectHandle {
 
-    public boolean free;
-    public int objectPos;
-    public FishIcon fish;
+  public boolean free;
+  public int objectPos;
+  public FishIcon fish;
 
-    //public boolean currentGCMarkNode;
+  //public boolean currentGCMarkNode;
 
-    // The previous node in GC traversal was either a fish or a local variable root node
-    public boolean previousNodeInGCTraversalIsAFish;
-    public int previousFishInGCTraversal;
+  // The previous node in GC traversal was either a fish or a local variable root node
+  public boolean previousNodeInGCTraversalIsAFish;
+  public int previousFishInGCTraversal;
 
-    // If a node has not yet been traversed its color is white. A node that has been
-    // traversed in an upward direction (where the root is at the bottom) is gray. When
-    // the node is again traversed back in a downward direction, its color is changed
-    // to black.
-    public Color myColor;
-    public Color myFriendLineColor;
-    public Color myLunchLineColor;
-    public Color mySnackLineColor;
+  // If a node has not yet been traversed its color is white. A node that has been
+  // traversed in an upward direction (where the root is at the bottom) is gray. When
+  // the node is again traversed back in a downward direction, its color is changed
+  // to black.
+  public Color myColor;
+  public Color myFriendLineColor;
+  public Color myLunchLineColor;
+  public Color mySnackLineColor;
 
-    public boolean gotFriend;
-    public Point myFriendLineStart;
-    public Point myFriendLineEnd;
+  public boolean gotFriend;
+  public Point myFriendLineStart;
+  public Point myFriendLineEnd;
 
-    public boolean gotLunch;
-    public Point myLunchLineStart;
-    public Point myLunchLineEnd;
+  public boolean gotLunch;
+  public Point myLunchLineStart;
+  public Point myLunchLineEnd;
 
-    public boolean gotSnack;
-    public Point mySnackLineStart;
-    public Point mySnackLineEnd;
+  public boolean gotSnack;
+  public Point mySnackLineStart;
+  public Point mySnackLineEnd;
 }

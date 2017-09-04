@@ -12,63 +12,63 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class MyPoolSizeCalculator extends PoolSizeCalculator {
 
-    public static void main(String[] args) throws InterruptedException,
-            InstantiationException,
-            IllegalAccessException,
-            ClassNotFoundException {
-        MyPoolSizeCalculator calculator = new MyPoolSizeCalculator();
-        calculator.calculateBoundaries(new BigDecimal(1.0), //cpu 的利用率，1就是100%  
-                new BigDecimal(100000));
-    }
+  public static void main(String[] args) throws InterruptedException,
+          InstantiationException,
+          IllegalAccessException,
+          ClassNotFoundException {
+    MyPoolSizeCalculator calculator = new MyPoolSizeCalculator();
+    calculator.calculateBoundaries(new BigDecimal(1.0), //cpu 的利用率，1就是100%
+            new BigDecimal(100000));
+  }
 
-    // u need to implement  
-    protected long getCurrentThreadCPUTime() {
-        return ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime();
-    }
+  // u need to implement
+  protected long getCurrentThreadCPUTime() {
+    return ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime();
+  }
 
-    // u need to implement  
-    protected Runnable creatTask() {
-        return new AsyncIOTask();
-    }
+  // u need to implement
+  protected Runnable creatTask() {
+    return new AsyncIOTask();
+  }
 
-    // u need to implement  
-    protected BlockingQueue<Runnable> createWorkQueue() {
-        return new LinkedBlockingQueue();
-    }
+  // u need to implement
+  protected BlockingQueue<Runnable> createWorkQueue() {
+    return new LinkedBlockingQueue();
+  }
 
 }
 
 
 class AsyncIOTask implements Runnable {
 
-    @Override
-    public void run() {
-        HttpURLConnection connection = null;
-        BufferedReader reader = null;
+  @Override
+  public void run() {
+    HttpURLConnection connection = null;
+    BufferedReader reader = null;
+    try {
+      String getURL = "http://baidu.com";
+      URL getUrl = new URL(getURL);
+
+      connection = (HttpURLConnection) getUrl.openConnection();
+      connection.connect();
+      reader = new BufferedReader(new InputStreamReader(
+              connection.getInputStream()));
+
+      String line;
+      while ((line = reader.readLine()) != null) {
+        // empty loop
+      }
+    } catch (IOException e) {
+
+    } finally {
+      if (reader != null) {
         try {
-            String getURL = "http://baidu.com";
-            URL getUrl = new URL(getURL);
+          reader.close();
+        } catch (Exception e) {
 
-            connection = (HttpURLConnection) getUrl.openConnection();
-            connection.connect();
-            reader = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // empty loop  
-            }
-        } catch (IOException e) {
-
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (Exception e) {
-
-                }
-            }
-            connection.disconnect();
         }
+      }
+      connection.disconnect();
     }
+  }
 }  

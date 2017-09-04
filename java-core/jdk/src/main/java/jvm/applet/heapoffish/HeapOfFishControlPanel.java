@@ -45,44 +45,46 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is the panel that contains the 5 checkboxes and the text area that sits
-* at the bottom of the HeapOfFish applet panel.
-*
-* @author  Bill Venners
-*/
+ * This class is the panel that contains the 5 checkboxes and the text area that sits
+ * at the bottom of the HeapOfFish applet panel.
+ *
+ * @author Bill Venners
+ */
 class HeapOfFishControlPanel extends Panel {
 
-    HeapOfFishModeCheckboxPanel modeCheckboxPanel = new HeapOfFishModeCheckboxPanel();
-    HeapOfFishTextArea ta = new HeapOfFishTextArea();
+  HeapOfFishModeCheckboxPanel modeCheckboxPanel = new HeapOfFishModeCheckboxPanel();
+  HeapOfFishTextArea ta = new HeapOfFishTextArea();
 
-    HeapOfFishControlPanel() {
+  HeapOfFishControlPanel() {
 
-        setBackground(Color.lightGray);
+    setBackground(Color.lightGray);
 
-        setLayout(new BorderLayout());
-        add("West", modeCheckboxPanel);
-        add("Center", ta);
-    }
+    setLayout(new BorderLayout());
+    add("West", modeCheckboxPanel);
+    add("Center", ta);
+  }
 
-    public CheckboxGroup getModeCheckboxGroup() {
-        return modeCheckboxPanel.getModeCheckboxGroup();
-    }
+  public CheckboxGroup getModeCheckboxGroup() {
+    return modeCheckboxPanel.getModeCheckboxGroup();
+  }
 
-    public HeapOfFishTextArea getTextArea() {
-        return ta;
-    }
-    public Insets insets() {
-        return new Insets(5, 5, 5, 5);
-    }
+  public HeapOfFishTextArea getTextArea() {
+    return ta;
+  }
 
-    public Dimension minimumSize() {
-        return new Dimension(500, 90);
-    }
+  public Insets insets() {
+    return new Insets(5, 5, 5, 5);
+  }
 
-    public Dimension preferredSize() {
-        return new Dimension(500, 90);
-    }
+  public Dimension minimumSize() {
+    return new Dimension(500, 90);
+  }
+
+  public Dimension preferredSize() {
+    return new Dimension(500, 90);
+  }
 }

@@ -48,238 +48,238 @@
 package jvm.sim;
 
 /**
-* This class represents the stack frame of the executing
-* method.
-*
-* @author  Bill Venners
-*/
+ * This class represents the stack frame of the executing
+ * method.
+ *
+ * @author Bill Venners
+ */
 class StackFrame {
 
-    // optop is pointer to top of operand stack. Always points
-    // to next location.
-    private int optop = 0;
-    private Object[] operandStack;
+  // optop is pointer to top of operand stack. Always points
+  // to next location.
+  private int optop = 0;
+  private Object[] operandStack;
 
-    private Object[] localVars;
+  private Object[] localVars;
 
-    StackFrame(int maxStack, int maxLocals) {
-        if (maxStack > 65535 || maxLocals > 65535) {
-            throw new JVMSimError("maxStack = " + maxStack
-             + "maxLocals = " + maxLocals);
-        }
-        operandStack = new Object[maxStack];
-        localVars = new Object[maxLocals];
+  StackFrame(int maxStack, int maxLocals) {
+    if (maxStack > 65535 || maxLocals > 65535) {
+      throw new JVMSimError("maxStack = " + maxStack
+              + "maxLocals = " + maxLocals);
     }
+    operandStack = new Object[maxStack];
+    localVars = new Object[maxLocals];
+  }
 
-    void resetState() {
-        optop = 0;
-        for (int i = 0; i < operandStack.length; ++i) {
-            operandStack[i] = null;
-        }
-        for (int i = 0; i < localVars.length; ++i) {
-            localVars[i] = null;
-        }
+  void resetState() {
+    optop = 0;
+    for (int i = 0; i < operandStack.length; ++i) {
+      operandStack[i] = null;
     }
-
-    int getOptop() {
-        return optop;
+    for (int i = 0; i < localVars.length; ++i) {
+      localVars[i] = null;
     }
+  }
 
-    Object[] getOperandStack() {
-        return operandStack;
+  int getOptop() {
+    return optop;
+  }
+
+  Object[] getOperandStack() {
+    return operandStack;
+  }
+
+  Object[] getLocalVars() {
+    return localVars;
+  }
+
+  void setLocalDouble(int i, double theDouble) {
+    if (i + 1 >= localVars.length) { // use i + 1 because doubles take two
+      throw new JVMSimError();
     }
+    localVars[i] = new Double(theDouble);
+    localVars[i + 1] = null;
+  }
 
-    Object[] getLocalVars() {
-        return localVars;
+  void setLocalFloat(int i, float val) {
+    if (i >= localVars.length) {
+      throw new JVMSimError();
     }
+    localVars[i] = new Float(val);
+  }
 
-    void setLocalDouble(int i, double theDouble) {
-        if (i + 1 >= localVars.length) { // use i + 1 because doubles take two
-            throw new JVMSimError();
-        }
-        localVars[i] = new Double(theDouble);
-        localVars[i + 1] = null;
+  void setLocalInt(int i, int val) {
+    if (i >= localVars.length) {
+      throw new JVMSimError();
     }
+    localVars[i] = new Integer(val);
+  }
 
-    void setLocalFloat(int i, float val) {
-        if (i >= localVars.length) {
-            throw new JVMSimError();
-        }
-        localVars[i] = new Float(val);
+  void setLocalLong(int i, long theLong) {
+    if (i + 1 >= localVars.length) { // use i + 1 because longs take two
+      throw new JVMSimError();
     }
+    localVars[i] = new Long(theLong);
+    localVars[i + 1] = null;
+  }
 
-    void setLocalInt(int i, int val) {
-        if (i >= localVars.length) {
-            throw new JVMSimError();
-        }
-        localVars[i] = new Integer(val);
+  void setLocalObject(int i, Object val) {
+    if (i >= localVars.length) {
+      throw new JVMSimError();
     }
+    localVars[i] = val;
+  }
 
-    void setLocalLong(int i, long theLong) {
-        if (i + 1 >= localVars.length) { // use i + 1 because longs take two
-            throw new JVMSimError();
-        }
-        localVars[i] = new Long(theLong);
-        localVars[i + 1] = null;
+  double getLocalDouble(int i) { // untested
+    if (i >= localVars.length) {
+      throw new JVMSimError();
     }
+    return ((Double) localVars[i]).doubleValue();
+  }
 
-    void setLocalObject(int i, Object val) {
-        if (i >= localVars.length) {
-            throw new JVMSimError();
-        }
-        localVars[i] = val;
+  float getLocalFloat(int i) {
+    if (i >= localVars.length) {
+      throw new JVMSimError();
     }
+    return ((Float) localVars[i]).floatValue();
+  }
 
-    double getLocalDouble(int i) { // untested
-        if (i >= localVars.length) {
-            throw new JVMSimError();
-        }
-        return ((Double) localVars[i]).doubleValue();
+  int getLocalInt(int i) {
+    if (i >= localVars.length) {
+      throw new JVMSimError();
     }
+    return ((Integer) localVars[i]).intValue();
+  }
 
-    float getLocalFloat(int i) {
-        if (i >= localVars.length) {
-            throw new JVMSimError();
-        }
-        return ((Float) localVars[i]).floatValue();
+  long getLocalLong(int i) { // untested
+    if (i >= localVars.length) {
+      throw new JVMSimError();
     }
+    return ((Long) localVars[i]).longValue();
+  }
 
-    int getLocalInt(int i) {
-        if (i >= localVars.length) {
-            throw new JVMSimError();
-        }
-        return ((Integer) localVars[i]).intValue();
+  Object getLocalObject(int i) {
+    if (i >= localVars.length) {
+      throw new JVMSimError();
     }
+    return localVars[i];
+  }
 
-    long getLocalLong(int i) { // untested
-        if (i >= localVars.length) {
-            throw new JVMSimError();
-        }
-        return ((Long) localVars[i]).longValue();
+  void pushDouble(double theDouble) { // untested
+    if (optop >= operandStack.length) {
+      throw new JVMSimError("optop = " + optop);
     }
+    operandStack[optop] = new Double(theDouble);
+    operandStack[optop + 1] = null;
+    optop += 2; // A double occupies two words on the stack
+  }
 
-    Object getLocalObject(int i) {
-        if (i >= localVars.length) {
-            throw new JVMSimError();
-        }
-        return localVars[i];
+  void pushFloat(float f) {
+    if (optop >= operandStack.length) {
+      throw new JVMSimError("optop = " + optop);
     }
+    operandStack[optop] = new Float(f);
+    ++optop;
+  }
 
-    void pushDouble(double theDouble) { // untested
-        if (optop >= operandStack.length) {
-            throw new JVMSimError("optop = " + optop);
-        }
-        operandStack[optop] = new Double(theDouble);
-        operandStack[optop + 1] = null;
-        optop += 2; // A double occupies two words on the stack
+  void pushInt(int val) {
+    if (optop >= operandStack.length) {
+      throw new JVMSimError("optop = " + optop);
     }
+    operandStack[optop] = new Integer(val);
+    ++optop;
+  }
 
-    void pushFloat(float f) {
-        if (optop >= operandStack.length) {
-            throw new JVMSimError("optop = " + optop);
-        }
-        operandStack[optop] = new Float(f);
-        ++optop;
+  void pushLong(long theLong) { // untested
+    if (optop >= operandStack.length) {
+      throw new JVMSimError("optop = " + optop);
     }
+    operandStack[optop] = new Long(theLong);
+    operandStack[optop + 1] = null;
+    optop += 2; // A long occupies two words on the stack
+  }
 
-    void pushInt(int val) {
-        if (optop >= operandStack.length) {
-            throw new JVMSimError("optop = " + optop);
-        }
-        operandStack[optop] = new Integer(val);
-        ++optop;
+  void pushObject(Object theObject) {
+    if (optop >= operandStack.length) {
+      throw new JVMSimError("optop = " + optop);
     }
+    operandStack[optop] = theObject;
+    ++optop;
+  }
 
-    void pushLong(long theLong) { // untested
-        if (optop >= operandStack.length) {
-            throw new JVMSimError("optop = " + optop);
-        }
-        operandStack[optop] = new Long(theLong);
-        operandStack[optop + 1] = null;
-        optop += 2; // A long occupies two words on the stack
+  void pushReturnAddress(ReturnAddress retAddr) {
+    if (optop >= operandStack.length) {
+      throw new JVMSimError("optop = " + optop);
     }
+    operandStack[optop] = retAddr;
+    ++optop;
+  }
 
-    void pushObject(Object theObject) {
-        if (optop >= operandStack.length) {
-            throw new JVMSimError("optop = " + optop);
-        }
-        operandStack[optop] = theObject;
-        ++optop;
+  double popDouble() {
+    if (optop <= 1) { // Use 1 because double occupies two slots
+      throw new JVMSimError();
     }
+    optop -= 2;
+    double theDouble = ((Double) operandStack[optop]).doubleValue();
+    operandStack[optop] = null; // make available for gc
+    return theDouble;
+  }
 
-    void pushReturnAddress(ReturnAddress retAddr) {
-        if (optop >= operandStack.length) {
-            throw new JVMSimError("optop = " + optop);
-        }
-        operandStack[optop] = retAddr;
-        ++optop;
+  float popFloat() {
+    if (optop <= 0) {
+      throw new JVMSimError();
     }
+    --optop;
+    float f = ((Float) operandStack[optop]).floatValue();
+    operandStack[optop] = null; // make available for gc
+    return f;
+  }
 
-    double popDouble() {
-        if (optop <= 1) { // Use 1 because double occupies two slots
-            throw new JVMSimError();
-        }
-        optop -= 2;
-        double theDouble = ((Double) operandStack[optop]).doubleValue();
-        operandStack[optop] = null; // make available for gc
-        return theDouble;
+  int popInt() {
+    if (optop <= 0) {
+      throw new JVMSimError();
     }
+    --optop;
+    int val = ((Integer) operandStack[optop]).intValue();
+    operandStack[optop] = null; // make available for gc
+    return val;
+  }
 
-    float popFloat() {
-        if (optop <= 0) {
-            throw new JVMSimError();
-        }
-        --optop;
-        float f = ((Float) operandStack[optop]).floatValue();
-        operandStack[optop] = null; // make available for gc
-        return f;
+  long popLong() {
+    if (optop <= 1) { // Use 1 because long occupies two slots
+      throw new JVMSimError();
     }
+    optop -= 2;
+    long theLong = ((Long) operandStack[optop]).longValue();
+    operandStack[optop] = null; // make available for gc
+    return theLong;
+  }
 
-    int popInt() {
-        if (optop <= 0) {
-            throw new JVMSimError();
-        }
-        --optop;
-        int val = ((Integer) operandStack[optop]).intValue();
-        operandStack[optop] = null; // make available for gc
-        return val;
+  Object popObject() {
+    if (optop <= 0) {
+      throw new JVMSimError();
     }
+    --optop;
+    Object theObject = operandStack[optop];
+    operandStack[optop] = null; // make available for gc
+    return theObject;
+  }
 
-    long popLong() {
-        if (optop <= 1) { // Use 1 because long occupies two slots
-            throw new JVMSimError();
-        }
-        optop -= 2;
-        long theLong = ((Long) operandStack[optop]).longValue();
-        operandStack[optop] = null; // make available for gc
-        return theLong;
+  ReturnAddress popReturnAddress() {
+    if (optop <= 0) {
+      throw new JVMSimError();
     }
+    --optop;
+    ReturnAddress retAddr = (ReturnAddress) operandStack[optop];
+    operandStack[optop] = null; // make available for gc
+    return retAddr;
+  }
 
-    Object popObject() {
-        if (optop <= 0) {
-            throw new JVMSimError();
-        }
-        --optop;
-        Object theObject = operandStack[optop];
-        operandStack[optop] = null; // make available for gc
-        return theObject;
+  void pop() {
+    if (optop <= 0) {
+      throw new JVMSimError();
     }
-
-    ReturnAddress popReturnAddress() {
-        if (optop <= 0) {
-            throw new JVMSimError();
-        }
-        --optop;
-        ReturnAddress retAddr = (ReturnAddress) operandStack[optop];
-        operandStack[optop] = null; // make available for gc
-        return retAddr;
-    }
-
-	void pop() {
-        if (optop <= 0) {
-            throw new JVMSimError();
-        }
-        --optop;
-        operandStack[optop] = null; // make available for gc
-	}
+    --optop;
+    operandStack[optop] = null; // make available for gc
+  }
 }

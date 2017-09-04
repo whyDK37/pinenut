@@ -47,20 +47,20 @@ package jvm.applet.ii;/*
 */
 
 /**
-* This class stores the user interface strings used by the applet.
-*
-* @author  Bill Venners
-*/
+ * This class stores the user interface strings used by the applet.
+ *
+ * @author Bill Venners
+ */
 class StringTable {
 
-    public static final String title = "INNER INT";
-    public static final String binary = "binary";
-    public static final String hex = "hex";
-    public static final String decimal = "decimal";
-    public static final String max = "Max";
-    public static final String min = "Min";
-    public static final String zero = "Zero";
-    public static final String increment = "++";
-    public static final String decrement = "--";
-    public static final String negate = "*=(-1)";
+  public static final String title = "INNER INT";
+  public static final String binary = "binary";
+  public static final String hex = "hex";
+  public static final String decimal = "decimal";
+  public static final String max = "Max";
+  public static final String min = "Min";
+  public static final String zero = "Zero";
+  public static final String increment = "++";
+  public static final String decrement = "--";
+  public static final String negate = "*=(-1)";
 }

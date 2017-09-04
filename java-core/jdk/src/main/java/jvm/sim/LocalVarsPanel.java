@@ -46,154 +46,149 @@
 * DERIVATIVES.
 */
 package jvm.sim;
+
 import java.awt.*;
 
 /**
-* This class represents that portion of the user interface
-* that displays the local variable words.
-*
-* @author  Bill Venners
-*/
+ * This class represents that portion of the user interface
+ * that displays the local variable words.
+ *
+ * @author Bill Venners
+ */
 class LocalVarsPanel extends Panel {
 
-    private int memoryLocationsVisibleCount;
+  private int memoryLocationsVisibleCount;
 
-    private Label[] pointer;
-    private Label[] address;
-    private Label[] wordValue;
-    private Label[] logicalValue;
+  private Label[] pointer;
+  private Label[] address;
+  private Label[] wordValue;
+  private Label[] logicalValue;
 
-    private int firstVisibleRow;
-    private int currentProgramCounterRow;
+  private int firstVisibleRow;
+  private int currentProgramCounterRow;
 
-    private ColoredLabel pcRegister;
+  private ColoredLabel pcRegister;
 
-    LocalVarsPanel(int memoryLocationsVisibleCount) {
+  LocalVarsPanel(int memoryLocationsVisibleCount) {
 
-        this.memoryLocationsVisibleCount = memoryLocationsVisibleCount;
-        pointer = new Label[memoryLocationsVisibleCount];
-        address = new Label[memoryLocationsVisibleCount];
-        wordValue = new Label[memoryLocationsVisibleCount];
-        logicalValue = new Label[memoryLocationsVisibleCount];
+    this.memoryLocationsVisibleCount = memoryLocationsVisibleCount;
+    pointer = new Label[memoryLocationsVisibleCount];
+    address = new Label[memoryLocationsVisibleCount];
+    wordValue = new Label[memoryLocationsVisibleCount];
+    logicalValue = new Label[memoryLocationsVisibleCount];
 
-        // Initialize the title
-        Label title = new Label(StringTable.localVariables, Label.CENTER);
-        title.setFont(new Font("Helvetica", Font.BOLD, 11));
+    // Initialize the title
+    Label title = new Label(StringTable.localVariables, Label.CENTER);
+    title.setFont(new Font("Helvetica", Font.BOLD, 11));
 
-        // Initialize column titles
-        Panel columnTitles = new Panel();
-        int[] hComponentCellWidths = { 2, 2, 2, 3 };
-        columnTitles.setLayout(new GridSnapLayout(1, 9, hComponentCellWidths));
-        columnTitles.setFont(new Font("Helvetica", Font.ITALIC, 11));
-        columnTitles.add(new Label("", Label.CENTER));
-        columnTitles.add(new Label(StringTable.index, Label.CENTER));
-        columnTitles.add(new Label(StringTable.hexValue, Label.CENTER));
-        columnTitles.add(new Label(StringTable.value, Label.LEFT));
+    // Initialize column titles
+    Panel columnTitles = new Panel();
+    int[] hComponentCellWidths = {2, 2, 2, 3};
+    columnTitles.setLayout(new GridSnapLayout(1, 9, hComponentCellWidths));
+    columnTitles.setFont(new Font("Helvetica", Font.ITALIC, 11));
+    columnTitles.add(new Label("", Label.CENTER));
+    columnTitles.add(new Label(StringTable.index, Label.CENTER));
+    columnTitles.add(new Label(StringTable.hexValue, Label.CENTER));
+    columnTitles.add(new Label(StringTable.value, Label.LEFT));
 
-        // Initialize the 4 column view of the method
-        Panel methodView = new Panel();
-        methodView.setLayout(new GridSnapLayout(memoryLocationsVisibleCount, 9, hComponentCellWidths));
-        methodView.setBackground(Color.lightGray);
-        Font plainFont = new Font("TimesRoman", Font.PLAIN, 11);
-        methodView.setFont(plainFont);
-        Font italicFont = new Font("TimesRoman", Font.ITALIC, 11);
+    // Initialize the 4 column view of the method
+    Panel methodView = new Panel();
+    methodView.setLayout(new GridSnapLayout(memoryLocationsVisibleCount, 9, hComponentCellWidths));
+    methodView.setBackground(Color.lightGray);
+    Font plainFont = new Font("TimesRoman", Font.PLAIN, 11);
+    methodView.setFont(plainFont);
+    Font italicFont = new Font("TimesRoman", Font.ITALIC, 11);
 
-        for (int i = 0; i < memoryLocationsVisibleCount; ++i) {
+    for (int i = 0; i < memoryLocationsVisibleCount; ++i) {
 
-            pointer[i] = new Label("", Label.RIGHT);
-            pointer[i].setFont(italicFont);
-            methodView.add(pointer[i]);
+      pointer[i] = new Label("", Label.RIGHT);
+      pointer[i].setFont(italicFont);
+      methodView.add(pointer[i]);
 
-            address[i] = new Label("", Label.CENTER);
-            methodView.add(address[i]);
+      address[i] = new Label("", Label.CENTER);
+      methodView.add(address[i]);
 
-            wordValue[i] = new Label("", Label.CENTER);
-            methodView.add(wordValue[i]);
+      wordValue[i] = new Label("", Label.CENTER);
+      methodView.add(wordValue[i]);
 
-            logicalValue[i] = new Label("", Label.LEFT);
-            methodView.add(logicalValue[i]);
-        }
-
-        Panel methodViewWithTitles = new Panel();
-        methodViewWithTitles.setLayout(new BorderLayout());
-        methodViewWithTitles.add("North", columnTitles);
-        methodViewWithTitles.add("Center", methodView);
-
-        setLayout(new BorderLayout());
-        add("North", title);
-        add("Center", methodViewWithTitles);
+      logicalValue[i] = new Label("", Label.LEFT);
+      methodView.add(logicalValue[i]);
     }
 
-    public void updateView(Object[] localVars) {
-        // Assume length of array is same as memoryLocationsVisibleCount,
-        // because that is supposed to be maxLocals anyway.
-        int len = localVars.length;
-        for (int i = 0; i < len; ++i) {
+    Panel methodViewWithTitles = new Panel();
+    methodViewWithTitles.setLayout(new BorderLayout());
+    methodViewWithTitles.add("North", columnTitles);
+    methodViewWithTitles.add("Center", methodView);
 
-            address[i].setText(Integer.toString(i));
+    setLayout(new BorderLayout());
+    add("North", title);
+    add("Center", methodViewWithTitles);
+  }
 
-            Object locVar = localVars[i];
-            if (locVar == null) {
-                wordValue[i].setText("");
-                logicalValue[i].setText("");
-            }
-            else if (locVar instanceof Integer) {
+  public void updateView(Object[] localVars) {
+    // Assume length of array is same as memoryLocationsVisibleCount,
+    // because that is supposed to be maxLocals anyway.
+    int len = localVars.length;
+    for (int i = 0; i < len; ++i) {
 
-                Integer value = (Integer) locVar;
-                HexString wordValueHexString = new HexString(value.intValue(), 8);
-                wordValue[i].setText(wordValueHexString.getString());
-                logicalValue[i].setText(value.toString());
-            }
-            else if (locVar instanceof Float) {
+      address[i].setText(Integer.toString(i));
 
-                Float wrapperVal = (Float) locVar;
-                float fVal = wrapperVal.floatValue();
-                int floatBits = Float.floatToIntBits(fVal);
-                HexString wordValueHexString = new HexString(floatBits, 8);
-                wordValue[i].setText(wordValueHexString.getString());
-                logicalValue[i].setText(wrapperVal.toString());
-            }
-            else if (locVar instanceof Long) {
-                Long value = (Long) locVar;
-				long longValue = value.longValue();
-				int lowerWord = (int) longValue;
-				int upperWord = (int) (longValue >>> 32);
-                HexString lowerWordHexString = new HexString(lowerWord, 8);
-                HexString upperWordHexString = new HexString(upperWord, 8);
-                wordValue[i].setText(lowerWordHexString.getString());
-                wordValue[i + 1].setText(upperWordHexString.getString());
-                logicalValue[i].setText(value.toString() + "L");
-				++i; // must increment i twice in long case
-            }
-            else if (locVar instanceof Double) {
-                Double value = (Double) locVar;
-				double doubleValue = value.doubleValue();
-				long longBits = Double.doubleToLongBits(doubleValue);
-				int lowerWord = (int) longBits;
-				int upperWord = (int) (longBits >>> 32);
-                HexString lowerWordHexString = new HexString(lowerWord, 8);
-                HexString upperWordHexString = new HexString(upperWord, 8);
-                wordValue[i].setText(lowerWordHexString.getString());
-                wordValue[i + 1].setText(upperWordHexString.getString());
-                logicalValue[i].setText(value.toString());
-				++i; // must increment i twice in double case
-            }
-            else if (locVar instanceof ReturnAddress) {
+      Object locVar = localVars[i];
+      if (locVar == null) {
+        wordValue[i].setText("");
+        logicalValue[i].setText("");
+      } else if (locVar instanceof Integer) {
 
-                ReturnAddress wrapper = (ReturnAddress) locVar;
-                HexString wordValueHexString = new HexString(wrapper.getReturnAddress(), 8);
-                wordValue[i].setText(wordValueHexString.getString());
-                logicalValue[i].setText("RET ADDR");
-            }
-            else {
-                // Its an object
-                wordValue[i].setText(" OBJREF ");
-                logicalValue[i].setText((locVar.getClass()).getName());
-            }
-        }
+        Integer value = (Integer) locVar;
+        HexString wordValueHexString = new HexString(value.intValue(), 8);
+        wordValue[i].setText(wordValueHexString.getString());
+        logicalValue[i].setText(value.toString());
+      } else if (locVar instanceof Float) {
+
+        Float wrapperVal = (Float) locVar;
+        float fVal = wrapperVal.floatValue();
+        int floatBits = Float.floatToIntBits(fVal);
+        HexString wordValueHexString = new HexString(floatBits, 8);
+        wordValue[i].setText(wordValueHexString.getString());
+        logicalValue[i].setText(wrapperVal.toString());
+      } else if (locVar instanceof Long) {
+        Long value = (Long) locVar;
+        long longValue = value.longValue();
+        int lowerWord = (int) longValue;
+        int upperWord = (int) (longValue >>> 32);
+        HexString lowerWordHexString = new HexString(lowerWord, 8);
+        HexString upperWordHexString = new HexString(upperWord, 8);
+        wordValue[i].setText(lowerWordHexString.getString());
+        wordValue[i + 1].setText(upperWordHexString.getString());
+        logicalValue[i].setText(value.toString() + "L");
+        ++i; // must increment i twice in long case
+      } else if (locVar instanceof Double) {
+        Double value = (Double) locVar;
+        double doubleValue = value.doubleValue();
+        long longBits = Double.doubleToLongBits(doubleValue);
+        int lowerWord = (int) longBits;
+        int upperWord = (int) (longBits >>> 32);
+        HexString lowerWordHexString = new HexString(lowerWord, 8);
+        HexString upperWordHexString = new HexString(upperWord, 8);
+        wordValue[i].setText(lowerWordHexString.getString());
+        wordValue[i + 1].setText(upperWordHexString.getString());
+        logicalValue[i].setText(value.toString());
+        ++i; // must increment i twice in double case
+      } else if (locVar instanceof ReturnAddress) {
+
+        ReturnAddress wrapper = (ReturnAddress) locVar;
+        HexString wordValueHexString = new HexString(wrapper.getReturnAddress(), 8);
+        wordValue[i].setText(wordValueHexString.getString());
+        logicalValue[i].setText("RET ADDR");
+      } else {
+        // Its an object
+        wordValue[i].setText(" OBJREF ");
+        logicalValue[i].setText((locVar.getClass()).getName());
+      }
     }
+  }
 
-    public Insets insets() {
-        return new Insets(5, 5, 5, 5);
-    }
+  public Insets insets() {
+    return new Insets(5, 5, 5, 5);
+  }
 }

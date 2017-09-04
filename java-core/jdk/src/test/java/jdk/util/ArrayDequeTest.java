@@ -9,14 +9,14 @@ import java.util.ArrayDeque;
  */
 public class ArrayDequeTest {
 
-    @Test
-    public void test(){
-        ArrayDeque arrayDeque = new ArrayDeque();
-        arrayDeque.add(1);
-        arrayDeque.add(1);
+  @Test
+  public void test() {
+    ArrayDeque arrayDeque = new ArrayDeque();
+    arrayDeque.add(1);
+    arrayDeque.add(1);
 
-        arrayDeque.remove(1);
+    arrayDeque.remove(1);
 
-        System.out.println(arrayDeque.size());
-    }
+    System.out.println(arrayDeque.size());
+  }
 }

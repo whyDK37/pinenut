@@ -24,31 +24,31 @@ package jvm.pi;/*
 // On CD-ROM in file pi/ex1/PiCalculator.java
 class PiCalculator {
 
-    static void calculatePi() {
+  static void calculatePi() {
 
-        double pi = 4.0;
-        double sliceWidth = 0.5;
-        double y;
+    double pi = 4.0;
+    double sliceWidth = 0.5;
+    double y;
 
-        int iterations = 1;
+    int iterations = 1;
 
-        for (;;) {
+    for (; ; ) {
 
-            double x = 0.0;
-            while (x < 1.0) {
+      double x = 0.0;
+      while (x < 1.0) {
 
-                y = Math.sqrt(1 - (x * x));
-                pi -= 4 * (sliceWidth * y);
-                x += sliceWidth;
+        y = Math.sqrt(1 - (x * x));
+        pi -= 4 * (sliceWidth * y);
+        x += sliceWidth;
 
-                y = Math.sqrt(1 - (x * x));
-                pi += 4 * (sliceWidth * y);
-                x += sliceWidth;
-            }
+        y = Math.sqrt(1 - (x * x));
+        pi += 4 * (sliceWidth * y);
+        x += sliceWidth;
+      }
 
-            ++iterations;
+      ++iterations;
 
-            sliceWidth /= 2;
-        }
+      sliceWidth /= 2;
     }
+  }
 }

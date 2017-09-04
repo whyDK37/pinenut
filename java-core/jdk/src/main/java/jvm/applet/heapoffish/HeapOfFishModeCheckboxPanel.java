@@ -45,33 +45,34 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is the panel that contains the 5 checkboxes that sit
-* at the lower left corner of the HeapOfFish applet. These checkboxes
-* allow the user to select one of 5 modes: swim, allocate fish,
-* assign refs, garbage collect, or compact heap.
-*
-* @author  Bill Venners
-*/
+ * This class is the panel that contains the 5 checkboxes that sit
+ * at the lower left corner of the HeapOfFish applet. These checkboxes
+ * allow the user to select one of 5 modes: swim, allocate fish,
+ * assign refs, garbage collect, or compact heap.
+ *
+ * @author Bill Venners
+ */
 class HeapOfFishModeCheckboxPanel extends Panel {
 
-    private CheckboxGroup cbg = new CheckboxGroup();
+  private CheckboxGroup cbg = new CheckboxGroup();
 
-    HeapOfFishModeCheckboxPanel() {
+  HeapOfFishModeCheckboxPanel() {
 
-        setBackground(Color.lightGray);
+    setBackground(Color.lightGray);
 
-        setLayout(new GridLayout(5, 1));
-        add(new Checkbox(HeapOfFishStrings.allocateFish, cbg, false));
-        add(new Checkbox(HeapOfFishStrings.assignReferences, cbg, false));
-        add(new Checkbox(HeapOfFishStrings.garbageCollect, cbg, false));
-        add(new Checkbox(HeapOfFishStrings.compactHeap, cbg, false));
-        add(new Checkbox(HeapOfFishStrings.swim, cbg, true));
-    }
+    setLayout(new GridLayout(5, 1));
+    add(new Checkbox(HeapOfFishStrings.allocateFish, cbg, false));
+    add(new Checkbox(HeapOfFishStrings.assignReferences, cbg, false));
+    add(new Checkbox(HeapOfFishStrings.garbageCollect, cbg, false));
+    add(new Checkbox(HeapOfFishStrings.compactHeap, cbg, false));
+    add(new Checkbox(HeapOfFishStrings.swim, cbg, true));
+  }
 
-    public CheckboxGroup getModeCheckboxGroup() {
-        return cbg;
-    }
+  public CheckboxGroup getModeCheckboxGroup() {
+    return cbg;
+  }
 }

@@ -7,10 +7,10 @@ import org.testng.annotations.Test;
  */
 public class StringTest {
 
-    @Test
-    public void test() {
-        String str = "abcabcabcabcabcabc";
-        int bcd = str.indexOf("abcdex");
-        System.out.println(bcd);
-    }
+  @Test
+  public void test() {
+    String str = "abcabcabcabcabcabc";
+    int bcd = str.indexOf("abcdex");
+    System.out.println(bcd);
+  }
 }

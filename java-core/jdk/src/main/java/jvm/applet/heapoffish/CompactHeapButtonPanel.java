@@ -45,22 +45,23 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is a panel on which is placed the single button
-* labelled "Slide" that sits at the base of the Compact
-* Heap panel.
-*
-* @author  Bill Venners
-*/
+ * This class is a panel on which is placed the single button
+ * labelled "Slide" that sits at the base of the Compact
+ * Heap panel.
+ *
+ * @author Bill Venners
+ */
 class CompactHeapButtonPanel extends Panel {
 
-    CompactHeapButtonPanel() {
+  CompactHeapButtonPanel() {
 
-        setLayout(new GridLayout(1, 1));
-        Panel p = new Panel();
-        p.add(new Button(HeapOfFishStrings.slide));
-        add(p);
-    }
+    setLayout(new GridLayout(1, 1));
+    Panel p = new Panel();
+    p.add(new Button(HeapOfFishStrings.slide));
+    add(p);
+  }
 }

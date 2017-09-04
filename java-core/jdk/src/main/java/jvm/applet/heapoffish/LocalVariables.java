@@ -45,27 +45,28 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
-import java.awt.Point;
+
+import java.awt.*;
 
 /**
-* This class represents the roots of garbage collection in the
-* HeapOfFish simulation, one local variable that can
-* point to each type of fish: red, yellow, blue.
-*
-* @author  Bill Venners
-*/
+ * This class represents the roots of garbage collection in the
+ * HeapOfFish simulation, one local variable that can
+ * point to each type of fish: red, yellow, blue.
+ *
+ * @author Bill Venners
+ */
 class LocalVariables {
 
-    public int yellowFish; // YellowFish yf;
-    public int blueFish;   // BlueFish bf;
-    public int redFish;    // RedFish rf;
+  public int yellowFish; // YellowFish yf;
+  public int blueFish;   // BlueFish bf;
+  public int redFish;    // RedFish rf;
 
-    public Point yellowLineStart;
-    public Point yellowLineEnd;
+  public Point yellowLineStart;
+  public Point yellowLineEnd;
 
-    public Point blueLineStart;
-    public Point blueLineEnd;
+  public Point blueLineStart;
+  public Point blueLineEnd;
 
-    public Point redLineStart;
-    public Point redLineEnd;
+  public Point redLineStart;
+  public Point redLineEnd;
 }

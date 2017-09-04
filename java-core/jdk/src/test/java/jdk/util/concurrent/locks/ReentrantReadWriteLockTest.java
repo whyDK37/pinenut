@@ -9,21 +9,21 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class ReentrantReadWriteLockTest {
 
-    @Test
-    public void test() throws InterruptedException {
-        ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-        ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
-        ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
+  @Test
+  public void test() throws InterruptedException {
+    ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+    ReentrantReadWriteLock.ReadLock readLock = lock.readLock();
+    ReentrantReadWriteLock.WriteLock writeLock = lock.writeLock();
 
 
-        Thread read = new Thread(() -> {
+    Thread read = new Thread(() -> {
 
 
-        });
+    });
 
-        Thread write = new Thread(() -> {
+    Thread write = new Thread(() -> {
 
-        });
+    });
 
-    }
+  }
 }

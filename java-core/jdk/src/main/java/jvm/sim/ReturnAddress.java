@@ -48,23 +48,23 @@
 package jvm.sim;
 
 /**
-* This is a wrapper object for a return address.
-* I could have used Integer, but use this just to
-* make it clear what it is (And to make sure it is
-* precisely what it is supposed to be, not some
-* errant Integer). It is immutable.
-*
-* @author  Bill Venners
-*/
+ * This is a wrapper object for a return address.
+ * I could have used Integer, but use this just to
+ * make it clear what it is (And to make sure it is
+ * precisely what it is supposed to be, not some
+ * errant Integer). It is immutable.
+ *
+ * @author Bill Venners
+ */
 class ReturnAddress {
 
-    private int retAddr;
+  private int retAddr;
 
-    ReturnAddress(int retAddr) {
-        this.retAddr = retAddr;
-    }
+  ReturnAddress(int retAddr) {
+    this.retAddr = retAddr;
+  }
 
-    int getReturnAddress() {
-        return retAddr;
-    }
+  int getReturnAddress() {
+    return retAddr;
+  }
 }

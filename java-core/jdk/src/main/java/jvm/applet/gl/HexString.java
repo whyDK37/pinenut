@@ -47,54 +47,54 @@ package jvm.applet.gl;/*
 */
 
 /**
-* This class conerts an int to a string with its hex representation
-* and leading zeros innerfloat needed to achieve a certain field width.
-*
-* @author  Bill Venners
-*/
+ * This class conerts an int to a string with its hex representation
+ * and leading zeros innerfloat needed to achieve a certain field width.
+ *
+ * @author Bill Venners
+ */
 class HexString {
 
-    private final String hexChar = "0123456789ABCDEF";
-    private StringBuffer buf = new StringBuffer();
+  private final String hexChar = "0123456789ABCDEF";
+  private StringBuffer buf = new StringBuffer();
 
-    void Convert(int val, int maxNibblesToConvert) {
+  HexString(int val, int minWidth) {
 
-        buf.setLength(0);
+    Convert(val, minWidth);
 
-        int v = val;
-        for (int i = 0; i < maxNibblesToConvert; ++i) {
+    int charsNeeded = minWidth - buf.length();
+    for (int i = 0; i < charsNeeded; ++i) {
+      buf.insert(0, '0');
+    }
+  }
 
-            if (v == 0) {
+  void Convert(int val, int maxNibblesToConvert) {
 
-                if (i == 0) {
-                    buf.insert(0, '0');
-                }
-                break;
-            }
+    buf.setLength(0);
 
-            // Get lowest nibble
-            int remainder = v & 0xf;
+    int v = val;
+    for (int i = 0; i < maxNibblesToConvert; ++i) {
 
-            // Convert nibble to a character and insert it into the beginning of the string
-            buf.insert(0, hexChar.charAt(remainder));
+      if (v == 0) {
 
-            // Shift the int to the right four bits
-            v >>>= 4;
+        if (i == 0) {
+          buf.insert(0, '0');
         }
+        break;
+      }
+
+      // Get lowest nibble
+      int remainder = v & 0xf;
+
+      // Convert nibble to a character and insert it into the beginning of the string
+      buf.insert(0, hexChar.charAt(remainder));
+
+      // Shift the int to the right four bits
+      v >>>= 4;
     }
+  }
 
-    HexString(int val, int minWidth) {
+  public String getString() {
 
-        Convert(val, minWidth);
-
-        int charsNeeded = minWidth - buf.length();
-        for (int i = 0; i < charsNeeded; ++i) {
-            buf.insert(0, '0');
-        }
-    }
-
-    public String getString() {
-
-        return buf.toString();
-    }
+    return buf.toString();
+  }
 }

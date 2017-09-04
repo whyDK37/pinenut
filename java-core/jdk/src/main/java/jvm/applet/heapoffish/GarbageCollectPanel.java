@@ -45,46 +45,46 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is the panel that contains the entire user
-* interface that is shown during the garbage collect mode.
-*
-* @author  Bill Venners
-*/
+ * This class is the panel that contains the entire user
+ * interface that is shown during the garbage collect mode.
+ *
+ * @author Bill Venners
+ */
 class GarbageCollectPanel extends Panel {
 
-    private GarbageCollectCanvas gcCanvas;
+  private GarbageCollectCanvas gcCanvas;
 
-    GarbageCollectPanel(GCHeap heap, LocalVariables locVars, HeapOfFishTextArea ta) {
+  GarbageCollectPanel(GCHeap heap, LocalVariables locVars, HeapOfFishTextArea ta) {
 
-        setBackground(Color.blue);
+    setBackground(Color.blue);
 
-        setLayout(new BorderLayout());
+    setLayout(new BorderLayout());
 
-        gcCanvas = new GarbageCollectCanvas(heap, locVars, ta);
+    gcCanvas = new GarbageCollectCanvas(heap, locVars, ta);
 
-        add("South", new GarbageCollectButtonPanel());
-        add("Center", gcCanvas);
-    }
+    add("South", new GarbageCollectButtonPanel());
+    add("Center", gcCanvas);
+  }
 
-    public void resetGCState() {
+  public void resetGCState() {
+    gcCanvas.resetGCState();
+  }
+
+  public boolean action(Event evt, Object arg) {
+    if (evt.target instanceof Button) {
+      String bname = (String) arg;
+      if (bname.equals(HeapOfFishStrings.step)) {
+        gcCanvas.nextGCStep();
+        gcCanvas.repaint();
+      } else if (bname.equals(HeapOfFishStrings.reset)) {
         gcCanvas.resetGCState();
+        gcCanvas.repaint();
+      }
     }
-
-    public boolean action(Event evt, Object arg) {
-        if (evt.target instanceof Button) {
-            String bname = (String) arg;
-            if (bname.equals(HeapOfFishStrings.step)) {
-                gcCanvas.nextGCStep();
-                gcCanvas.repaint();
-            }
-            else if (bname.equals(HeapOfFishStrings.reset)) {
-                gcCanvas.resetGCState();
-                gcCanvas.repaint();
-            }
-        }
-        return true;
-    }
+    return true;
+  }
 }

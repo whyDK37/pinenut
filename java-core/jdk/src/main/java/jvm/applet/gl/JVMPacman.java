@@ -45,200 +45,202 @@ package jvm.applet.gl;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is a canvas upon which a JVM is shown consuming a stream
-* of bytes that makes up a particular Java class file.
-*
-* @author  Bill Venners
-*/
+ * This class is a canvas upon which a JVM is shown consuming a stream
+ * of bytes that makes up a particular Java class file.
+ *
+ * @author Bill Venners
+ */
 class JVMPacman extends Canvas {
 
-    private String theString;
-    private boolean stringValid = false;
-    private int currentGobblePosition;
-    private int interestingCharsCount;
-    private int charsThatFitBetweenRectanglesCount = 2;
+  private String theString;
+  private boolean stringValid = false;
+  private int currentGobblePosition;
+  private int interestingCharsCount;
+  private int charsThatFitBetweenRectanglesCount = 2;
 
-    JVMPacman() {
-        setBackground(Color.cyan);
+  JVMPacman() {
+    setBackground(Color.cyan);
+  }
+
+  void setText(String passedText) {
+
+    theString = passedText;
+    stringValid = true;
+  }
+
+  public Dimension minimumSize() {
+    return new Dimension(110, 60);
+  }
+
+  public Dimension preferredSize() {
+    return new Dimension(110, 60);
+  }
+
+  public void setGobblePosition(int pos, int interesting) {
+    // Multiply the passed position by two because the passed position represents
+    // a byte position whereas we want currentGobblePosition to represent a
+    // character position, and there are two hex characters for each byte.
+    currentGobblePosition = pos * 2;
+    interestingCharsCount = interesting * 2;
+    repaint();
+  }
+
+  public void gobbleToPosition(int pos, int interesting) {
+    currentGobblePosition = pos * 2;
+    interestingCharsCount = interesting * 2;
+    repaint();
+  }
+
+  public void paint(Graphics g) {
+
+    Font font = getFont();
+    FontMetrics fm = getFontMetrics(font);
+    int heightOfOneLine = fm.getHeight();
+
+    // Calculate x starting point
+    Dimension dim = new Dimension();
+
+    dim = size();
+
+    int xStartingPoint = 5;
+
+    // Calculate y starting point
+    int totalHeight = heightOfOneLine * 2;
+    int yStartingPoint = (dim.height - totalHeight) / 2;
+    if (yStartingPoint < 5) {
+      yStartingPoint = 5;
     }
 
-    void setText(String passedText) {
+    // Calculate width of JVM rectangle. This will be heightOfOneLine more than
+    // the stringWidth of "JVM" which I'll write in the middle of the rectangle.
+    // This will make the border around the "JVM" the same width and height on
+    // all sides and will equal heightOfOneLine / 2. I'll make the height of the
+    // rectangle heightOfOneLine *2.
+    int jvmRectangleWidth = fm.stringWidth("JVM") + heightOfOneLine;
 
-        theString = passedText;
-        stringValid = true;
-    }
-
-    public Dimension minimumSize() {
-        return new Dimension(110, 60);
-    }
-    public Dimension preferredSize() {
-        return new Dimension(110, 60);
-    }
-
-    public void setGobblePosition(int pos, int interesting) {
-        // Multiply the passed position by two because the passed position represents
-        // a byte position whereas we want currentGobblePosition to represent a
-        // character position, and there are two hex characters for each byte.
-        currentGobblePosition = pos * 2;
-        interestingCharsCount = interesting * 2;
-        repaint();
-    }
-
-    public void gobbleToPosition(int pos, int interesting) {
-        currentGobblePosition = pos * 2;
-        interestingCharsCount = interesting * 2;
-        repaint();
-    }
-
-    public void paint(Graphics g) {
-
-        Font font = getFont();
-        FontMetrics fm = getFontMetrics(font);
-        int heightOfOneLine = fm.getHeight();
-
-        // Calculate x starting point
-        Dimension dim = new Dimension();
-
-        dim = size();
-
-        int xStartingPoint = 5;
-
-        // Calculate y starting point
-        int totalHeight = heightOfOneLine * 2;
-        int yStartingPoint = (dim.height - totalHeight) / 2;
-        if (yStartingPoint < 5) {
-            yStartingPoint = 5;
-        }
-
-        // Calculate width of JVM rectangle. This will be heightOfOneLine more than
-        // the stringWidth of "JVM" which I'll write in the middle of the rectangle.
-        // This will make the border around the "JVM" the same width and height on
-        // all sides and will equal heightOfOneLine / 2. I'll make the height of the
-        // rectangle heightOfOneLine *2.
-        int jvmRectangleWidth = fm.stringWidth("JVM") + heightOfOneLine;
-
-        // Draw the filled rectangle
-        g.setColor(Color.green);
-        g.fillRoundRect(xStartingPoint, yStartingPoint, jvmRectangleWidth, totalHeight,
+    // Draw the filled rectangle
+    g.setColor(Color.green);
+    g.fillRoundRect(xStartingPoint, yStartingPoint, jvmRectangleWidth, totalHeight,
             5, 5);
 
-        // Give it a handsome black outline
-        g.setColor(Color.black);
-        g.drawRoundRect(xStartingPoint, yStartingPoint, jvmRectangleWidth - 1, totalHeight - 1,
+    // Give it a handsome black outline
+    g.setColor(Color.black);
+    g.drawRoundRect(xStartingPoint, yStartingPoint, jvmRectangleWidth - 1, totalHeight - 1,
             5, 5);
 
-        // Calculate width of Server rectangle. This will be heightOfOneLine more than
-        // the stringWidth of "Server" which I'll write in the middle of the rectangle.
-        // This will make the border around the "Server" the same width and height on
-        // all sides and will equal heightOfOneLine / 2. I'll make the height of the
-        // rectangle heightOfOneLine *2.
-        int serverRectangleWidth = fm.stringWidth("Server") + heightOfOneLine;
+    // Calculate width of Server rectangle. This will be heightOfOneLine more than
+    // the stringWidth of "Server" which I'll write in the middle of the rectangle.
+    // This will make the border around the "Server" the same width and height on
+    // all sides and will equal heightOfOneLine / 2. I'll make the height of the
+    // rectangle heightOfOneLine *2.
+    int serverRectangleWidth = fm.stringWidth("Server") + heightOfOneLine;
 
-        // Draw the filled rectangle. The x starting point is the width of the
-        // canvas minus the width of the server rectangle minus the 5 pixel margin.
-        int xStartingPointServerRect = dim.width - serverRectangleWidth - 5;
-        g.setColor(Color.green);
-        g.fillRoundRect(xStartingPointServerRect, yStartingPoint,
+    // Draw the filled rectangle. The x starting point is the width of the
+    // canvas minus the width of the server rectangle minus the 5 pixel margin.
+    int xStartingPointServerRect = dim.width - serverRectangleWidth - 5;
+    g.setColor(Color.green);
+    g.fillRoundRect(xStartingPointServerRect, yStartingPoint,
             serverRectangleWidth, totalHeight, 5, 5);
 
-        // Give this rectangle a handsome black outline
-        g.setColor(Color.black);
-        g.drawRoundRect(xStartingPointServerRect, yStartingPoint,
+    // Give this rectangle a handsome black outline
+    g.setColor(Color.black);
+    g.drawRoundRect(xStartingPointServerRect, yStartingPoint,
             serverRectangleWidth - 1, totalHeight - 1, 5, 5);
 
-        int whiteRectangleWidth = xStartingPointServerRect - jvmRectangleWidth - 5;
-        if (whiteRectangleWidth > 0) {
+    int whiteRectangleWidth = xStartingPointServerRect - jvmRectangleWidth - 5;
+    if (whiteRectangleWidth > 0) {
 
-            g.setColor(Color.white);
-            g.fillRect(jvmRectangleWidth + 5, yStartingPoint + (heightOfOneLine / 2),
-                whiteRectangleWidth, heightOfOneLine);
-        }
-
-        // Draw "JVM" inside the rectangle
-        g.setColor(Color.black);
-        xStartingPoint += (heightOfOneLine / 2);
-        int ascent = fm.getAscent();
-        yStartingPoint += ascent + (heightOfOneLine / 2);
-        g.drawString("JVM", xStartingPoint, yStartingPoint);
-
-        // Draw "Server" inside the rectangle
-        int xStartingPointServerText = xStartingPointServerRect + (heightOfOneLine / 2);
-        g.drawString("Server", xStartingPointServerText, yStartingPoint);
-
-        // The string should be written so that it fits between the JVM and Server
-        // rectangles, leaving at least 5 pixels space between the rectangle and
-        // the string.
-        if (stringValid && currentGobblePosition < theString.length()) {
-
-            // First need to figure out how many characters will fit in
-            // the space between the two rectangles.
-            int xTextStartingPoint = jvmRectangleWidth + 10;
-            int xTextEndingPoint = xStartingPointServerRect - 5;
-            int pixelsAvailableBetweenRectangles = xTextEndingPoint - xTextStartingPoint;
-            if (pixelsAvailableBetweenRectangles < 0) {
-                pixelsAvailableBetweenRectangles = 0;
-            }
-
-            // Initialize the number of characters to write as the number of
-            // remaining characters. This will be reduced below innerfloat this amount of
-            // characters doesn't fit.
-            int charsToWriteCount = theString.length() - currentGobblePosition;
-
-            // Check to see innerfloat the string to be displayed already fits between the
-            // two rectangles. If so, we'll just use the total number of characters
-            // remaining as the number of characters to write.
-            int pixelWidthOfRemainingString = fm.stringWidth(theString.substring(currentGobblePosition));
-            if (pixelWidthOfRemainingString > pixelsAvailableBetweenRectangles) {
-
-                // The first while loop increments the charsThatFitBetweenTwoRectanglesCount
-                // until the width of the string in pixels just exceeds the available space.
-                String tryThisString = theString.substring(currentGobblePosition,
-                    currentGobblePosition + charsThatFitBetweenRectanglesCount);
-                int pixelsEaten = fm.stringWidth(tryThisString);
-                while (pixelsEaten <= pixelsAvailableBetweenRectangles) {
-                    ++charsThatFitBetweenRectanglesCount;
-                    tryThisString = theString.substring(currentGobblePosition,
-                        currentGobblePosition + charsThatFitBetweenRectanglesCount);
-                    pixelsEaten = fm.stringWidth(tryThisString);
-                }
-
-                // The second while loop decreases the charsThatFit variable until the
-                // width of the string in pixels is just under the available width.
-                while (pixelsEaten > pixelsAvailableBetweenRectangles) {
-                    --charsThatFitBetweenRectanglesCount;
-                    tryThisString = theString.substring(currentGobblePosition,
-                        currentGobblePosition + charsThatFitBetweenRectanglesCount);
-                    pixelsEaten = fm.stringWidth(tryThisString);
-                }
-
-                charsToWriteCount = charsThatFitBetweenRectanglesCount;
-            }
-
-            // Draw the interesting characters in red.
-            g.setColor(Color.red);
-            int redCharsCount = interestingCharsCount;
-            if (redCharsCount > charsToWriteCount) {
-                redCharsCount = charsToWriteCount;
-            }
-            String redString = theString.substring(currentGobblePosition,
-                currentGobblePosition + redCharsCount);
-            g.drawString(redString, xTextStartingPoint, yStartingPoint);
-
-            // Draw the remaining characters in black.
-            int blackStringStartingPosition = currentGobblePosition + redCharsCount;
-            int blackCharsCount = charsToWriteCount - redCharsCount;
-            if (blackStringStartingPosition < theString.length()
-                && blackCharsCount > 0) {
-
-                xTextStartingPoint += fm.stringWidth(redString);
-                g.setColor(Color.black);
-                g.drawString(theString.substring(blackStringStartingPosition,
-                    blackStringStartingPosition + blackCharsCount),
-                    xTextStartingPoint, yStartingPoint);
-            }
-        }
+      g.setColor(Color.white);
+      g.fillRect(jvmRectangleWidth + 5, yStartingPoint + (heightOfOneLine / 2),
+              whiteRectangleWidth, heightOfOneLine);
     }
+
+    // Draw "JVM" inside the rectangle
+    g.setColor(Color.black);
+    xStartingPoint += (heightOfOneLine / 2);
+    int ascent = fm.getAscent();
+    yStartingPoint += ascent + (heightOfOneLine / 2);
+    g.drawString("JVM", xStartingPoint, yStartingPoint);
+
+    // Draw "Server" inside the rectangle
+    int xStartingPointServerText = xStartingPointServerRect + (heightOfOneLine / 2);
+    g.drawString("Server", xStartingPointServerText, yStartingPoint);
+
+    // The string should be written so that it fits between the JVM and Server
+    // rectangles, leaving at least 5 pixels space between the rectangle and
+    // the string.
+    if (stringValid && currentGobblePosition < theString.length()) {
+
+      // First need to figure out how many characters will fit in
+      // the space between the two rectangles.
+      int xTextStartingPoint = jvmRectangleWidth + 10;
+      int xTextEndingPoint = xStartingPointServerRect - 5;
+      int pixelsAvailableBetweenRectangles = xTextEndingPoint - xTextStartingPoint;
+      if (pixelsAvailableBetweenRectangles < 0) {
+        pixelsAvailableBetweenRectangles = 0;
+      }
+
+      // Initialize the number of characters to write as the number of
+      // remaining characters. This will be reduced below innerfloat this amount of
+      // characters doesn't fit.
+      int charsToWriteCount = theString.length() - currentGobblePosition;
+
+      // Check to see innerfloat the string to be displayed already fits between the
+      // two rectangles. If so, we'll just use the total number of characters
+      // remaining as the number of characters to write.
+      int pixelWidthOfRemainingString = fm.stringWidth(theString.substring(currentGobblePosition));
+      if (pixelWidthOfRemainingString > pixelsAvailableBetweenRectangles) {
+
+        // The first while loop increments the charsThatFitBetweenTwoRectanglesCount
+        // until the width of the string in pixels just exceeds the available space.
+        String tryThisString = theString.substring(currentGobblePosition,
+                currentGobblePosition + charsThatFitBetweenRectanglesCount);
+        int pixelsEaten = fm.stringWidth(tryThisString);
+        while (pixelsEaten <= pixelsAvailableBetweenRectangles) {
+          ++charsThatFitBetweenRectanglesCount;
+          tryThisString = theString.substring(currentGobblePosition,
+                  currentGobblePosition + charsThatFitBetweenRectanglesCount);
+          pixelsEaten = fm.stringWidth(tryThisString);
+        }
+
+        // The second while loop decreases the charsThatFit variable until the
+        // width of the string in pixels is just under the available width.
+        while (pixelsEaten > pixelsAvailableBetweenRectangles) {
+          --charsThatFitBetweenRectanglesCount;
+          tryThisString = theString.substring(currentGobblePosition,
+                  currentGobblePosition + charsThatFitBetweenRectanglesCount);
+          pixelsEaten = fm.stringWidth(tryThisString);
+        }
+
+        charsToWriteCount = charsThatFitBetweenRectanglesCount;
+      }
+
+      // Draw the interesting characters in red.
+      g.setColor(Color.red);
+      int redCharsCount = interestingCharsCount;
+      if (redCharsCount > charsToWriteCount) {
+        redCharsCount = charsToWriteCount;
+      }
+      String redString = theString.substring(currentGobblePosition,
+              currentGobblePosition + redCharsCount);
+      g.drawString(redString, xTextStartingPoint, yStartingPoint);
+
+      // Draw the remaining characters in black.
+      int blackStringStartingPosition = currentGobblePosition + redCharsCount;
+      int blackCharsCount = charsToWriteCount - redCharsCount;
+      if (blackStringStartingPosition < theString.length()
+              && blackCharsCount > 0) {
+
+        xTextStartingPoint += fm.stringWidth(redString);
+        g.setColor(Color.black);
+        g.drawString(theString.substring(blackStringStartingPosition,
+                blackStringStartingPosition + blackCharsCount),
+                xTextStartingPoint, yStartingPoint);
+      }
+    }
+  }
 }

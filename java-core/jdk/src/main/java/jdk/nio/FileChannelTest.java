@@ -9,26 +9,26 @@ import java.nio.channels.FileChannel;
  * Created by why on 3/5/2017.
  */
 public class FileChannelTest {
-    public static void main(String[] args) throws IOException {
-        RandomAccessFile aFile = new RandomAccessFile("D:/mysql-index.sql", "rw");
-        FileChannel inChannel = aFile.getChannel();
+  public static void main(String[] args) throws IOException {
+    RandomAccessFile aFile = new RandomAccessFile("D:/mysql-index.sql", "rw");
+    FileChannel inChannel = aFile.getChannel();
 
-        ByteBuffer buf = ByteBuffer.allocate(48);
+    ByteBuffer buf = ByteBuffer.allocate(48);
 
-        int bytesRead = inChannel.read(buf);
-        while (bytesRead != -1) {
+    int bytesRead = inChannel.read(buf);
+    while (bytesRead != -1) {
 
-            System.out.println("Read " + bytesRead);
-            buf.flip();
+      System.out.println("Read " + bytesRead);
+      buf.flip();
 
-            while(buf.hasRemaining()){
-                System.out.print((char) buf.get());
-            }
+      while (buf.hasRemaining()) {
+        System.out.print((char) buf.get());
+      }
 
-            buf.clear();
-            bytesRead = inChannel.read(buf);
-        }
-        aFile.close();
-
+      buf.clear();
+      bytesRead = inChannel.read(buf);
     }
+    aFile.close();
+
+  }
 }

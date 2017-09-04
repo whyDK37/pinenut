@@ -48,15 +48,16 @@
 package jvm.sim;
 
 /**
-* This class gives class Method something to throw when it encounters
-* a breakpoint instruction as it executes bytecodes.
-*
-* @author  Bill Venners
-*/
+ * This class gives class Method something to throw when it encounters
+ * a breakpoint instruction as it executes bytecodes.
+ *
+ * @author Bill Venners
+ */
 class BreakpointException extends Exception {
-    BreakpointException() {
-    }
-    BreakpointException(String s) {
-        super(s);
-    }
+  BreakpointException() {
+  }
+
+  BreakpointException(String s) {
+    super(s);
+  }
 }

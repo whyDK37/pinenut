@@ -11,34 +11,34 @@ import java.lang.ref.WeakReference;
  */
 public class LogTest {
 
-    @Test
-    public void test() {
-        Log logger = LogFactory.getLog(LogTest.class);
-        logger.info("init");
-    }
+  public static void main(String[] args) {
+    LogTest logTest = new LogTest();
+    WeakReference<LogTest> wf = new WeakReference<LogTest>(logTest);
 
-    public static void main(String[] args) {
-        LogTest logTest = new LogTest();
-        WeakReference<LogTest> wf = new WeakReference<LogTest>(logTest);
-
-        int count = 0;
-        wf.enqueue();
-        while (true) {
-            System.gc();
-            if (wf.get() != null) {
-                System.out.println(count++);
-            } else {
-                System.out.println("Object has framework.bean gc.");
-                break;
-            }
-        }
+    int count = 0;
+    wf.enqueue();
+    while (true) {
+      System.gc();
+      if (wf.get() != null) {
+        System.out.println(count++);
+      } else {
+        System.out.println("Object has framework.bean gc.");
+        break;
+      }
     }
+  }
 
-    public String get() {
-        return "abc";
-    }
+  @Test
+  public void test() {
+    Log logger = LogFactory.getLog(LogTest.class);
+    logger.info("init");
+  }
 
-    protected void finalize() throws Throwable {
-        System.out.println("finalize");
-    }
+  public String get() {
+    return "abc";
+  }
+
+  protected void finalize() throws Throwable {
+    System.out.println("finalize");
+  }
 }

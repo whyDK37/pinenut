@@ -3,15 +3,17 @@
 <configuration status="warn" packages="org.graylog2.log4j2" monitorInterval="30">
     <appenders>
         <GELF name="gelfAppender" server="192.168.56.101" port="12201" hostName="NLWGM1793" protocol="UDP"
-              additionalFields="environment=DEV,application=log4j2-demo-app" />
+              additionalFields="environment=DEV,application=log4j2-demo-app"/>
         <File name="fileAppender" fileName="boot.log">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%ex%n</Pattern>
             </PatternLayout>
         </File>
-        <Console name="ConsoleAppender" target="SYSTEM_OUT" >
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} :%4p %t %c{1.} (%F:%L) - %X{first} %X{last} - %m %ex %n"/>
-        </Console>0
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} :%4p %t %c{1.} (%F:%L) - %X{first} %X{last} - %m %ex %n"/>
+        </Console>
+        0
     </appenders>
 
     <loggers>

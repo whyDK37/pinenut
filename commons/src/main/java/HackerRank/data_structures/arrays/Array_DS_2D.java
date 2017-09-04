@@ -95,31 +95,31 @@ import java.util.Scanner;
  */
 public class Array_DS_2D {
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
 
-        int cubeSize = 6;
+    int cubeSize = 6;
 
-        int[][] cube = new int[cubeSize][cubeSize];
-        for (int i = 0; i < cubeSize; i++) {
-            String s = scanner.nextLine();
-            String[] split = s.split("[ ]");
-            for (int i1 = 0; i1 < split.length; i1++) {
-                cube[i][i1] = Integer.parseInt(split[i1]);
-            }
-        }
-
-        int maxsum = 0;
-        for (int i = 2; i < cubeSize; i++) {
-            for (int j = 2; j < cubeSize; j++) {
-                int tmp = cube[i - 2][j - 2] + cube[i - 2][j - 1] + cube[i - 2][j - 0];
-                tmp += cube[i - 1][j - 1];
-                tmp += cube[i - 0][j - 2] + cube[i - 0][j - 1] + cube[i - 0][j - 0];
-
-                maxsum = maxsum > tmp ? maxsum : tmp;
-            }
-        }
-
-        System.out.println(maxsum);
+    int[][] cube = new int[cubeSize][cubeSize];
+    for (int i = 0; i < cubeSize; i++) {
+      String s = scanner.nextLine();
+      String[] split = s.split("[ ]");
+      for (int i1 = 0; i1 < split.length; i1++) {
+        cube[i][i1] = Integer.parseInt(split[i1]);
+      }
     }
+
+    int maxsum = 0;
+    for (int i = 2; i < cubeSize; i++) {
+      for (int j = 2; j < cubeSize; j++) {
+        int tmp = cube[i - 2][j - 2] + cube[i - 2][j - 1] + cube[i - 2][j - 0];
+        tmp += cube[i - 1][j - 1];
+        tmp += cube[i - 0][j - 2] + cube[i - 0][j - 1] + cube[i - 0][j - 0];
+
+        maxsum = maxsum > tmp ? maxsum : tmp;
+      }
+    }
+
+    System.out.println(maxsum);
+  }
 }

@@ -10,11 +10,11 @@ import java.util.Random;
  * Created by why on 5/5/2017.
  */
 public class MySkipList<T> {
+    private static final double PROBABILITY = 0.5;//向上提升一个的概率
     private SkipListNode<T> head, tail;
     private int nodes;//节点总数
     private int listLevel;//层数
     private Random random;// 用于投掷硬币
-    private static final double PROBABILITY = 0.5;//向上提升一个的概率
 
     public MySkipList() {
         random = new Random();
@@ -167,12 +167,11 @@ public class MySkipList<T> {
 
 
     public static class SkipListNode<T> {
+        public static final int HEAD_KEY = Integer.MIN_VALUE; // 负无穷
+        public static final int TAIL_KEY = Integer.MAX_VALUE; // 正无穷
         public int key;
         public T value;
         public SkipListNode<T> up, down, left, right; // 上下左右 四个指针
-
-        public static final int HEAD_KEY = Integer.MIN_VALUE; // 负无穷
-        public static final int TAIL_KEY = Integer.MAX_VALUE; // 正无穷
 
         public SkipListNode(int k, T v) {
             key = k;

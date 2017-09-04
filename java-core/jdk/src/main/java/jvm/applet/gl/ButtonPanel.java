@@ -49,29 +49,29 @@ package jvm.applet.gl;/*
 import java.awt.*;
 
 /**
-* This class provides the panel of 3 buttons at the bottom left
-* corner of the applet.
-*
-* @author  Bill Venners
-*/
+ * This class provides the panel of 3 buttons at the bottom left
+ * corner of the applet.
+ *
+ * @author Bill Venners
+ */
 class ButtonPanel extends Panel {
 
-    ButtonPanel() {
-        setLayout(new GridLayout(3, 1, 5, 5));
-        setBackground(Color.blue);
-        Button b = new Button("Step");
-        b.setBackground(Color.lightGray);
-        add(b);
-        b = new Button("Back");
-        b.setBackground(Color.lightGray);
-        add(b);
-        b = new Button("Reset");
-        b.setBackground(Color.lightGray);
-        add(b);
-    }
+  ButtonPanel() {
+    setLayout(new GridLayout(3, 1, 5, 5));
+    setBackground(Color.blue);
+    Button b = new Button("Step");
+    b.setBackground(Color.lightGray);
+    add(b);
+    b = new Button("Back");
+    b.setBackground(Color.lightGray);
+    add(b);
+    b = new Button("Reset");
+    b.setBackground(Color.lightGray);
+    add(b);
+  }
 
-    public Insets insets() {
-        // top, left, bottom, right
-        return new Insets(0, 0, 0, 0);
-    }
+  public Insets insets() {
+    // top, left, bottom, right
+    return new Insets(0, 0, 0, 0);
+  }
 }

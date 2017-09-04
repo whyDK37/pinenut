@@ -1,17 +1,19 @@
 package jdk.jmx.example;
 
 public interface HelloMBean {
-    // operations
+  // operations
 
-    public void sayHello();
-    public int add(int x, int y);
+  public void sayHello();
 
-    // attributes
+  public int add(int x, int y);
 
-    // a read-only attribute called Name of type String
-    public String getName();
+  // attributes
 
-    // a read-write attribute called CacheSize of type int
-    public int getCacheSize();
-    public void setCacheSize(int size);
+  // a read-only attribute called Name of type String
+  public String getName();
+
+  // a read-write attribute called CacheSize of type int
+  public int getCacheSize();
+
+  public void setCacheSize(int size);
 }

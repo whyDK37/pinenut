@@ -45,50 +45,50 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is the outermost panel containing everything
-* in the user interface shown during the compact heap mode.
-*
-* @author  Bill Venners
-*/
+ * This class is the outermost panel containing everything
+ * in the user interface shown during the compact heap mode.
+ *
+ * @author Bill Venners
+ */
 class CompactHeapPanel extends Panel {
 
-    GCHeap gcHeap;
-    HeapOfFishTextArea controlPanelTextArea;
+  GCHeap gcHeap;
+  HeapOfFishTextArea controlPanelTextArea;
 
-    CompactHeapCanvas compactHeapCanvas;
+  CompactHeapCanvas compactHeapCanvas;
 
-    CompactHeapPanel(GCHeap heap, HeapOfFishTextArea ta) {
+  CompactHeapPanel(GCHeap heap, HeapOfFishTextArea ta) {
 
-        gcHeap = heap;
-        controlPanelTextArea = ta;
+    gcHeap = heap;
+    controlPanelTextArea = ta;
 
-        setBackground(Color.blue);
+    setBackground(Color.blue);
 
-        setLayout(new BorderLayout());
+    setLayout(new BorderLayout());
 
-        compactHeapCanvas = new CompactHeapCanvas(gcHeap);
+    compactHeapCanvas = new CompactHeapCanvas(gcHeap);
 
-        add("South", new CompactHeapButtonPanel());
-        add("Center", compactHeapCanvas);
-    }
+    add("South", new CompactHeapButtonPanel());
+    add("Center", compactHeapCanvas);
+  }
 
-    public boolean action(Event evt, Object arg) {
-        if (evt.target instanceof Button) {
-            String bname = (String) arg;
-            if (bname.equals(HeapOfFishStrings.slide)) {
-                boolean objectWasSlid = gcHeap.slideNextNonContiguousObjectDown();
-                if (objectWasSlid) {
-                    controlPanelTextArea.setText(HeapOfFishStrings.slidSuccessfully);
-                }
-                else {
-                    controlPanelTextArea.setText(HeapOfFishStrings.cantSlideAnymore);
-                }
-                compactHeapCanvas.repaint();
-            }
+  public boolean action(Event evt, Object arg) {
+    if (evt.target instanceof Button) {
+      String bname = (String) arg;
+      if (bname.equals(HeapOfFishStrings.slide)) {
+        boolean objectWasSlid = gcHeap.slideNextNonContiguousObjectDown();
+        if (objectWasSlid) {
+          controlPanelTextArea.setText(HeapOfFishStrings.slidSuccessfully);
+        } else {
+          controlPanelTextArea.setText(HeapOfFishStrings.cantSlideAnymore);
         }
-        return true;
+        compactHeapCanvas.repaint();
+      }
     }
+    return true;
+  }
 }

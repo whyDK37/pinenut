@@ -9,14 +9,14 @@ import java.util.Stack;
  */
 public class StackTest {
 
-    @Test
-    public void test() {
-        Stack<String> stack = new Stack();
+  @Test
+  public void test() {
+    Stack<String> stack = new Stack();
 
-        stack.add("a");
-        stack.add(0, "b");
+    stack.add("a");
+    stack.add(0, "b");
 
 
-        stack.peek();
-    }
+    stack.peek();
+  }
 }

@@ -45,319 +45,311 @@ package jvm.applet.heapoffish;/*
 * RESULT OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS
 * DERIVATIVES.
 */
+
 import java.awt.*;
 
 /**
-* This class is the canvas that displays the user interface
-* during the unlink fish sub-mode of the assign references mode.
-* This class contains the code that handles the collision detection
-* and clicking that unlinks fish.
-*
-* @author  Bill Venners
-*/
+ * This class is the canvas that displays the user interface
+ * during the unlink fish sub-mode of the assign references mode.
+ * This class contains the code that handles the collision detection
+ * and clicking that unlinks fish.
+ *
+ * @author Bill Venners
+ */
 public class UnlinkFishCanvas extends AssignReferencesCanvas {
 
-    private boolean iconClicked = false;
-    private boolean overYellowLocalVarLine = false;
-    private boolean overBlueLocalVarLine = false;
-    private boolean overRedLocalVarLine = false;
-    private boolean overInterFishLine = false;
+  private final int extraZeros = 1000;
+  private boolean iconClicked = false;
+  private boolean overYellowLocalVarLine = false;
+  private boolean overBlueLocalVarLine = false;
+  private boolean overRedLocalVarLine = false;
+  private boolean overInterFishLine = false;
+  private Point interFishLineStart;
+  private Point interFishLineEnd;
+  private int interFishRefToClear;
+  private Color interFishLineColor;
+  private Point posOfMouseInsideIconWhenFirstPressed = new Point(0, 0);
+  private int objectIndexOfFishIconThatWasClicked;
+  private boolean dragging = false;
+  private Point currentMouseDragPosition = new Point(0, 0);
+  private boolean mouseIsOverAnIconThatCanBeDroppedUpon = false;
+  private int objectIndexOfIconThatCanBeDroppedUpon;
+  private Color colorOfUnlinkableLine = Color.black;
+  // mouseFatness is the number of pixels around the mouse which will form the rectangle
+  // that a line must cross for it to be unlinked.
+  private int mouseFatness = 3;
 
-    private Point interFishLineStart;
-    private Point interFishLineEnd;
-    private int interFishRefToClear;
-    private Color interFishLineColor;
+  UnlinkFishCanvas(GCHeap heap, LocalVariables locVars, HeapOfFishTextArea ta) {
+    gcHeap = heap;
+    localVars = locVars;
+    controlPanelTextArea = ta;
+  }
 
-    private Point posOfMouseInsideIconWhenFirstPressed = new Point(0, 0);
-    private int objectIndexOfFishIconThatWasClicked;
+  public Dimension minimumSize() {
+    return new Dimension(500, 240);
+  }
 
-    private boolean dragging = false;
-    private Point currentMouseDragPosition = new Point(0, 0);
-    private boolean mouseIsOverAnIconThatCanBeDroppedUpon = false;
-    private int objectIndexOfIconThatCanBeDroppedUpon;
+  public Dimension preferredSize() {
+    return new Dimension(500, 240);
+  }
 
-    private Color colorOfUnlinkableLine = Color.black;
+  public boolean mouseDrag(Event evt, int x, int y) {
+    return mouseMove(evt, x, y);
+  }
 
-    private final int extraZeros = 1000;
+  public boolean mouseMove(Event evt, int x, int y) {
 
-    // mouseFatness is the number of pixels around the mouse which will form the rectangle
-    // that a line must cross for it to be unlinked.
-    private int mouseFatness = 3;
-
-    UnlinkFishCanvas(GCHeap heap, LocalVariables locVars, HeapOfFishTextArea ta) {
-        gcHeap = heap;
-        localVars = locVars;
-        controlPanelTextArea = ta;
+    if (overYellowLocalVarLine) {
+      if (mouseOverLine(x, y, localVars.yellowLineStart, localVars.yellowLineEnd)) {
+        return true;
+      }
+      Graphics g = getGraphics();
+      g.setColor(Color.yellow);
+      g.drawLine(localVars.yellowLineStart.x, localVars.yellowLineStart.y,
+              localVars.yellowLineEnd.x, localVars.yellowLineEnd.y);
+      overYellowLocalVarLine = false;
     }
 
-    public Dimension minimumSize() {
-        return new Dimension(500, 240);
+    if (overBlueLocalVarLine) {
+      if (mouseOverLine(x, y, localVars.blueLineStart, localVars.blueLineEnd)) {
+        return true;
+      }
+      Graphics g = getGraphics();
+      g.setColor(Color.cyan);
+      g.drawLine(localVars.blueLineStart.x, localVars.blueLineStart.y,
+              localVars.blueLineEnd.x, localVars.blueLineEnd.y);
+      overBlueLocalVarLine = false;
     }
 
-    public Dimension preferredSize() {
-        return new Dimension(500, 240);
+    if (overRedLocalVarLine) {
+      if (mouseOverLine(x, y, localVars.redLineStart, localVars.redLineEnd)) {
+        return true;
+      }
+      Graphics g = getGraphics();
+      g.setColor(Color.red);
+      g.drawLine(localVars.redLineStart.x, localVars.redLineStart.y,
+              localVars.redLineEnd.x, localVars.redLineEnd.y);
+      overRedLocalVarLine = false;
     }
 
-    public boolean mouseDrag(Event evt, int x, int y) {
-        return mouseMove(evt, x, y);
+    if (overInterFishLine) {
+      if (mouseOverLine(x, y, interFishLineStart, interFishLineEnd)) {
+        return true;
+      }
+      Graphics g = getGraphics();
+      g.setColor(interFishLineColor);
+      g.drawLine(interFishLineStart.x, interFishLineStart.y,
+              interFishLineEnd.x, interFishLineEnd.y);
+      overInterFishLine = false;
     }
 
-    public boolean mouseMove(Event evt, int x, int y) {
-
-        if (overYellowLocalVarLine) {
-            if (mouseOverLine(x, y, localVars.yellowLineStart, localVars.yellowLineEnd)) {
-                return true;
-            }
-            Graphics g = getGraphics();
-            g.setColor(Color.yellow);
-            g.drawLine(localVars.yellowLineStart.x, localVars.yellowLineStart.y,
+    // Now see if the mouse is over a new line.
+    if (localVars.yellowFish != 0) {
+      if (mouseOverLine(x, y, localVars.yellowLineStart, localVars.yellowLineEnd)) {
+        Graphics g = getGraphics();
+        g.setColor(Color.yellow);
+        g.setXORMode(colorOfUnlinkableLine);
+        g.drawLine(localVars.yellowLineStart.x, localVars.yellowLineStart.y,
                 localVars.yellowLineEnd.x, localVars.yellowLineEnd.y);
-            overYellowLocalVarLine = false;
-        }
+        g.setPaintMode();
+        overYellowLocalVarLine = true;
+        return true;
+      }
+    }
 
-        if (overBlueLocalVarLine) {
-            if (mouseOverLine(x, y, localVars.blueLineStart, localVars.blueLineEnd)) {
-                return true;
-            }
-            Graphics g = getGraphics();
-            g.setColor(Color.cyan);
-            g.drawLine(localVars.blueLineStart.x, localVars.blueLineStart.y,
+    if (localVars.blueFish != 0) {
+      if (mouseOverLine(x, y, localVars.blueLineStart, localVars.blueLineEnd)) {
+        Graphics g = getGraphics();
+        g.setColor(Color.cyan);
+        g.setXORMode(colorOfUnlinkableLine);
+        g.drawLine(localVars.blueLineStart.x, localVars.blueLineStart.y,
                 localVars.blueLineEnd.x, localVars.blueLineEnd.y);
-            overBlueLocalVarLine = false;
-        }
+        g.setPaintMode();
+        overBlueLocalVarLine = true;
+        return true;
+      }
+    }
 
-        if (overRedLocalVarLine) {
-            if (mouseOverLine(x, y, localVars.redLineStart, localVars.redLineEnd)) {
-                return true;
-            }
-            Graphics g = getGraphics();
-            g.setColor(Color.red);
-            g.drawLine(localVars.redLineStart.x, localVars.redLineStart.y,
+    if (localVars.redFish != 0) {
+      if (mouseOverLine(x, y, localVars.redLineStart, localVars.redLineEnd)) {
+        Graphics g = getGraphics();
+        g.setColor(Color.red);
+        g.setXORMode(colorOfUnlinkableLine);
+        g.drawLine(localVars.redLineStart.x, localVars.redLineStart.y,
                 localVars.redLineEnd.x, localVars.redLineEnd.y);
-            overRedLocalVarLine = false;
-        }
+        g.setPaintMode();
+        overRedLocalVarLine = true;
+        return true;
+      }
+    }
 
-        if (overInterFishLine) {
-            if (mouseOverLine(x, y, interFishLineStart, interFishLineEnd)) {
-                return true;
-            }
+    for (int i = gcHeap.getHandlePoolSize() - 1; i >= 0; --i) {
+      ObjectHandle oh = gcHeap.getObjectHandle(i + 1);
+      if (!oh.free) {
+        if (oh.gotFriend && (gcHeap.getObjectPool(oh.objectPos) != 0)) {
+          if (mouseOverLine(x, y, oh.myFriendLineStart, oh.myFriendLineEnd)) {
+            interFishLineStart = oh.myFriendLineStart;
+            interFishLineEnd = oh.myFriendLineEnd;
+            interFishRefToClear = oh.objectPos;
+            interFishLineColor = oh.fish.getFishColor();
             Graphics g = getGraphics();
             g.setColor(interFishLineColor);
+            g.setXORMode(colorOfUnlinkableLine);
             g.drawLine(interFishLineStart.x, interFishLineStart.y,
-                interFishLineEnd.x, interFishLineEnd.y);
-            overInterFishLine = false;
+                    interFishLineEnd.x, interFishLineEnd.y);
+            g.setPaintMode();
+            overInterFishLine = true;
+            return true;
+          }
         }
+        if (oh.gotLunch && (gcHeap.getObjectPool(oh.objectPos + 1) != 0)) {
+          if (mouseOverLine(x, y, oh.myLunchLineStart, oh.myLunchLineEnd)) {
+            interFishLineStart = oh.myLunchLineStart;
+            interFishLineEnd = oh.myLunchLineEnd;
+            interFishRefToClear = oh.objectPos + 1;
+            interFishLineColor = oh.fish.getFishColor();
+            Graphics g = getGraphics();
+            g.setColor(interFishLineColor);
+            g.setXORMode(colorOfUnlinkableLine);
+            g.drawLine(interFishLineStart.x, interFishLineStart.y,
+                    interFishLineEnd.x, interFishLineEnd.y);
+            g.setPaintMode();
+            overInterFishLine = true;
+            return true;
+          }
+        }
+        if (oh.gotSnack && (gcHeap.getObjectPool(oh.objectPos + 2) != 0)) {
+          if (mouseOverLine(x, y, oh.mySnackLineStart, oh.mySnackLineEnd)) {
+            interFishLineStart = oh.mySnackLineStart;
+            interFishLineEnd = oh.mySnackLineEnd;
+            interFishRefToClear = oh.objectPos + 2;
+            interFishLineColor = oh.fish.getFishColor();
+            Graphics g = getGraphics();
+            g.setColor(interFishLineColor);
+            g.setXORMode(colorOfUnlinkableLine);
+            g.drawLine(interFishLineStart.x, interFishLineStart.y,
+                    interFishLineEnd.x, interFishLineEnd.y);
+            g.setPaintMode();
+            overInterFishLine = true;
+            return true;
+          }
+        }
+      }
+    }
+    return true;
+  }
 
-        // Now see if the mouse is over a new line.
-        if (localVars.yellowFish != 0) {
-            if (mouseOverLine(x, y, localVars.yellowLineStart, localVars.yellowLineEnd)) {
-                Graphics g = getGraphics();
-                g.setColor(Color.yellow);
-                g.setXORMode(colorOfUnlinkableLine);
-                g.drawLine(localVars.yellowLineStart.x, localVars.yellowLineStart.y,
-                    localVars.yellowLineEnd.x, localVars.yellowLineEnd.y);
-                g.setPaintMode();
-                overYellowLocalVarLine = true;
-                return true;
-            }
-        }
-
-        if (localVars.blueFish != 0) {
-            if (mouseOverLine(x, y, localVars.blueLineStart, localVars.blueLineEnd)) {
-                Graphics g = getGraphics();
-                g.setColor(Color.cyan);
-                g.setXORMode(colorOfUnlinkableLine);
-                g.drawLine(localVars.blueLineStart.x, localVars.blueLineStart.y,
-                    localVars.blueLineEnd.x, localVars.blueLineEnd.y);
-                g.setPaintMode();
-                overBlueLocalVarLine = true;
-                return true;
-            }
-        }
-
-        if (localVars.redFish != 0) {
-            if (mouseOverLine(x, y, localVars.redLineStart, localVars.redLineEnd)) {
-                Graphics g = getGraphics();
-                g.setColor(Color.red);
-                g.setXORMode(colorOfUnlinkableLine);
-                g.drawLine(localVars.redLineStart.x, localVars.redLineStart.y,
-                    localVars.redLineEnd.x, localVars.redLineEnd.y);
-                g.setPaintMode();
-                overRedLocalVarLine = true;
-                return true;
-            }
-        }
-
-        for (int i = gcHeap.getHandlePoolSize() - 1; i >= 0; --i) {
-            ObjectHandle oh = gcHeap.getObjectHandle(i + 1);
-            if (!oh.free) {
-                if (oh.gotFriend && (gcHeap.getObjectPool(oh.objectPos) != 0)) {
-                    if (mouseOverLine(x, y, oh.myFriendLineStart, oh.myFriendLineEnd)) {
-                        interFishLineStart = oh.myFriendLineStart;
-                        interFishLineEnd = oh.myFriendLineEnd;
-                        interFishRefToClear = oh.objectPos;
-                        interFishLineColor = oh.fish.getFishColor();
-                        Graphics g = getGraphics();
-                        g.setColor(interFishLineColor);
-                        g.setXORMode(colorOfUnlinkableLine);
-                        g.drawLine(interFishLineStart.x, interFishLineStart.y,
-                            interFishLineEnd.x, interFishLineEnd.y);
-                        g.setPaintMode();
-                        overInterFishLine = true;
-                        return true;
-                    }
-                }
-                if (oh.gotLunch && (gcHeap.getObjectPool(oh.objectPos + 1) != 0)) {
-                    if (mouseOverLine(x, y, oh.myLunchLineStart, oh.myLunchLineEnd)) {
-                        interFishLineStart = oh.myLunchLineStart;
-                        interFishLineEnd = oh.myLunchLineEnd;
-                        interFishRefToClear = oh.objectPos + 1;
-                        interFishLineColor = oh.fish.getFishColor();
-                        Graphics g = getGraphics();
-                        g.setColor(interFishLineColor);
-                        g.setXORMode(colorOfUnlinkableLine);
-                        g.drawLine(interFishLineStart.x, interFishLineStart.y,
-                            interFishLineEnd.x, interFishLineEnd.y);
-                        g.setPaintMode();
-                        overInterFishLine = true;
-                        return true;
-                    }
-                }
-                if (oh.gotSnack && (gcHeap.getObjectPool(oh.objectPos + 2) != 0)) {
-                    if (mouseOverLine(x, y, oh.mySnackLineStart, oh.mySnackLineEnd)) {
-                        interFishLineStart = oh.mySnackLineStart;
-                        interFishLineEnd = oh.mySnackLineEnd;
-                        interFishRefToClear = oh.objectPos + 2;
-                        interFishLineColor = oh.fish.getFishColor();
-                        Graphics g = getGraphics();
-                        g.setColor(interFishLineColor);
-                        g.setXORMode(colorOfUnlinkableLine);
-                        g.drawLine(interFishLineStart.x, interFishLineStart.y,
-                            interFishLineEnd.x, interFishLineEnd.y);
-                        g.setPaintMode();
-                        overInterFishLine = true;
-                        return true;
-                    }
-                }
-            }
-        }
-        return true;
+  public boolean mouseUp(Event evt, int x, int y) {
+    if (overYellowLocalVarLine) {
+      if (mouseOverLine(x, y, localVars.yellowLineStart, localVars.yellowLineEnd)) {
+        localVars.yellowFish = 0;
+        overYellowLocalVarLine = false;
+        repaint();
+      }
     }
 
-    public boolean mouseUp(Event evt, int x, int y) {
-        if (overYellowLocalVarLine) {
-            if (mouseOverLine(x, y, localVars.yellowLineStart, localVars.yellowLineEnd)) {
-                localVars.yellowFish = 0;
-                overYellowLocalVarLine = false;
-                repaint();
-            }
-        }
-
-        if (overBlueLocalVarLine) {
-            if (mouseOverLine(x, y, localVars.blueLineStart, localVars.blueLineEnd)) {
-                localVars.blueFish = 0;
-                overBlueLocalVarLine = false;
-                repaint();
-            }
-        }
-
-        if (overRedLocalVarLine) {
-            if (mouseOverLine(x, y, localVars.redLineStart, localVars.redLineEnd)) {
-                localVars.redFish = 0;
-                overRedLocalVarLine = false;
-                repaint();
-            }
-        }
-
-        if (overInterFishLine) {
-            if (mouseOverLine(x, y, interFishLineStart, interFishLineEnd)) {
-                gcHeap.setObjectPool(interFishRefToClear, 0);
-                overInterFishLine = false;
-                repaint();
-            }
-        }
-
-        return true;
+    if (overBlueLocalVarLine) {
+      if (mouseOverLine(x, y, localVars.blueLineStart, localVars.blueLineEnd)) {
+        localVars.blueFish = 0;
+        overBlueLocalVarLine = false;
+        repaint();
+      }
     }
 
-    private boolean mouseOverLine(int x, int y, Point lineStart, Point lineEnd) {
-        // Determine if the line defined by lineStart and lineEnd crosses a square
-        // that is 2 * mouseFatness in width and height centered on the x, y mouse
-        // position. Do this by looking to see if the line crosses any of 3 sides of
-        // the rectangle. If not, the line does not intersect the rectangle.
+    if (overRedLocalVarLine) {
+      if (mouseOverLine(x, y, localVars.redLineStart, localVars.redLineEnd)) {
+        localVars.redFish = 0;
+        overRedLocalVarLine = false;
+        repaint();
+      }
+    }
 
-        if (lineStart.x > lineEnd.x) {
-            if ((x > lineStart.x || x < lineEnd.x)
-                && (lineStart.x - lineEnd.x > (2 * mouseFatness))) {
-                return false;
-            }
-        }
-        else if (lineStart.x < lineEnd.x) {
-            if ((x < lineStart.x || x > lineEnd.x)
-                && (lineEnd.x - lineStart.x > (2 * mouseFatness))) {
-                return false;
-            }
-        }
+    if (overInterFishLine) {
+      if (mouseOverLine(x, y, interFishLineStart, interFishLineEnd)) {
+        gcHeap.setObjectPool(interFishRefToClear, 0);
+        overInterFishLine = false;
+        repaint();
+      }
+    }
 
-        if (lineStart.y > lineEnd.y) {
-            if ((y > lineStart.y || y < lineEnd.y)
-                && (lineStart.y - lineEnd.y > (2 * mouseFatness))) {
-                return false;
-            }
-        }
-        else if (lineStart.y < lineEnd.y) {
-            if ((y < lineStart.y || y > lineEnd.y)
-                && (lineEnd.y - lineStart.y > (2 * mouseFatness))) {
-                return false;
-            }
-        }
+    return true;
+  }
 
-        int xRectLeft = x - mouseFatness;
-        int xRectRight = x + mouseFatness;
-        int yRectTop = y - mouseFatness;
-        int yRectBottom = y + mouseFatness;
+  private boolean mouseOverLine(int x, int y, Point lineStart, Point lineEnd) {
+    // Determine if the line defined by lineStart and lineEnd crosses a square
+    // that is 2 * mouseFatness in width and height centered on the x, y mouse
+    // position. Do this by looking to see if the line crosses any of 3 sides of
+    // the rectangle. If not, the line does not intersect the rectangle.
 
-        // Check for one special case, a line with infinite slope.
-        if (lineStart.x == lineEnd.x) {
-            if (x >= lineStart.x - mouseFatness && x <= lineStart.x + mouseFatness) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
-        // Calculate slope of line.
-        float m = ((float) (lineEnd.y - lineStart.y) / (float) (lineEnd.x - lineStart.x));
-
-        // Calculate y intercept of line.
-        float b = ((float) lineStart.y - (m * (float) lineStart.x));
-
-        // Try left vertical line. What is the line's y value for the xRectLeft?
-        // y = m(xRectLeft) + b
-        float value = ((m * (float) xRectLeft) + b);
-
-        if (value >= (float) yRectTop && value <= (float) yRectBottom) {
-            return true;
-        }
-
-        // Try right vertical line. What is the line's y value for the xRectRight?
-        // y = m(xRectRight) + b
-        value = ((m * (float) xRectRight) + b);
-
-        if (value >= (float) yRectTop && value <= (float) yRectBottom) {
-            return true;
-        }
-
-        // Try top horizontal line. What is the line's x value for the yRectTop?
-        // x = (yRecTop - b) / m
-        value = (((float) yRectTop - b) / m);
-
-        if (value >= (float) xRectLeft && value <= (float) xRectRight) {
-            return true;
-        }
-
+    if (lineStart.x > lineEnd.x) {
+      if ((x > lineStart.x || x < lineEnd.x)
+              && (lineStart.x - lineEnd.x > (2 * mouseFatness))) {
         return false;
+      }
+    } else if (lineStart.x < lineEnd.x) {
+      if ((x < lineStart.x || x > lineEnd.x)
+              && (lineEnd.x - lineStart.x > (2 * mouseFatness))) {
+        return false;
+      }
+    }
+
+    if (lineStart.y > lineEnd.y) {
+      if ((y > lineStart.y || y < lineEnd.y)
+              && (lineStart.y - lineEnd.y > (2 * mouseFatness))) {
+        return false;
+      }
+    } else if (lineStart.y < lineEnd.y) {
+      if ((y < lineStart.y || y > lineEnd.y)
+              && (lineEnd.y - lineStart.y > (2 * mouseFatness))) {
+        return false;
+      }
+    }
+
+    int xRectLeft = x - mouseFatness;
+    int xRectRight = x + mouseFatness;
+    int yRectTop = y - mouseFatness;
+    int yRectBottom = y + mouseFatness;
+
+    // Check for one special case, a line with infinite slope.
+    if (lineStart.x == lineEnd.x) {
+      if (x >= lineStart.x - mouseFatness && x <= lineStart.x + mouseFatness) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    // Calculate slope of line.
+    float m = ((float) (lineEnd.y - lineStart.y) / (float) (lineEnd.x - lineStart.x));
+
+    // Calculate y intercept of line.
+    float b = ((float) lineStart.y - (m * (float) lineStart.x));
+
+    // Try left vertical line. What is the line's y value for the xRectLeft?
+    // y = m(xRectLeft) + b
+    float value = ((m * (float) xRectLeft) + b);
+
+    if (value >= (float) yRectTop && value <= (float) yRectBottom) {
+      return true;
+    }
+
+    // Try right vertical line. What is the line's y value for the xRectRight?
+    // y = m(xRectRight) + b
+    value = ((m * (float) xRectRight) + b);
+
+    if (value >= (float) yRectTop && value <= (float) yRectBottom) {
+      return true;
+    }
+
+    // Try top horizontal line. What is the line's x value for the yRectTop?
+    // x = (yRecTop - b) / m
+    value = (((float) yRectTop - b) / m);
+
+    if (value >= (float) xRectLeft && value <= (float) xRectRight) {
+      return true;
+    }
+
+    return false;
 /*
         int xRectLeft = (x - mouseFatness) * extraZeros;
         int xRectRight = (x + mouseFatness) * extraZeros;
@@ -406,7 +398,7 @@ public class UnlinkFishCanvas extends AssignReferencesCanvas {
 
         return false;
 */
-    }
+  }
 
 /*
     private boolean mouseOverLine(int x, int y, Point lineStart, Point lineEnd) {

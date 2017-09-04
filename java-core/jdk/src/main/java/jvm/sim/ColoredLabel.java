@@ -46,33 +46,34 @@
 * DERIVATIVES.
 */
 package jvm.sim;
+
 import java.awt.*;
 
 /**
-* This class simply gives you a label on which you can
-* specify a background color.
-*
-* @author  Bill Venners
-*/
+ * This class simply gives you a label on which you can
+ * specify a background color.
+ *
+ * @author Bill Venners
+ */
 class ColoredLabel extends Panel {
 
-    private Label theLabel;
+  private Label theLabel;
 
-    ColoredLabel(String label, int alignment, Color color) {
+  ColoredLabel(String label, int alignment, Color color) {
 
-        setLayout(new GridLayout(1,1));
-        setBackground(color);
-        theLabel = new Label(label, alignment);
-        add(theLabel);
-    }
+    setLayout(new GridLayout(1, 1));
+    setBackground(color);
+    theLabel = new Label(label, alignment);
+    add(theLabel);
+  }
 
-    public void setLabelText(String s) {
+  public void setLabelText(String s) {
 
-        theLabel.setText(s);
-    }
+    theLabel.setText(s);
+  }
 
-    public Insets insets() {
-        return new Insets(0, 0, 0, 0);
-    }
+  public Insets insets() {
+    return new Insets(0, 0, 0, 0);
+  }
 }
 
