@@ -1,7 +1,8 @@
 package Bridge;
+
 /**
- *  The Implementor
+ * The Implementor
  */
 public interface TextImp {
-    void DrawTextImp();
+  void DrawTextImp();
 }

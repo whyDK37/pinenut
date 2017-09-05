@@ -1,14 +1,15 @@
 package Singleton;
+
 /**
- *  A user defined exception
+ * A user defined exception
  */
 public class SingletonException extends RuntimeException {
-    public SingletonException() {
-        super();
-    }
-    
-    public SingletonException(String s) {
-        super(s);
-    }
-    
+  public SingletonException() {
+    super();
+  }
+
+  public SingletonException(String s) {
+    super(s);
+  }
+
 }

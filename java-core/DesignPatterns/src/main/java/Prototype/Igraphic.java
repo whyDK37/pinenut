@@ -6,6 +6,7 @@ package Prototype;
 import java.io.Serializable;
 
 public interface IGraphic extends Cloneable, Serializable {
-    String getName() ;
-    void setName(String gName);
+  String getName();
+
+  void setName(String gName);
 }

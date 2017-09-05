@@ -5,17 +5,17 @@ package Prototype;
 
 import java.util.Hashtable;
 
-public class GraphicTool  {
-    public GraphicTool() {
-    }
+public class GraphicTool {
+  public GraphicTool() {
+  }
 
-    public static void main(String[] args) {
-        //-----  Initial our prototype instance  ---------- 
-        SymbolLoader myLoader = new SymbolLoader();
-        Hashtable mySymbols = myLoader.getSymbols();
+  public static void main(String[] args) {
+    //-----  Initial our prototype instance  ----------
+    SymbolLoader myLoader = new SymbolLoader();
+    Hashtable mySymbols = myLoader.getSymbols();
 
-        //-----  Draw a Line  -------------------------------
-        Graphic myLine = (Graphic)((Graphic)mySymbols.get("Line")).clone();
-        myLine.DoSomething();
-    }
+    //-----  Draw a Line  -------------------------------
+    Graphic myLine = (Graphic) ((Graphic) mySymbols.get("Line")).clone();
+    myLine.DoSomething();
+  }
 }
