@@ -2,6 +2,7 @@ package httpclient;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class HttpClientUtil {
   private static Log log = LogFactory.getLog(HttpClientUtil.class);
   //编码格式。发送编码格式统一用UTF-8
-  private static String ENCODING = "UTF-8";
+  private final static String DEFAULT_ENCODING = "UTF-8";
 
   public static String getString(String url, Map<String, String> params) throws URISyntaxException {
     // 创建默认的httpClient实例.
@@ -38,7 +39,10 @@ public class HttpClientUtil {
     URIBuilder uriBuilder = new URIBuilder()
             .setScheme(puri.getScheme())
             .setHost(puri.getHost())
+            .setPort(puri.getPort())
             .setPath(puri.getPath());
+
+    RequestConfig requestConfig = getRequestConfig();
 
     if (params != null)
       for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -46,6 +50,7 @@ public class HttpClientUtil {
       }
     HttpGet httpget = new HttpGet(uriBuilder.build());
     try {
+      httpget.setConfig(requestConfig);
       System.out.println("executing request " + httpget.getURI());
       CloseableHttpResponse response = httpclient.execute(httpget);
       printResponse(response);
@@ -63,6 +68,14 @@ public class HttpClientUtil {
     return null;
   }
 
+  private static RequestConfig getRequestConfig() {
+    return RequestConfig.custom()
+            .setSocketTimeout(100)
+            .setConnectTimeout(100)
+            .setConnectionRequestTimeout(100)
+            .build();
+  }
+
   public static byte[] getBytes(String url, Map<String, String> params) throws URISyntaxException {
     // 创建默认的httpClient实例.
     CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -71,7 +84,10 @@ public class HttpClientUtil {
     URIBuilder uriBuilder = new URIBuilder()
             .setScheme(puri.getScheme())
             .setHost(puri.getHost())
+            .setPort(puri.getPort())
             .setPath(puri.getPath());
+
+    RequestConfig requestConfig = getRequestConfig();
 
     if (params != null)
       for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -79,6 +95,7 @@ public class HttpClientUtil {
       }
     HttpGet httpget = new HttpGet(uriBuilder.build());
     try {
+      httpget.setConfig(requestConfig);
       System.out.println("executing request " + httpget.getURI());
       CloseableHttpResponse response = httpclient.execute(httpget);
       return byteResponse(response);
@@ -96,7 +113,7 @@ public class HttpClientUtil {
     return null;
   }
 
-  public static void postString(String url, Map<String, String> params) {
+  public static String postString(String url, Map<String, String> params) {
     // 创建默认的httpClient实例.
     CloseableHttpClient httpclient = HttpClients.createDefault();
     // 创建httppost
@@ -108,12 +125,17 @@ public class HttpClientUtil {
       formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
     }
     UrlEncodedFormEntity uefEntity;
+
+    RequestConfig requestConfig = getRequestConfig();
+
     try {
-      uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");
+      uefEntity = new UrlEncodedFormEntity(formparams, DEFAULT_ENCODING);
       httppost.setEntity(uefEntity);
+      httppost.setConfig(requestConfig);
       System.out.println("executing request " + httppost.getURI());
       CloseableHttpResponse response = httpclient.execute(httppost);
       String responseString = printResponse(response);
+      return responseString;
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
@@ -124,6 +146,8 @@ public class HttpClientUtil {
         e.printStackTrace();
       }
     }
+
+    return null;
   }
 
   private static byte[] byteResponse(CloseableHttpResponse response) throws IOException {
@@ -146,7 +170,7 @@ public class HttpClientUtil {
     try {
       org.apache.http.HttpEntity entity = response.getEntity();
       if (entity != null) {
-        String responseString = EntityUtils.toString(entity, "UTF-8");
+        String responseString = EntityUtils.toString(entity, DEFAULT_ENCODING);
         System.out.println("--------------------------------------");
         System.out.println("Response content: " + responseString);
         System.out.println("--------------------------------------");
