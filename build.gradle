@@ -1,6 +1,9 @@
 allprojects {
     apply plugin: 'maven'
     apply plugin: 'idea'
+    apply plugin: "groovy"
+    apply plugin: 'scala'
+    apply plugin: "gradle-clojure.clojure"
 
     group = 'me.pinenut'
     version = '0.0.1-SNAPSHOT'
@@ -194,6 +197,7 @@ project(':commons') {
         // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
         compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.8'
 
+        compile group: 'org.functionaljava', name: 'functionaljava', version: '3.0'
 
     }
 }
