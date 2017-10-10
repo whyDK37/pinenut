@@ -1,6 +1,8 @@
 
 package scala
 
+import logging.slf4j.HelloWorld
+
 object HelloWorldTest {
   def main(args: Array[String]): Unit = {
     val VALID_GRADES = Set("A", "B", "C", "D", "F")
@@ -21,6 +23,10 @@ object HelloWorldTest {
       44, letterGrade(44))
     printf("Roy transfered and already had %s, which translated as %s\n",
       "B", letterGrade("B"))
+
+    def helloword = new HelloWorld
+
+    printf(helloword.getClass.toString)
   }
 
   def printColor(c: Color) = c match {

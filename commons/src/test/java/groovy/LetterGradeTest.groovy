@@ -13,5 +13,7 @@ class LetterGradeTest {
         assertEquals("B", lg.gradeFromScore(85));
         assertEquals("D", lg.gradeFromScore(65));
         assertEquals("F", lg.gradeFromScore("f"));
+        lg.getType()
+
     }
 }

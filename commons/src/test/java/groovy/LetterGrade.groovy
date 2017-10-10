@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals
 
 class LetterGrade {
 
-    private int type = 1;
+    private int type = 1
 
     def gradeFromScore(score) {
         switch (score) {
@@ -21,6 +21,10 @@ class LetterGrade {
         }
     }
 
+    int getType() {
+        return type
+    }
+
     @Test
     void test_letter_grades() {
         def lg = new LetterGrade()
@@ -28,5 +32,6 @@ class LetterGrade {
         assertEquals("B", lg.gradeFromScore(85))
         assertEquals("D", lg.gradeFromScore(65))
         assertEquals("F", lg.gradeFromScore("f"))
+
     }
 }
