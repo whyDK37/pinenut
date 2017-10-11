@@ -27,6 +27,7 @@ object HelloWorldTest {
     def helloword = new HelloWorld
 
     printf(helloword.getClass.toString)
+
   }
 
   def printColor(c: Color) = c match {
