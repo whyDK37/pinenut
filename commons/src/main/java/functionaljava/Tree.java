@@ -5,6 +5,10 @@ import fj.data.Either;
 import static fj.data.Either.left;
 import static fj.data.Either.right;
 
+/**
+ * 例子来自：
+ * https://www.ibm.com/developerworks/cn/java/j-ft14/index.html?ca=drs-#figure2
+ */
 public abstract class Tree {
     private Tree() {
     }

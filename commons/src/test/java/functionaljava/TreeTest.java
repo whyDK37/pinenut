@@ -13,6 +13,8 @@ public class TreeTest {
 
 
     static public int depth(Tree t) {
+        Either.LeftProjection<Empty, Either<Leaf, Node>> left = t.toEither().left();
+        left.iterator().hasNext();
         for (Empty e : t.toEither().left())
             return 0;
         for (Either<Leaf, Node> ln : t.toEither().right()) {
@@ -72,8 +74,17 @@ public class TreeTest {
                                 new Leaf(201)), new Leaf(1000)),
                         new Leaf(4)))),
                 new Leaf(12)), new Leaf(27));
+
+        System.out.println(depth(t));
         assertEquals(12, depth(t));
         assertTrue(inTree(t, 555));
         assertEquals(3, occurrencesIn(t, 4));
+    }
+
+    @Test
+    public void multi_branch_tree_test2() {
+        Tree t = new Node(new Empty(), new Empty());
+        System.out.println(depth(t));
+        System.out.println(depth(new Empty()));
     }
 }
