@@ -20,7 +20,7 @@ public class Dynamic_Array {
     int q = Integer.parseInt(split[1]);
 
     int[][] seqList = new int[q][3];
-    int lastAns = 0;
+    int lastAnswer = 0;
 
     for (int i = 0; i < q; i++) {
       split = scanner.nextLine().split("[ ]");
