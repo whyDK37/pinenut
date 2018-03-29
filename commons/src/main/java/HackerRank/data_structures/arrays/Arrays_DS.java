@@ -43,10 +43,10 @@ import java.util.Scanner;
  * integers in
  * <p>
  * in reverse order as a single line of space-separated integers.
- * Sample Input
+ * BytebuddySample Input
  * 4
  * 1 4 3 2
- * Sample Output
+ * BytebuddySample Output
  * 2 3 4 1
  * <p>
  * Created by why on 4/26/2017.
