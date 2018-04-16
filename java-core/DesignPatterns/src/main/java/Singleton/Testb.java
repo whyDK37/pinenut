@@ -3,10 +3,10 @@ package Singleton;
 /**
  * Test for our Singleton registry
  */
-public class TestB {
+public class Testb {
   public static void main(String[] args) {
     // First we get a instance from SingletonB
-    SingletonB instance1 = SingletonB.GetInstance("Sub1");
+    Singletonb instance1 = Singletonb.GetInstance("Sub1");
     if (instance1 == null) {
       System.out.println("There is no such instance in registry !");
     } else {
@@ -15,14 +15,14 @@ public class TestB {
 
     // Then we register a new instance
     try {
-      SingletonB instance2 = new SubSingletonB();
+      Singletonb instance2 = new Singletonb();
       System.out.println("We had created a new instance named \"Sub1\" now");
-    } catch (SingletonException e) {
+    } catch (Singletonexception e) {
       System.out.println(e.getMessage());
     }
 
     // To get instance again
-    instance1 = SingletonB.GetInstance("Sub1");
+    instance1 = Singletonb.GetInstance("Sub1");
     if (instance1 == null) {
       System.out.println("There is no such instance in registry !");
     } else {
@@ -31,9 +31,9 @@ public class TestB {
 
     // Finally we create a new instance again
     try {
-      SingletonB instance3 = new SubSingletonB();
+      Singletonb instance3 = new Singletonb();
       System.out.println("We had created a new instance named \"Sub1\" now");
-    } catch (SingletonException e) {
+    } catch (Singletonexception e) {
       System.out.println(e.getMessage());
     }
 

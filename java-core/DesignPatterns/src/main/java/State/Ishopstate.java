@@ -3,7 +3,7 @@ package State;
 /**
  * A state interface
  */
-public interface IShopState {
+public interface Ishopstate {
   void shop();
 
   void generateBill();

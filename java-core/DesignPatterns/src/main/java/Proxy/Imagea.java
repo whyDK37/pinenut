@@ -5,12 +5,12 @@ package Proxy;
 
 import java.awt.*;
 
-public class ImageA implements Graphic {
+public class Imagea implements Graphic {
   public MediaTracker tracker;
   private int height, width;
   private String fileName;
 
-  public ImageA(String _fileName) {
+  public Imagea(String _fileName) {
     fileName = _fileName;
 
   }

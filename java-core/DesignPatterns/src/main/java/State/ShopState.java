@@ -3,7 +3,7 @@ package State;
 /**
  * The parent class of state
  */
-public class ShopState implements IShopState {
+public class ShopState implements Ishopstate {
   public ShopState() {
   }
 

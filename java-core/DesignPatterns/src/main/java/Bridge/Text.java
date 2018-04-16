@@ -6,7 +6,7 @@ package Bridge;
 public abstract class Text {
   public abstract void DrawText(String text);
 
-  protected TextImp GetTextImp(String type) {
+  protected TextImp getTextImp(String type) {
     if (type.equals("Mac")) {
       return new Textimpmac();
     } else if (type.equals("Linux")) {

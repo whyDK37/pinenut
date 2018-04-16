@@ -5,19 +5,19 @@ package Singleton;
 
 import java.util.Hashtable;
 
-public class SingletonB {
+public class Singletonb {
   static private Hashtable registry = new Hashtable();
   //static private SingletonB instance;
 
-  public static void Register(String name, SingletonB aInstance) {
+  public static void Register(String name, Singletonb aInstance) {
     registry.put(name, aInstance);
   }
 
-  public static SingletonB GetInstance(String name) {
+  public static Singletonb GetInstance(String name) {
     return LookUp(name);
   }
 
-  protected static SingletonB LookUp(String name) {
-    return (SingletonB) registry.get(name);
+  protected static Singletonb LookUp(String name) {
+    return (Singletonb) registry.get(name);
   }
 }

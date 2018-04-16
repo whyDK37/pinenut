@@ -3,7 +3,7 @@ package Decorator;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableModel;
 
-public class Tablebubblesortdecorator extends Decorator.Tablesortdecorator {
+public class Tablebubblesortdecorator extends Tablesortdecorator {
   private int indexes[];
 
   // The lone constructor must be passed a reference to a

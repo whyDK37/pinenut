@@ -1,6 +1,6 @@
 package Visitor;
 
-public interface AwtList {
+public interface Awtlist {
   void add(String s);
 
   void remove(String s);

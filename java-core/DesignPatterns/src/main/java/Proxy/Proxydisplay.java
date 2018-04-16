@@ -3,8 +3,8 @@ package Proxy;
 import javax.swing.*;
 import java.awt.*;
 
-public class ProxyDisplay extends JxFrame {
-  public ProxyDisplay() {
+public class Proxydisplay extends Jxframe {
+  public Proxydisplay() {
     super("Display proxied image");
     JPanel p = new JPanel();
     getContentPane().add(p);
@@ -20,7 +20,7 @@ public class ProxyDisplay extends JxFrame {
 
   //------------------------------------
   static public void main(String[] argv) {
-    new ProxyDisplay();
+    new Proxydisplay();
   }
 }
 

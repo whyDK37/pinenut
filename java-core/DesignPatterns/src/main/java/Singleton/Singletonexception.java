@@ -3,12 +3,12 @@ package Singleton;
 /**
  * A user defined exception
  */
-public class SingletonException extends RuntimeException {
-  public SingletonException() {
+public class Singletonexception extends RuntimeException {
+  public Singletonexception() {
     super();
   }
 
-  public SingletonException(String s) {
+  public Singletonexception(String s) {
     super(s);
   }
 

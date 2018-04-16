@@ -2,8 +2,7 @@ package Decorator;
 
 import javax.swing.table.TableModel;
 
-public abstract class Tablefilterdecorator extends
-        Decorator.Tablemodeldecorator {
+public abstract class Tablefilterdecorator extends Tablemodeldecorator {
   public Tablefilterdecorator(TableModel realModel) {
     super(realModel);
   }

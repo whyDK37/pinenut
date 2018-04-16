@@ -1,7 +1,9 @@
 package scala;
 
+import logging.slf4j.HelloWorld;
+
 public class TT {
     public static void main(String[] args) {
-        HelloWorld.main(args);
+        TT.main(args);
     }
 }

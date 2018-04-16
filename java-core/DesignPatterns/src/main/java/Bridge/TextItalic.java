@@ -7,7 +7,7 @@ public class TextItalic extends Text {
   private TextImp imp;
 
   public TextItalic(String type) {
-    imp = GetTextImp(type);
+    imp = getTextImp(type);
   }
 
   public void DrawText(String text) {
