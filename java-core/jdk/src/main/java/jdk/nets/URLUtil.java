@@ -1,4 +1,4 @@
-package jdk.net;
+package jdk.nets;
 
 import java.util.HashMap;
 import java.util.Map;

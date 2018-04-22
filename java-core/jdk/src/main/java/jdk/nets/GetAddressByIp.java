@@ -1,4 +1,4 @@
-package jdk.net;
+package jdk.nets;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

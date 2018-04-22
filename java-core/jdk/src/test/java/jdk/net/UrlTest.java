@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static jdk.net.URLUtil.*;
+import static jdk.nets.URLUtil.*;
 
 /**
  * Created by whydk on 10/24/2016.

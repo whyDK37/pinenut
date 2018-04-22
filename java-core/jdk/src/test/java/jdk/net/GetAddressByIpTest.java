@@ -1,5 +1,6 @@
 package jdk.net;
 
+import jdk.nets.GetAddressByIp;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

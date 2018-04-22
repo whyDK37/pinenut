@@ -1,4 +1,4 @@
-package jdk.net;
+package jdk.nets;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

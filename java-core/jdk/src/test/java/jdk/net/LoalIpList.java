@@ -1,5 +1,6 @@
 package jdk.net;
 
+import jdk.nets.IPAddressUtil;
 import org.testng.annotations.Test;
 
 import java.net.Inet4Address;

@@ -1,4 +1,4 @@
-package jdk.net;//package net;
+package jdk.nets;//package net;
 
 import java.io.IOException;
 
