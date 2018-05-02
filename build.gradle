@@ -67,7 +67,7 @@ subprojects {
 
 
 project(':commons') {
-    description = 'commons demo'
+    description = 'commons demo 公共库等'
     dependencies {
 
 //        apache
@@ -89,7 +89,7 @@ project(':commons') {
         // https://mvnrepository.com/artifact/commons-net/commons-net
         compile group: 'commons-net', name: 'commons-net', version: '3.5'
         // https://mvnrepository.com/artifact/com.google.guava/guava
-        compile group: 'com.google.guava', name: 'guava', version: '19.0'
+        compile group: 'com.google.guava', name: 'guava', version: '25.0-jre'
 
         // qr code
         compile 'com.swetake:Qrcode:1.0.0'
