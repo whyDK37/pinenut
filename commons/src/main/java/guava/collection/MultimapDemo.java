@@ -1,11 +1,11 @@
-package guava;
+package guava.collection;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
 
-public class BiMapDemo {
+public class MultimapDemo {
     public static void main(String[] args) {
-        BiMap<String, String> weekNameMap = HashBiMap.create();
+        Multimap<String, String> weekNameMap = LinkedListMultimap.create();
         weekNameMap.put("星期一", "Monday");
         weekNameMap.put("星期二", "Tuesday");
         weekNameMap.put("星期三", "Wednesday");
@@ -13,8 +13,8 @@ public class BiMapDemo {
         weekNameMap.put("星期五", "Friday");
         weekNameMap.put("星期六", "Saturday");
         weekNameMap.put("星期日", "Sunday");
+        weekNameMap.put("星期日", "周日");
 
-        System.out.println("星期日的英文名是  " + weekNameMap.get("星期日"));
-        System.out.println("Sunday的中文是  " + weekNameMap.inverse().get("Sunday"));
+        System.out.println("星期日的其他名字  " + weekNameMap.get("星期日"));
     }
 }

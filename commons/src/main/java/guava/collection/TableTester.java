@@ -1,4 +1,4 @@
-package guava;
+package guava.collection;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;

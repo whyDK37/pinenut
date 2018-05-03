@@ -1,4 +1,4 @@
-package guava;
+package guava.base;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.cache.CacheBuilder;
