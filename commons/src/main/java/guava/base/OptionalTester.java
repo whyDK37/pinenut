@@ -7,7 +7,7 @@ public class OptionalTester {
         OptionalTester guavaTester = new OptionalTester();
 
         Integer value1 = null;
-        Integer value2 = new Integer(10);
+        Integer value2 = 10;
         //Optional.fromNullable - allows passed parameter to be null.
         Optional<Integer> a = Optional.fromNullable(value1);
         //Optional.of - throws NullPointerException if passed parameter is null
@@ -24,7 +24,7 @@ public class OptionalTester {
 
         //Optional.or - returns the value if present otherwise returns
         //the default value passed.
-        Integer value1 = a.or(new Integer(0));
+        Integer value1 = a.or(0);
 
         //Optional.get - gets the value, value should be present
         Integer value2 = b.get();
