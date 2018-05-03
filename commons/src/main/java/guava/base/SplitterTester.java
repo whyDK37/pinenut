@@ -3,8 +3,6 @@ package guava.base;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 
-import java.util.Iterator;
-
 public class SplitterTester {
     public static void main(String args[]) {
         SplitterTester tester = new SplitterTester();
