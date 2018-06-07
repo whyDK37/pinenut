@@ -5,37 +5,37 @@ package jdk.thread.volatiles;
  */
 public class VolatileExample2 {
 
-  int a = 0;
-  volatile boolean flag = false;
+    int a = 0;
+    volatile boolean flag = false;
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    VolatileExample2 volatileExample2 = new VolatileExample2();
-    Thread flagThread = new Thread(() -> {
-      volatileExample2.writer();
-    });
+        VolatileExample2 volatileExample2 = new VolatileExample2();
+        Thread flagThread = new Thread(() -> {
+            volatileExample2.writer();
+        });
 
-    Thread readerThread = new Thread(() -> {
-      volatileExample2.reader();
-    });
+        Thread readerThread = new Thread(() -> {
+            volatileExample2.reader();
+        });
 
-    flagThread.start();
-    readerThread.start();
-  }
-
-  public void writer() {
-
-    a = 1; //1
-
-    flag = true; //2
-  }
-
-  public void reader() {
-    if (flag) { //3
-
-      int i = a; //4
-      System.out.println(i);
-//                        ……
+        flagThread.start();
+        readerThread.start();
     }
-  }
+
+    public void writer() {
+
+        a = 1; //1
+
+        flag = true; //2
+    }
+
+    public void reader() {
+        if (flag) { //3
+
+            int i = a; //4
+            System.out.println(i);
+//                        ……
+        }
+    }
 }
