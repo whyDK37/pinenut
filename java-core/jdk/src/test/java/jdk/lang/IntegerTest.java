@@ -18,4 +18,12 @@ public class IntegerTest {
     System.out.println(integer.toString());
     System.out.println(integer.intValue());
   }
+
+  @Test
+  public void test2() {
+
+    Integer integer = Integer.valueOf(12);
+    System.out.println(integer.toString());
+    System.out.println(integer.intValue());
+  }
 }
