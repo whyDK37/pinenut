@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * https://blog.csdn.net/weililansehudiefei/article/details/70889424
  */
-public class Main {
+public class Server {
 
 
     public static void main(String[] args) {
