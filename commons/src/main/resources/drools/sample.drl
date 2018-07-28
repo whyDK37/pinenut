@@ -1,0 +1,12 @@
+package drools
+
+import drools.*
+
+dialect  "mvel"
+
+rule "Is of valid age"
+    when
+        $a : Applicant( age >= 18)
+    then
+        $a.setValid(true);
+end

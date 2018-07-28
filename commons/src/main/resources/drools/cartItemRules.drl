@@ -1,0 +1,89 @@
+package com.javacodegeeks.drools;
+import droolsExample.Cart;
+import droolsExample.CartItem;
+import droolsExample.CartStatus;
+import droolsExample.Product;
+import java.util.List;
+
+global List<Product> outOfStockProducts;
+
+function String pendingItemKey(CartItem cartItem) { 
+return cartItem.getCart().getCustomer().getId() + "-"+ cartItem.getProduct().getDesc();
+}
+//Is it out of stock?
+rule "Is Out-Of Stock"
+when
+$cartItem : CartItem(cartStatus != CartStatus.PROCESSED && product.getAvailableQty() == 0)
+then
+System.out.println("\nIs Out-Of Stock Rule");
+System.out.println("************************************");
+String error = "Can't process as " +  $cartItem.getProduct().getDesc() + " is Out-Of-Stock" ;
+System.out.println(error);
+$cartItem.setErrors(true);
+$cartItem.setError(error);
+$cartItem.getCart().logItemError(pendingItemKey($cartItem), $cartItem);
+outOfStockProducts.add($cartItem.getProduct());
+end
+
+rule "Verify Qty"
+when
+$cartItem : CartItem(cartStatus != CartStatus.PROCESSED, qty > product.getAvailableQty())
+then
+System.out.println("\nVerify Qty Rule");
+System.out.println("************************************");
+String error = "Can't process as only " +  $cartItem.getProduct().getAvailableQty() + " of " 
++ $cartItem.getProduct().getDesc() + " are left whereas qty requested is " + $cartItem.getQty();
+System.out.println(error);
+ $cartItem.setErrors(true);
+$cartItem.setError(error);
+$cartItem.getCart().logItemError(pendingItemKey($cartItem), $cartItem);
+end
+
+rule "If has coupon, 5% discount"
+when
+$cartItem : CartItem(cartStatus != CartStatus.PROCESSED, cart.customer.coupon == 'DISC01')
+then
+if (!$cartItem.hasErrors()) {
+    System.out.println("\nIf has coupon, 5% discount Rule");
+    System.out.println("************************************");
+    double discount = ((double)$cartItem.getCart().getTotalPrice())*0.05d;
+    System.out.println("Coupon Rule: Process " + $cartItem.getProduct() + ", qty " + $cartItem.getQty() + ", apply discount " + discount);
+    $cartItem.getCart().addDiscount(discount);
+}
+end
+
+rule "If new, 2% discount"
+when
+$cartItem : CartItem(cartStatus != CartStatus.PROCESSED, cart.customer.isNew())
+then
+if (!$cartItem.hasErrors()) {
+    System.out.println("\nIf new, 2% discount Rule");
+    System.out.println("************************************");
+    double discount = ((double)$cartItem.getCart().getTotalPrice())*0.2d;
+    System.out.println("New Customer Rule: Process " + $cartItem.getProduct() + ", qty " + $cartItem.getQty() + ", apply discount " + discount);
+    $cartItem.getCart().addDiscount(discount);
+}
+end
+
+rule "Has customer registered for the product?" salience 1
+when
+$cartItem : CartItem(cartStatus != CartStatus.PROCESSED, product.isRequiresRegisteration(), !cart.customer.isRegistered(product))
+then
+System.out.println("\nHas customer registered for the product? Rule");
+System.out.println("************************************");
+String error = "Can't process " + $cartItem.getProduct() + ", as requires registration. Customer not registered for the product!";
+System.out.println(error);
+$cartItem.setErrors(true);
+$cartItem.setError(error);
+$cartItem.getCart().logItemError(pendingItemKey($cartItem), $cartItem);
+end
+
+rule "Add Processed CartItem to Order"
+when
+$cartItem : CartItem(cartStatus == CartStatus.PROCESSED)
+then
+System.out.println("\nAdd Processed CartItem to Order Rule");
+System.out.println("************************************");
+System.out.println("Add to order " + $cartItem);
+end
+

@@ -12,7 +12,7 @@ public class ListenableFutureTester {
         ListeningExecutorService service = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(10));
         ListeningExecutorService callbackService = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(10));
         ListenableFuture<Explosion> explosion = service.submit(ListenableFutureTester::pushBigRedButton);
-        Futures.addCallback(explosion, new FutureCallback<>() {
+        Futures.addCallback(explosion, new FutureCallback<Explosion>() {
             // we want this handler to run immediately after we push the big red button!
             public void onSuccess(Explosion explosion) {
                 walkAwayFrom(explosion);

@@ -208,6 +208,11 @@ project(':commons') {
 
         compile 'net.bytebuddy:byte-buddy:1.8.0'
         compile 'net.bytebuddy:byte-buddy-agent:1.8.0'
+
+        // drools
+        compile 'org.drools:drools-core:6.4.0.Final'
+        compile 'org.drools:drools-compiler:6.4.0.Final'
+        compile 'org.drools:drools-decisiontables:6.4.0.Final'
     }
 }
 
