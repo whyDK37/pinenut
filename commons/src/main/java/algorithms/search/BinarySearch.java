@@ -13,11 +13,26 @@ public class BinarySearch {
     List<Integer> a = new ArrayList<Integer>();
     addIntegerInSequence(a, 1, 10);
     print(a);
+    //
     int pos = binarySearch2(a, 10);
     if (pos != -1) {
-      System.out.print("Element found: " + pos);
+      System.out.println("Element found: " + pos);
     } else {
-      System.out.print("Element not found");
+      System.out.println("Element not found");
+    }
+    //
+    pos = binarySearch(a, 10);
+    if (pos != -1) {
+      System.out.println("Element found: " + pos);
+    } else {
+      System.out.println("Element not found");
+    }
+    //
+    pos = binarySearch0(a.toArray(new Integer[0]), 0, 9, 9);
+    if (pos != -1) {
+      System.out.println("Element found: " + pos);
+    } else {
+      System.out.println("Element not found");
     }
   }
 
@@ -97,9 +112,10 @@ public class BinarySearch {
   }
 
 
-///// JAVA 库中的二分查找使用非递归方式实现，返回结果与前面写的有所不同：找不到时返回的是负数，但不一定是-1
+///// JAVA 库中的二分查找使用非递归方式实现，返回结果与前面写的有所不同：
+// 找不到时返回的是负数，但不一定是-1
 
-  private static int binarySearch0(int[] a, int fromIndex, int toIndex,
+  private static int binarySearch0(Integer[] a, int fromIndex, int toIndex,
                                    int key) {
 
     int low = fromIndex;

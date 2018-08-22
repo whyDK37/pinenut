@@ -31,6 +31,8 @@ include 'aliyun'
 
 //存储
 include 'storage'
+// Algorithms, 4th Edition
+include 'algs4'
 // include 'storage:cache'
 // include 'storage:redis'
 // include 'storage:h2'

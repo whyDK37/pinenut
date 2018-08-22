@@ -1,6 +1,8 @@
 package java8;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -14,6 +16,9 @@ public class Test {
   }
 
   public static void main(String[] args) throws InterruptedException {
+    int[] ints = new Solution().twoSum(new int[]{2, 5, 5, 11}, 10);
+    System.out.println(ints[0]);
+    System.out.println(ints[1]);
     ArrayList<String> strings = new ArrayList<String>();
     strings.add("Hello, World!");
     strings.add("Welcome to CoderPad.");
@@ -44,5 +49,24 @@ public class Test {
     String[] tmp = new String[states.length];
     System.arraycopy(states, 0, tmp, 0, states.length);
     return tmp;
+  }
+
+  static class Solution {
+    public int[] twoSum(int[] nums, int target) {
+      // key: value, value:index
+      Map<Integer, Integer> m = new HashMap<>();
+      int[] result = null;
+      for (int f = 0; f < nums.length - 1; f++) {
+        if (!m.containsKey(nums[f])) {
+          m.put(target - nums[f], f);
+        } else {
+          Integer integer = m.get(target - nums[f]);
+          result = new int[]{integer, f};
+          break;
+        }
+      }
+
+      return result;
+    }
   }
 }
