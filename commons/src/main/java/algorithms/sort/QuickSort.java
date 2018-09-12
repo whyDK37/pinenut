@@ -38,27 +38,20 @@ public class QuickSort {
     int pivotKey = list[low];    //数组的第一个作为中轴
 
     while (low < high) {
-
       while (low < high && list[high] >= pivotKey) {
         high--;
       }
-
       swap(list, low, high);
 //            list[low] = list[high];   //比中轴小的记录移到低端
-
       while (low < high && list[low] <= pivotKey) {
         low++;
       }
-
       swap(list, low, high);
-
 //            list[high] = list[low];   //比中轴大的记录移到高端
     }
-
     list[low] = pivotKey;              //中轴记录到尾
 
     return low;                   //返回中轴的位置
-
   }
 
   private void swap(int[] list, int low, int high) {
