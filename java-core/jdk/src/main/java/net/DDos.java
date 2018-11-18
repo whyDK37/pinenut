@@ -30,15 +30,13 @@ class Mythread implements Runnable {
                 BufferedInputStream bis = new BufferedInputStream(
                         conn.getInputStream());
                 byte[] bytes = new byte[1024];
-                int len = -1;
-                StringBuffer sb = new StringBuffer();
 
-                if (bis != null) {
-                    if ((len = bis.read()) != -1) {
-                        sb.append(new String(bytes, 0, len));
-                        System.out.println("-->攻击成功！");
-                        bis.close();
-                    }
+                StringBuilder sb = new StringBuilder();
+                int len;
+                if ((len = bis.read()) != -1) {
+                    sb.append(new String(bytes, 0, len));
+                    System.out.println("-->攻击成功！");
+                    bis.close();
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
