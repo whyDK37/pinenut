@@ -2,6 +2,7 @@ package interview.xiaomi;
 
 import java.util.Arrays;
 
+// fixme move to point to offer
 /**
  * 用一个数组表示一个整数，每一位表示整数的一位。
  * 实现一个整数 +1 的方法
