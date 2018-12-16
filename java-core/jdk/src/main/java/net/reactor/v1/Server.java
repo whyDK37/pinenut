@@ -8,13 +8,10 @@ import java.io.IOException;
 public class Server {
 
 
-    public static void main(String[] args) {
-        try {
-            TCPReactor reactor = new TCPReactor(1333);
-            reactor.run();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws IOException {
+        Thread reactor = new Thread(new TCPReactor(1333));
+        reactor.setDaemon(false);
+        reactor.start();
     }
 
 }  

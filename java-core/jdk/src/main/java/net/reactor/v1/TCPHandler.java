@@ -4,16 +4,13 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class TCPHandler implements Runnable {
 
     private final SelectionKey sk;
     private final SocketChannel sc;
-
-    int state;
+    static final int READING = 0, SENDING = 1;
+    volatile int state = READING;
 
     public TCPHandler(SelectionKey sk, SocketChannel sc) {
         this.sk = sk;
@@ -24,10 +21,11 @@ public class TCPHandler implements Runnable {
     @Override
     public void run() {
         try {
-            if (state == 0)
-                read(); // 讀取網絡數據  
-            else
-                send(); // 發送網絡數據  
+            if (state == READING) {
+                read(); // 讀取網絡數據
+            } else if (state == SENDING) {
+                send(); // 發送網絡數據
+            }
 
         } catch (IOException e) {
             System.out.println("[Warning!] A client has been closed.");
@@ -59,7 +57,7 @@ public class TCPHandler implements Runnable {
         if (!str.startsWith("exit")) {
             process(str); // 邏輯處理  
             System.out.println(sc.socket().getRemoteSocketAddress().toString() + " > " + str);
-            state = 1; // 改變狀態  
+            state = SENDING; // 改變狀態
             sk.interestOps(SelectionKey.OP_WRITE); // 通過key改變通道註冊的事件  
             sk.selector().wakeup(); // 使一個阻塞住的selector操作立即返回  
         } else {
@@ -78,7 +76,7 @@ public class TCPHandler implements Runnable {
             sc.write(buf); // 回傳給client回應字符串，發送buf的position位置 到limit位置為止之間的內容  
         }
 
-        state = 0; // 改變狀態  
+        state = READING; // 改變狀態
         sk.interestOps(SelectionKey.OP_READ); // 通過key改變通道註冊的事件  
         sk.selector().wakeup(); // 使一個阻塞住的selector操作立即返回  
     }
