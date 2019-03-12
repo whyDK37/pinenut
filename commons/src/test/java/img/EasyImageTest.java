@@ -2,11 +2,9 @@ package img;
 
 import java.awt.*;
 
-/**
- * Created by whydk on 2016/9/22.
- */
 public class EasyImageTest {
-  public static void main(String[] args) {
+
+    public void test() {
         /*
         EasyImage image  = new EasyImage("c:/pics/p1.jpg");
         image.resize(10);
@@ -47,22 +45,22 @@ public class EasyImageTest {
 
       */
 
-    EasyImage image = new EasyImage("c:/pics/p1.jpg");
-    int width = image.getWidth();
-    int height = image.getHeight();
-    for (int i = 0, c = 0; i < height; c++, i += 50) {
-      int x = width / 2 - i;
-      int y = height / 2 - i;
+        EasyImage image = new EasyImage("c:/pics/p1.jpg");
+        int width = image.getWidth();
+        int height = image.getHeight();
+        for (int i = 0, c = 0; i < height; c++, i += 50) {
+            int x = width / 2 - i;
+            int y = height / 2 - i;
 
-      image.emphasize(x, y, width - 1 - x, height - 1 - y, Color.BLACK, 12 - c / 4);
-    }
-    image.saveAs("c:/pics/emphesizeTrick.jpg");
-    //  */
-    // image.saveAs("c:/xxx.jpg");
+            image.emphasize(x, y, width - 1 - x, height - 1 - y, Color.BLACK, 12 - c / 4);
+        }
+        image.saveAs("c:/pics/emphesizeTrick.jpg");
+        //  */
+        // image.saveAs("c:/xxx.jpg");
         /*
         EasyImage image  = new EasyImage("c:/pics/p1.jpg");
         image.addColorToImage(Color.red, 5);
         image.saveAs("c:/pics/addColorToImage.jpg");
         */
-  }
+    }
 }

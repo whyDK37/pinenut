@@ -40,12 +40,12 @@ subprojects {
 
     apply plugin: 'java'
     compileJava {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = 1.11
+        targetCompatibility = 1.11
     }
     compileTestJava {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = 1.11
+        targetCompatibility = 1.11
     }
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
     repositories {
@@ -95,7 +95,7 @@ project(':commons') {
         // https://mvnrepository.com/artifact/commons-net/commons-net
         compile group: 'commons-net', name: 'commons-net', version: '3.5'
         // https://mvnrepository.com/artifact/com.google.guava/guava
-        compile group: 'com.google.guava', name: 'guava', version: '25.0-jre'
+        compile group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
 
         // qr code
         compile 'com.swetake:Qrcode:1.0.0'
@@ -288,5 +288,14 @@ project(':aliyun') {
         compile 'com.aliyun.openservices:ots-public:2.2.4'
 
         compile 'com.aliyun.mns:aliyun-sdk-mns:1.1.7'
+    }
+}
+
+
+project(':kafka') {
+    dependencies {
+        compile 'org.apache.kafka:kafka-clients:2.1.0'
+        compile 'org.apache.kafka:kafka-streams:2.1.0'
+        compile 'org.apache.kafka:kafka-streams-scala_2.11:2.1.0'
     }
 }

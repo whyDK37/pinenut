@@ -8,34 +8,13 @@ include 'java-core:DesignPatterns'
 include 'java-core:algorithm'
 include 'java-core:datastructure'
 
-//project('java-core:jdk').projectDir = "$rootDir/java-core/jdk" as File
-
-//include 'logging'
-//include 'compress'
 include 'web'
-//include 'FreeMarker'
-//include 'zk'
 
 include 'aliyun'
-//project(':logging').projectDir = "$rootDir/logging" as File
-//project(':h2').projectDir = "$rootDir/h2" as File
-//project(':compress').projectDir = "$rootDir/compress" as File
-//project(':web').projectDir = "$rootDir/web" as File
-// include 'mq'
-
-// include 'spring-learn'
-// include 'spring-learn:spring-bean'
-// //include 'spring-learn:spring-boot'
-// include 'spring-learn:spring-batch'
-// include 'spring-learn:spring-web'
+include 'kafka'
 
 //存储
 include 'storage'
 // Algorithms, 4th Edition
 include 'algs4'
-// include 'storage:cache'
-// include 'storage:redis'
-// include 'storage:h2'
-// include 'storage:mybatis'
-// include 'storage:mongodb'
 
