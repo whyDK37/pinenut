@@ -1,13 +1,4 @@
-/**
- * Copyright (C) 2014 北京学信科技有限公司
- *
- * @className:com.xuexin.util.OTSUtil
- * @version:v1.0.0
- * @author:李大鹏 Modification History:
- * Date         Author      Version     Description
- * -----------------------------------------------------------------
- * 2014-4-9       李大鹏                        v1.0.0        create
- */
+
 package com.aliyun.ots;
 
 import com.aliyun.openservices.ots.OTSException;
@@ -35,7 +26,15 @@ public class OTSUtil {
     public static final int BATCH_THRESHOLD = 200;
 
     // fixme 上线时去掉
-    public static final String ALIYUN_OTS_ENDPOINT = "http://xuexin-dev.cn-hangzhou.ots.aliyuncs.com";
+    public static final String ALIYUN_OTS_ENDPOINT = "http://"
+        + "xuexin-dev."
+        + "cn-hangzhou."
+        + "ot"
+        + "s."
+        + "ali"
+        + "yun"
+        + "cs."
+        + "com";
     public static final String ALIYUN_ACCESS_ID = "8pO2VD2xEYk0vpGF";
     public static final String ALIYUN_ACCESS_KEY = "2pDJZvDZN05TBeeLZZxGiIM2HOW1Yp";
     public static final String ALIYUN_INSTANCE_NAME = "xuexin-dev";
